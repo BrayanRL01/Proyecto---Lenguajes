@@ -1,4 +1,4 @@
-package com.negocio.negocio;
+package com.aplicacion.negocio;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
