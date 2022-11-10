@@ -4,8 +4,8 @@
  */
 package com.aplicacion.negocio.service;
 
-import com.aplicacion.negocio.entity.Tipo_Personas;
-import com.aplicacion.negocio.repository.TipoPersonasRepository;
+import com.aplicacion.negocio.entity.Personas;
+import com.aplicacion.negocio.repository.PersonaRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,12 +15,11 @@ import org.springframework.stereotype.Service;
  * @author XPC
  */
 @Service
-public class TipoPersonasService {
-    
+public class PersonaService {
     @Autowired
-    TipoPersonasRepository tpRepository;
+    PersonaRepository personaRepository;
     
-    public List<Tipo_Personas> lista(){
-        return tpRepository.listaProcedure();
+    public List<Personas> lista(){
+        return personaRepository.findAll();
     }
 }

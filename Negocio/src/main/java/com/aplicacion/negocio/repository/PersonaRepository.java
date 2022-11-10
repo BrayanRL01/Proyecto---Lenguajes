@@ -4,19 +4,15 @@
  */
 package com.aplicacion.negocio.repository;
 
-import com.aplicacion.negocio.entity.Tipo_Personas;
-import java.util.List;
+import com.aplicacion.negocio.entity.Personas;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
 
 /**
  *
  * @author XPC
  */
 @Repository
-public interface TipoPersonasRepository extends JpaRepository<Tipo_Personas, Integer>{
-    @Query (value="call sp_get_all_tipo_personas()", nativeQuery = true)
-    List<Tipo_Personas> listaProcedure();
+public interface PersonaRepository extends JpaRepository<Personas, Integer>{
+    
 }
