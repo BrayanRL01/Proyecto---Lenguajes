@@ -7,7 +7,6 @@ package com.aplicacion.negocio.repository;
 import com.aplicacion.negocio.entity.Tipo_Personas;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 
@@ -17,6 +16,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface TipoPersonasRepository extends JpaRepository<Tipo_Personas, Integer>{
-    @Query (value="call sp_get_all_tipo_personas()", nativeQuery = true)
-    List<Tipo_Personas> listaProcedure();
+       
 }

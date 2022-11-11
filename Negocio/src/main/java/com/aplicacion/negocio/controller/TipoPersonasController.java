@@ -6,22 +6,15 @@ package com.aplicacion.negocio.controller;
 
 import com.aplicacion.negocio.entity.Tipo_Personas;
 import com.aplicacion.negocio.service.TipoPersonasService;
+import java.sql.SQLException;
 import java.util.List;
-import javax.persistence.ParameterMode;
-import javax.persistence.StoredProcedureQuery;
-import org.hibernate.procedure.ProcedureOutputs;
-import java.lang.String;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.*;
-import java.io.*;
-import oracle.jdbc.OracleTypes;
-import oracle.jdbc.driver.*;
+
+
 
 /**
  *
@@ -29,14 +22,16 @@ import oracle.jdbc.driver.*;
  */
 @RestController
 public class TipoPersonasController {
-
+    
     @Autowired
     TipoPersonasService tpService;
 
     @GetMapping("/tpPersonaLista")
-    public ResponseEntity<List<Tipo_Personas>> lista() throws SQLException {
-
-        List<Tipo_Personas> lista = tpService.lista();
-        return new ResponseEntity(lista, HttpStatus.OK);
+    public String Index (Model M) throws SQLException {
+        //List<Tipo_Personas> tpLista = tpService.lista();
+        String variable = tpService.lista();
+        //System.out.println ("variableeeeeeeeeeeee: "+variable);
+        M.addAttribute("lista", variable);
+        return variable;
     }
 }
