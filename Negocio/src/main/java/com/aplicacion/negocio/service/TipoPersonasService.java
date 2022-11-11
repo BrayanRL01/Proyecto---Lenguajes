@@ -16,11 +16,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class TipoPersonasService {
-    
+
     @Autowired
     TipoPersonasRepository tpRepository;
-    
-    public List<Tipo_Personas> lista(){
+
+    public List<Tipo_Personas> lista() {
         return tpRepository.findAll();
     }
 }

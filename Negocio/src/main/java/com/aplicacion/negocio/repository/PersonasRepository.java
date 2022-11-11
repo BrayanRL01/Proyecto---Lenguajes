@@ -1,14 +1,11 @@
 package com.aplicacion.negocio.repository;
 
-import com.aplicacion.negocio.entity.Tipo_Personas;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-/**
- *
- * @author XPC
- */
+import com.aplicacion.negocio.entity.Personas;
+
 @Repository
-public interface TipoPersonasRepository extends JpaRepository<Tipo_Personas, Integer> {
+public interface PersonasRepository extends JpaRepository<Personas, Integer> {
 
 }

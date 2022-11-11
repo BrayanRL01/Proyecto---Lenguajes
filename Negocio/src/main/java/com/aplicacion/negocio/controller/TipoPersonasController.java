@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class TipoPersonasController {
     @Autowired
     TipoPersonasService tpService;
-    
+
     @GetMapping("/tpPersonaLista")
-    public ResponseEntity<List<Tipo_Personas>> lista(){
+    public ResponseEntity<List<Tipo_Personas>> lista() {
         List<Tipo_Personas> lista = tpService.lista();
-        return new ResponseEntity(lista,HttpStatus.OK);
-    } 
+        return new ResponseEntity(lista, HttpStatus.OK);
+    }
 }
