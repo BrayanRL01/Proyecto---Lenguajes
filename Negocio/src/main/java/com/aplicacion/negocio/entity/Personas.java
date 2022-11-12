@@ -21,8 +21,6 @@ public class Personas implements Serializable {
     private String Email;
     private String Telefono;
 
-    
-
     public Long getId_Persona() {
         return Id_Persona;
     }
