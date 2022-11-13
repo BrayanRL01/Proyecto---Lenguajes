@@ -45,7 +45,7 @@ public class TipoPersonasService {
     
     /*ResultSet rset = (ResultSet)call.getObject (2);*/
     
-    System.out.println ("resultadoioooooo"+result);
+    System.out.println ("resultadoioooooo> "+result);
     
     // Dump the cursor
     

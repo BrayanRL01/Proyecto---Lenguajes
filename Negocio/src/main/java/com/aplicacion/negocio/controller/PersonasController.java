@@ -7,25 +7,32 @@ package com.aplicacion.negocio.controller;
 
 import com.aplicacion.negocio.entity.Personas;
 import com.aplicacion.negocio.service.PersonaService;
+import java.sql.SQLException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 /**
  *
  * @author XPC
  */
-@RestController
+@Controller
 public class PersonasController {
     @Autowired
     PersonaService personaService;
     
     @GetMapping("/personaLista")
-    public ResponseEntity<List<Personas>> lista(){
-        List<Personas> lista = personaService.lista();
-        return new ResponseEntity(lista,HttpStatus.OK);
+    public String index(Model M) throws SQLException {
+       //List<Tipo_Personas> tpLista = tpService.lista();
+        String variable = personaService.lista();
+        //System.out.println ("variableeeeeeeeeeeee: "+variable);
+        M.addAttribute("lista", variable);
+        return "Tmplt_pLista";
     } 
 }

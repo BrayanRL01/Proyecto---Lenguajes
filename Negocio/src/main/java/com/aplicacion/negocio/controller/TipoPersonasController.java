@@ -4,14 +4,13 @@
  */
 package com.aplicacion.negocio.controller;
 
-import com.aplicacion.negocio.entity.Tipo_Personas;
+
 import com.aplicacion.negocio.service.TipoPersonasService;
 import java.sql.SQLException;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 
 
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author XPC
  */
-@RestController
+@Controller
 public class TipoPersonasController {
     
     @Autowired
@@ -32,6 +31,6 @@ public class TipoPersonasController {
         String variable = tpService.lista();
         //System.out.println ("variableeeeeeeeeeeee: "+variable);
         M.addAttribute("lista", variable);
-        return variable;
+        return "Tmplt_tpLista";
     }
 }
