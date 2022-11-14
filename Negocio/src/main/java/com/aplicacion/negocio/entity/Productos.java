@@ -16,6 +16,7 @@ public class Productos implements Serializable {
 
     private String Nombre;
     private String Detalle;
+    private int Precio;
 
     public Long getId_Producto() {
         return Id_Producto;
@@ -47,6 +48,14 @@ public class Productos implements Serializable {
 
     public void setDetalle(String detalle) {
         Detalle = detalle;
+    }
+
+    public int getPrecio() {
+        return Precio;
+    }
+
+    public void setPrecio(int precio) {
+        Precio = precio;
     }
 
 }
