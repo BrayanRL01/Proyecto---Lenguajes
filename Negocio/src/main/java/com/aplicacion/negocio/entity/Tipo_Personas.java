@@ -40,6 +40,14 @@ public class Tipo_Personas implements Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public Tipo_Personas() {
+    }
+
+    public Tipo_Personas(Long id_tipo_persona, String nombre) {
+        this.id_tipo_persona = id_tipo_persona;
+        this.nombre = nombre;
+    }
     
     
 }
