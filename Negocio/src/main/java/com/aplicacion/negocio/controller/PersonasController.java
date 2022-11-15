@@ -5,14 +5,18 @@
 package com.aplicacion.negocio.controller;
 
 
-import com.aplicacion.negocio.service.TipoPersonasService;
+import com.aplicacion.negocio.entity.Personas;
+import com.aplicacion.negocio.service.PersonaService;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-
+import org.springframework.web.bind.annotation.RestController;
 
 
 /**
@@ -20,17 +24,16 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @author XPC
  */
 @Controller
-public class TipoPersonasController {
-    
+public class PersonasController {
     @Autowired
-    TipoPersonasService tpService;
-
-    @GetMapping("/tpPersonaLista")
-    public String Index (Model M) throws SQLException {
-        //List<Tipo_Personas> tpLista = tpService.lista();
-        String variable = tpService.lista();
+    PersonaService personaService;
+    
+    @GetMapping("/personaLista")
+    public String index(Model M) throws SQLException {
+       //List<Tipo_Personas> tpLista = tpService.lista();
+        List<Personas> variable = personaService.lista();
         //System.out.println ("variableeeeeeeeeeeee: "+variable);
         M.addAttribute("lista", variable);
-        return "Tmplt_tpLista";
-    }
+        return "Tmplt_pLista";
+    } 
 }
