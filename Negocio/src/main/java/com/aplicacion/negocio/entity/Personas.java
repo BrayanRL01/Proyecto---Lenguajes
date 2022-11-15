@@ -26,8 +26,9 @@ public class Personas implements Serializable {
     private Long id_persona;
     //----------------columnas de la tabla------------------
     private Long cedula;
-    private String primer_apellido;
-    private String segundo_apellido;
+    private String nombre;
+    private String primerAp;
+    private String segundoAp;
     private String direccion;
     private String email;
     private String telefono;
@@ -35,9 +36,45 @@ public class Personas implements Serializable {
     @ManyToOne
     @JoinColumn(name = "tipo_persona_id")
     private Tipo_Personas tipo_persona; 
-    
-    //------------------set and getters----------------------
 
+    public Personas( Long cedula, String nombre, String primerAp, String segundoAp, String direccion, String email, String telefono) {
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.primerAp = primerAp;
+        this.segundoAp = segundoAp;
+        this.direccion = direccion;
+        this.email = email;
+        this.telefono = telefono;
+    }
+    
+    
+//------------------set and getters----------------------
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getPrimerAp() {
+        return primerAp;
+    }
+
+    public void setPrimerAp(String primerAp) {
+        this.primerAp = primerAp;
+    }
+
+    public String getSegundoAp() {
+        return segundoAp;
+    }
+
+    public void setSegundoAp(String segundoAp) {
+        this.segundoAp = segundoAp;
+    }
+    
+    
     public Long getId_persona() {
         return id_persona;
     }
@@ -52,22 +89,6 @@ public class Personas implements Serializable {
 
     public void setCedula(Long cedula) {
         this.cedula = cedula;
-    }
-
-    public String getPrimer_apellido() {
-        return primer_apellido;
-    }
-
-    public void setPrimer_apellido(String primer_apellido) {
-        this.primer_apellido = primer_apellido;
-    }
-
-    public String getSegundo_apellido() {
-        return segundo_apellido;
-    }
-
-    public void setSegundo_apellido(String segundo_apellido) {
-        this.segundo_apellido = segundo_apellido;
     }
 
     public String getDireccion() {

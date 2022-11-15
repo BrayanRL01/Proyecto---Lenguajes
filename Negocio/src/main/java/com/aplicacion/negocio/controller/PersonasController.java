@@ -9,6 +9,7 @@ import com.aplicacion.negocio.entity.Personas;
 import com.aplicacion.negocio.service.PersonaService;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class PersonasController {
     @GetMapping("/personaLista")
     public String index(Model M) throws SQLException {
        //List<Tipo_Personas> tpLista = tpService.lista();
-        String variable = personaService.lista();
+        List<Personas> variable = personaService.lista();
         //System.out.println ("variableeeeeeeeeeeee: "+variable);
         M.addAttribute("lista", variable);
         return "Tmplt_pLista";
