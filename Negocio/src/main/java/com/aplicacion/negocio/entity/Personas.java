@@ -9,16 +9,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 /**
  *
  * @author XPC
  */
 @Entity
-@Table(name="TAB_PERSONAS", schema="NEGOCIO")
+//@Table(name="TAB_PERSONAS", schema="NEGOCIO")
 public class Personas implements Serializable {
     //----------------primary key------------------
     @Id
@@ -33,11 +30,13 @@ public class Personas implements Serializable {
     private String email;
     private String telefono;
     //----------------Foreing key------------------
-    @ManyToOne
-    @JoinColumn(name = "tipo_persona_id")
-    private Tipo_Personas tipo_persona; 
+   // @ManyToOne
+   // @JoinColumn(name = "tipo_persona_id")
+    private int tipoPersonaId; 
+    private String tipoPersonaDesc; 
 
-    public Personas( Long cedula, String nombre, String primerAp, String segundoAp, String direccion, String email, String telefono) {
+    public Personas(Long id_persona, Long cedula, String nombre, String primerAp, String segundoAp, String direccion, String email, String telefono, int personaID,String personaDesc ) {
+        this.id_persona = id_persona;
         this.cedula = cedula;
         this.nombre = nombre;
         this.primerAp = primerAp;
@@ -45,11 +44,17 @@ public class Personas implements Serializable {
         this.direccion = direccion;
         this.email = email;
         this.telefono = telefono;
+        this.tipoPersonaId=personaID;
+        this.tipoPersonaDesc=personaDesc;
+    }
+
+    public Personas() {
+        
     }
     
     
 //------------------set and getters----------------------
-
+    
     public String getNombre() {
         return nombre;
     }
@@ -75,7 +80,7 @@ public class Personas implements Serializable {
     }
     
     
-    public Long getId_persona() {
+        public Long getId_persona() {
         return id_persona;
     }
 
@@ -115,13 +120,22 @@ public class Personas implements Serializable {
         this.telefono = telefono;
     }
 
-    public Tipo_Personas getTipo_persona() {
-        return tipo_persona;
+    public int getTipoPersonaId() {
+        return tipoPersonaId;
     }
 
-    public void setTipo_persona(Tipo_Personas tipo_persona) {
-        this.tipo_persona = tipo_persona;
+    public void setTipoPersonaId(int tipoPersonaId) {
+        this.tipoPersonaId = tipoPersonaId;
     }
+
+    public String getTipoPersonaDesc() {
+        return tipoPersonaDesc;
+    }
+
+    public void setTipoPersonaDesc(String tipoPersonaDesc) {
+        this.tipoPersonaDesc = tipoPersonaDesc;
+    }
+    
     
 }
 /*
