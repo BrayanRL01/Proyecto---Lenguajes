@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Página principal</title>
+        <title>Tabla Personas</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/home.css"/>
+        <link rel="stylesheet" href="css/informacionPersonas.css"/>
     </head>
     <body>
         <div class="container">
@@ -50,16 +51,55 @@
             </div> <!-- div navbar -->
         </div> <!-- div container 1 -->
 
-        <div class="container2">
-            <div class="texto">
-                <h1>¿Qué deseas cambiar hoy?</h1>
-                <p>La última vez editaste la tabla de Personas</p>
-                <div>
-                    <button type="submit" name="btn" />Ir a la tabla</button>
-                </div>
+        <div class="container-tabla">
+            <h1>Estás viendo la tabla Personas</h1>
+            <table>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+                <tr>
+                    <td>Cell1</td>
+                    <td>Cell2</td>
+                    <td>Cell3</td>
+                    <td>Cell4</td>
+                    <td><a href="url" class="opcion-editar">Editar</a></td>
+                    <td><a href="url" class="opciones-eliminar">Eliminar</a></td>
+                </tr>
+                <tr>
+                    <td>Cell1</td>
+                    <td>Cell2</td>
+                    <td>Cell3</td>
+                    <td>Cell4</td>
+                    <td><a href="url" class="opcion-editar">Editar</a></td>
+                    <td><a href="url" class="opciones-eliminar">Eliminar</a></td>
+                </tr>
+                <tr>
+                    <td>Cell1</td>
+                    <td>Cell2</td>
+                    <td>Cell3</td>
+                    <td>Cell4</td>
+                    <td><a href="url" class="opcion-editar">Editar</a></td>
+                    <td><a href="url" class="opciones-eliminar">Eliminar</a></td>
+                </tr>
+                <tr>
+                    <td>Cell1</td>
+                    <td>Cell2</td>
+                    <td>Cell3</td>
+                    <td>Cell4</td>
+                    <td><a href="url" class="opcion-editar">Editar</a></td>
+                    <td><a href="url" class="opciones-eliminar">Eliminar</a></td>
+                </tr>
+            </table>
+            <div>
+                <a href="crearPersona.html">
+                    <button type="submit" class="btn-agregar" name="btn-agregar" />Agregar una persona a la tabla</button>
+                </a>
             </div>
-            <div class="imagen-principal"><img src="imagenes/imagen-principal.png" alt="imagen-admin"/></div>
-        </div> <!-- div container 2 -->
-
+        </div>
     </body>
 </html>

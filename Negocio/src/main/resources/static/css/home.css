@@ -1,0 +1,260 @@
+/* 
+    Created on : 3 nov. 2022, 10:57:54
+    Author     : Patrick
+*/
+body {
+    font-family: 'Roboto', sans-serif;
+    /*background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(54, 53, 53, 1) 100%);*/
+    margin: 0;
+    display: flex;
+    flex-flow: column;
+    background: linear-gradient(90deg, rgba(240,218,119,1) 0%, rgba(255,195,110,1) 100%);
+    /*background: linear-gradient(90deg, rgba(141,144,240,1) 0%, rgba(101,106,252,1) 100%);
+    de #f0da77 a #ffc36e
+    naranja fuerte: #fcb045*/
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    /*background-color: brown;*/
+    width: 15%;
+    margin-left: 0px;
+    border-color: white;
+}
+
+
+.logo-container img {
+    cursor: pointer;
+    padding: 0;
+    width: 25%;
+    color: black;
+}
+
+.container {
+    display: flex;
+    flex-flow: row wrap;
+    background-color: white;
+    padding-top: 20px;
+    padding-top: 0;
+    border-bottom: 2px solid #009a87;
+}
+
+.navbar {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    width: 100%;
+    color: #009a87;
+}
+
+nav {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+nav a{
+    text-decoration: none;
+    color:#009a87;
+}
+
+nav .opciones li a:hover {
+    transition: color .3s;
+    color: #f68a53;
+}
+
+.menu{
+    display: flex;
+    align-items: center;
+}
+
+nav ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 0;
+    height: 100%;
+}
+
+nav ul li {
+    list-style: none;
+    margin: 0px 10px;
+    /*padding-right: 50px;*/
+    cursor: pointer;
+    height: 105%;
+    width: 220px;
+    display: flex;
+    align-items: center;
+}
+
+nav .opciones li {
+    list-style: none;
+    margin: 0 250px 0 250px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav .opciones li:hover {
+    transition: all .3s;
+    font-size: 20.3px;
+    color: #f68a53;
+}
+
+nav ul ul{
+    position: absolute;
+    flex-flow: column wrap;
+    width: 800px;
+    height: 200px;
+    background-color: white;
+    box-shadow: 24px 10px 15px -3px rgba(0,0,0,0.1);
+    padding: 10px 0 10px 0;
+    top: 57px;
+    z-index: 1;
+    border: solid #009a87 2px;
+    border-top: none;
+    cursor: default;
+    justify-content: center;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    visibility: hidden;
+    opacity: 0;
+}
+
+nav .opciones li li{
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    height: 60px;
+    width: 115px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+    /* background-color: brown;*/
+}
+
+.opciones-sistema{
+    left:950px;
+}
+
+nav .opciones .opciones-sistema li{
+    width: 180px;
+}
+
+.opciones-inventario{
+    left: 490px;
+    flex-flow: column nowrap;
+    width: 150px;
+}
+
+.opciones li:hover ul{
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s, opacity 0.2s;
+}
+
+/*.opciones-seccion{
+    display:none;
+    position: absolute;
+    padding: 0;
+    color: #009a87;
+    background-color: white;
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+.opciones-seccion li{
+    padding: 20px 0px 10px 5px;
+    margin-top: 40px;
+    border-bottom: 2px solid #009a87;
+}
+
+.opciones li:hover .opciones-seccion{
+    display: block;
+    transition: all .8s;
+    opacity: 1;
+}*/
+
+/*.utilidades li:hover{
+    transition: color .3s;
+    color: #f68a53;
+}
+
+.utilidades{
+    display:flex;
+}
+
+.busqueda{
+    display: flex;
+    border-bottom: 1px solid #009a87;
+    padding-right: 0;
+    margin-right: 50px;
+    align-items: center;
+}
+
+.busqueda input{
+    border: none;
+    background-color: transparent;
+    margin-left: 20px;
+    color: #009a87;
+    font-size: 19px;
+    width: 170px;
+}
+
+.busqueda input::placeholder{
+    color: #009a87;
+    font-size: 19px;
+}
+
+.busqueda input:focus{
+    outline: none;
+}*/
+
+.container2 img{
+    top: 15%;
+    right: 15%;
+    position: absolute;
+}
+
+.texto{
+    position: absolute;
+    top: 18%;
+    left: 8%;
+    width: 550px;
+    color: black;
+}
+
+.texto h1 {
+    font-size: 70px;
+    margin-bottom: 0;
+}
+
+.texto p{
+    font-size: 30px;
+}
+
+.texto button{
+    width: 240px;
+    height: 50px;
+    color: white;
+    background-color: #009a87;
+    border-color: transparent;
+    font-size: 19px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color .5s;
+    border-radius: 5px;
+}
+
+.texto button:hover{
+    transition: background-color .4s;
+    background-color: #f68a53;
+    color: white;
+}
