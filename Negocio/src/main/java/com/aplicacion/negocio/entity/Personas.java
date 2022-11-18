@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.aplicacion.negocio.entity;
 
 import java.io.Serializable;
@@ -10,18 +6,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-/**
- *
- * @author XPC
- */
 @Entity
-//@Table(name="TAB_PERSONAS", schema="NEGOCIO")
+// @Table(name="TAB_PERSONAS", schema="NEGOCIO")
 public class Personas implements Serializable {
-    //----------------primary key------------------
+    // ----------------primary key------------------
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_persona;
-    //----------------columnas de la tabla------------------
+    // ----------------columnas de la tabla------------------
     private Long cedula;
     private String nombre;
     private String primerAp;
@@ -29,13 +21,14 @@ public class Personas implements Serializable {
     private String direccion;
     private String email;
     private String telefono;
-    //----------------Foreing key------------------
-   // @ManyToOne
-   // @JoinColumn(name = "tipo_persona_id")
-    private int tipoPersonaId; 
-    private String tipoPersonaDesc; 
+    // ----------------Foreing key------------------
+    // @ManyToOne
+    // @JoinColumn(name = "tipo_persona_id")
+    private int tipoPersonaId;
+    private String tipoPersonaDesc;
 
-    public Personas(Long id_persona, Long cedula, String nombre, String primerAp, String segundoAp, String direccion, String email, String telefono, int personaID,String personaDesc ) {
+    public Personas(Long id_persona, Long cedula, String nombre, String primerAp, String segundoAp, String direccion,
+            String email, String telefono, int personaID, String personaDesc) {
         this.id_persona = id_persona;
         this.cedula = cedula;
         this.nombre = nombre;
@@ -44,17 +37,16 @@ public class Personas implements Serializable {
         this.direccion = direccion;
         this.email = email;
         this.telefono = telefono;
-        this.tipoPersonaId=personaID;
-        this.tipoPersonaDesc=personaDesc;
+        this.tipoPersonaId = personaID;
+        this.tipoPersonaDesc = personaDesc;
     }
 
     public Personas() {
-        
+
     }
-    
-    
-//------------------set and getters----------------------
-    
+
+    // ------------------set and getters----------------------
+
     public String getNombre() {
         return nombre;
     }
@@ -78,9 +70,8 @@ public class Personas implements Serializable {
     public void setSegundoAp(String segundoAp) {
         this.segundoAp = segundoAp;
     }
-    
-    
-        public Long getId_persona() {
+
+    public Long getId_persona() {
         return id_persona;
     }
 
@@ -135,12 +126,11 @@ public class Personas implements Serializable {
     public void setTipoPersonaDesc(String tipoPersonaDesc) {
         this.tipoPersonaDesc = tipoPersonaDesc;
     }
-    
-    
+
 }
 /*
-DIRECCION VARCHAR2(100),
-EMAIL VARCHAR2(50),
-TELEFONO VARCHAR2(15) NOT NULL,
-TIPO_PERSONA_ID NUMBER,
-*/
+ * DIRECCION VARCHAR2(100),
+ * EMAIL VARCHAR2(50),
+ * TELEFONO VARCHAR2(15) NOT NULL,
+ * TIPO_PERSONA_ID NUMBER,
+ */
