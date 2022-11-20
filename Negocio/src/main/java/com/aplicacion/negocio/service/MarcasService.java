@@ -4,21 +4,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.aplicacion.negocio.controller.JDBCconnection;
 import com.aplicacion.negocio.entity.Marcas;
-import com.aplicacion.negocio.repository.MarcasRepository;
-
 import oracle.jdbc.OracleTypes;
 
 @Service
 public class MarcasService {
-
-    @Autowired
-    MarcasRepository MR;
 
     JDBCconnection JDBC = new JDBCconnection();
 

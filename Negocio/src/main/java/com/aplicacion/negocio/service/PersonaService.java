@@ -2,14 +2,12 @@ package com.aplicacion.negocio.service;
 
 import com.aplicacion.negocio.controller.JDBCconnection;
 import com.aplicacion.negocio.entity.Personas;
-import com.aplicacion.negocio.repository.PersonaRepository;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import oracle.jdbc.OracleTypes;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,8 +17,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class PersonaService {
 
-    @Autowired
-    PersonaRepository personaRepository;
     // instancia para la conexion a la BD
     JDBCconnection jdbc = new JDBCconnection();
 
@@ -254,7 +250,6 @@ public class PersonaService {
         jdbc.call.registerOutParameter(2, OracleTypes.NUMBER);
 
         // se ejecuta el query
-        jdbc.call.setQueryTimeout(10);
         jdbc.call.execute();
 
         // System.out.println("+++++++++++++++++ Resultado de SP_ELIMINAR_PERSONA: " +

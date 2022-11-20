@@ -27,12 +27,12 @@
                     <td th:text="${tipo.getId_tipo_persona}"></td>
                     <td th:text="${tipo.getNombre}"></td>
                     <td>
-                        <!-- th:href="@{/edit_rest/{id_restaurante} (id_restaurante=${user.getId_restaurante})}"-->
-                        <a>Editar</a>
+                        <!-- th:href="@{/editTpersona/{id_restaurante} (id_restaurante=${user.getId_restaurante})}"-->
+                        <a th:href="@{/editTpersona/{id_tpersona} (id_tpersona=${tipo.getId_tipo_persona})}">Editar</a>
                     </td>
                     <td>
-                        <!-- th:href="@{/edit_rest/{id_restaurante} (id_restaurante=${user.getId_restaurante})}"-->
-                        <a>Borrar</a>
+                        <!-- th:href="@{/deleteTpersona/{id_restaurante} (id_restaurante=${user.getId_restaurante})}"-->
+                        <a th:href="@{/deleteTpersona/{id_tpersona} (id_tpersona=${tipo.getId_tipo_persona})}">Borrar</a>
                     </td>
                 </tr>
             </th:block>
