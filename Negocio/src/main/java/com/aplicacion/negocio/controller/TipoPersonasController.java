@@ -18,6 +18,7 @@ public class TipoPersonasController {
     @GetMapping("/tpPersonaLista")
     public String Index(Model M) throws SQLException {
         List<Tipo_Personas> ListRol = tpService.obtenerTipoPersonas();
+        M.addAttribute("titulo", "Tipos de personas");
         M.addAttribute("lista", ListRol);
         return "Tmplt_tpLista";
     }

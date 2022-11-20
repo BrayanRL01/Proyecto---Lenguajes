@@ -1,0 +1,14 @@
+com\aplicacion\negocio\controller\TipoPersonasController.class
+com\aplicacion\negocio\service\PersonaService.class
+com\aplicacion\negocio\entity\Marcas.class
+com\aplicacion\negocio\NegocioApplication.class
+com\aplicacion\negocio\repository\PersonaRepository.class
+com\aplicacion\negocio\entity\Personas.class
+com\aplicacion\negocio\service\MarcasService.class
+com\aplicacion\negocio\controller\JDBCconnection.class
+com\aplicacion\negocio\repository\TipoPersonasRepository.class
+com\aplicacion\negocio\controller\MarcasController.class
+com\aplicacion\negocio\repository\MarcasRepository.class
+com\aplicacion\negocio\controller\PersonasController.class
+com\aplicacion\negocio\service\TipoPersonasService.class
+com\aplicacion\negocio\entity\Tipo_Personas.class

@@ -20,6 +20,7 @@ public class MarcasController {
     @GetMapping("/listamarcas")
     public String Index(Model M) throws SQLException {
         List<Marcas> ListaMarcas = MS.ObtenerMarcas();
+        M.addAttribute("titulo", "Marcas");
         M.addAttribute("TAB_MARCAS", ListaMarcas);
         return "listamarcas";
     }

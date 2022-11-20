@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head xmlns:th="http://www.thymeleaf.org">
+        <title>Página principal</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/home.css"/>
+    </head>
+    <body>
+        <header th:replace="plantilla/plantilla::barra-navegacion"></header>
+
+        <div class="container2">
+            <div class="texto">
+                <h1>¿Qué deseas cambiar hoy?</h1>
+                <p>La última vez editaste la tabla de Personas</p>
+                <div>
+                    <a href="personaLista">
+                    <button type="submit" name="btn" />Ir a la tabla</button>
+                    </a>
+                </div>
+            </div>
+            <div class="imagen-principal"><img src="imagenes/imagen-principal.png" alt="imagen-admin"/></div>
+        </div> <!-- div container 2 -->
+
+    </body>
+</html>
