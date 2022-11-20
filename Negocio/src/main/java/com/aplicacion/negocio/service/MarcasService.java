@@ -1,10 +1,13 @@
 package com.aplicacion.negocio.service;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +56,76 @@ public class MarcasService {
         JDBC.close();
 
         return ArrayMarcas;
+    }
+
+    public Marcas ObtenerMarcaPorID(Long id) throws SQLException {
+        Marcas M = new Marcas();
+        JDBC.init();
+
+        JDBC.prepareCall("BEGIN NEGOCIO.SP_OBTENER_MARCA_ID (?,?); END;");
+
+        JDBC.call.setLong(1, id);
+        JDBC.call.registerOutParameter(2, OracleTypes.VARCHAR);
+
+        JDBC.call.execute();
+
+        String N = (String) JDBC.call.getObject(2);
+
+        M = new Marcas(
+                id,
+                N);
+
+        JDBC.call.close();
+        JDBC.close();
+
+        return M;
+    }
+
+    public void InsertarMarcas(Marcas M) throws SQLException {
+
+        JDBC.init();
+
+        JDBC.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_MARCAS (?,?); END;");
+
+        JDBC.call.setString(1, M.getNombre_Marca());
+        JDBC.call.registerOutParameter(2, OracleTypes.NUMBER);
+
+        JDBC.call.executeUpdate();
+
+        JDBC.call.close();
+        JDBC.close();
+    }
+
+    public void ModificarMarca(Marcas M) throws SQLException {
+        JDBC.init();
+
+        // Prepare a PL/SQL call
+        JDBC.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_MARCA (?,?,?); END;");
+
+        JDBC.call.setLong(1, M.getId_Marca());
+        JDBC.call.setString(2, M.getNombre_Marca());
+        JDBC.call.registerOutParameter(3, OracleTypes.NUMBER);
+
+        // se ejecuta el query
+        JDBC.call.execute();
+
+        BigDecimal BD = (BigDecimal) JDBC.call.getObject(3);
+
+        System.out.println("Modificación de Marca: " + BD);
+    }
+
+    public void EliminarMarca(Long Id_Marca) throws SQLException {
+
+        JDBC.init();
+
+        JDBC.prepareCall("BEGIN NEGOCIO.SP_ELIMINAR_MARCAS (?,?); END;");
+
+        JDBC.call.setLong(1, Id_Marca);
+        JDBC.call.registerOutParameter(2, OracleTypes.NUMBER);
+
+        JDBC.call.execute();
+        JDBC.call.close();
+        JDBC.close();
     }
 
 }

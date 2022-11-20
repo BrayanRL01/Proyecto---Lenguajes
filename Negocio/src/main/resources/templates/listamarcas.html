@@ -19,20 +19,23 @@
             </tr>
         </thead>
         <tbody>
-            <th:block th:each="tipo : ${TAB_MARCAS}">
+            <th:block th:each="tipo:${TAB_MARCAS}">
                 <tr>
                     <td th:text="${tipo.getId_Marca}"></td>
                     <td th:text="${tipo.getNombre_Marca}"></td>
                     <td>
-                        <a>Editar</a>
+                        <a th:href="@{/ModificarMarca/{Id_Marca}(Id_Marca=${tipo.getId_Marca})}">Editar</a>
                     </td>
                     <td>
-                        <a>Borrar</a>
+                        <a th:href="@{/EliminarMarca/{Id_Marca}(Id_Marca=${tipo.getId_Marca})}">Borrar</a>
                     </td>
                 </tr>
             </th:block>
         </tbody>
     </table>
+    <form class="form-inline my-2 my-lg-0" form-method="post" th:action="@{/nuevamarca}">
+        <button class="btn btn-dark btn-lg " type="submit">Agregar Marca</button>
+    </form>
 </body>
 
 </html>

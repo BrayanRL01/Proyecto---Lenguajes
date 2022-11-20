@@ -18,6 +18,8 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Descripcion</th>
+                <th scope="col">Editar</th>
+                <th scope="col">Eliminar</th>
             </tr>
         </thead>
         <tbody>
@@ -27,12 +29,10 @@
                     <td th:text="${tipo.getId_tipo_persona}"></td>
                     <td th:text="${tipo.getNombre}"></td>
                     <td>
-                        <!-- th:href="@{/edit_rest/{id_restaurante} (id_restaurante=${user.getId_restaurante})}"-->
-                        <a>Editar</a>
+                        <a th:href="@{/ModificarTipoPersona/{Id_tipo_persona}(Id_tipo_persona=${tipo.getId_tipo_persona})}">Editar</a>
                     </td>
                     <td>
-                        <!-- th:href="@{/edit_rest/{id_restaurante} (id_restaurante=${user.getId_restaurante})}"-->
-                        <a>Borrar</a>
+                        <a th:href="@{/EliminarTipoPersona/{Id_tipo_persona}(Id_tipo_persona=${tipo.getId_tipo_persona})}">Borrar</a>
                     </td>
                 </tr>
             </th:block>

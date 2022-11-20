@@ -19,6 +19,9 @@ public class Marcas implements Serializable {
         Nombre_Marca = nombre_Marca;
     }
 
+    public Marcas() {
+    }
+
     public Long getId_Marca() {
         return Id_Marca;
     }
