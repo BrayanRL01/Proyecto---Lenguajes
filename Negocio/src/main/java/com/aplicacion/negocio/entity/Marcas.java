@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "TAB_MARCAS", schema = "NEGOCIO")
 public class Marcas implements Serializable {
 
     @Id

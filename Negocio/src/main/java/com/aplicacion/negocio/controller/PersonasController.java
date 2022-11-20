@@ -46,7 +46,6 @@ public class PersonasController {
         model.addAttribute("usuarios", new Personas());
         model.addAttribute("tipoPersonas", listaTipoPersonas);
         model.addAttribute("boton", "Crear");
-
         return "crearPersona";
     }
 
