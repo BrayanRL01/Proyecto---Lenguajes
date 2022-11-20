@@ -236,7 +236,8 @@ public class PersonaService {
         BigDecimal rset = (BigDecimal) jdbc.call.getObject(10);
 
         System.out.println("+++++++++++++++++ Resultado de SP_MODIFICAR_PERSONA: " + rset);
-
+        jdbc.call.close();
+        jdbc.close();
     }
 
     public void eliminarPersona(Long per) throws SQLException {
@@ -254,5 +255,7 @@ public class PersonaService {
 
         // System.out.println("+++++++++++++++++ Resultado de SP_ELIMINAR_PERSONA: " +
         // rset);
+        jdbc.call.close();
+        jdbc.close();
     }
 }
