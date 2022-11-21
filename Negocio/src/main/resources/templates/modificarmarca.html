@@ -23,7 +23,7 @@
 <body>
     <!-- Pasamos el objeto de tipo persona 
         -->
-    <form th:object="${Marcas}" th:action="@{/ModificarMarca}" method="POST">
+    <form th:object="${Marcas}" th:action="@{/EditarMarca}" method="POST">
 
         <input type="hidden" th:field="*{Id_Marca}">
         <div class="modal modal-signin d-block py-5" tabindex="-1" role="dialog" id="modalSignin"

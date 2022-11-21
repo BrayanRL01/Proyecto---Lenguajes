@@ -3,9 +3,7 @@ package com.aplicacion.negocio.entity;
 import java.io.Serializable;
 
 import javax.persistence.*;
-
 @Entity
-@Table(name = "TAB_CATEGORIAS", schema = "NEGOCIO")
 public class Categorias implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

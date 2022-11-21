@@ -41,8 +41,6 @@ public class MarcasController {
         return "redirect:/listamarcas";
     }
 
-    
-
     @GetMapping("/ModificarMarca/{Id_Marca}")
     public String EditarMarca(@PathVariable("Id_Marca") Long Id_Marca, Model M) throws SQLException {
         Marcas Marca = MS.ObtenerMarcaPorID(Id_Marca);
@@ -50,6 +48,12 @@ public class MarcasController {
         M.addAttribute("Marcas", Marca);
         M.addAttribute("boton", "Actualizar");
         return "modificarmarca";
+    }
+
+    @PostMapping("/EditarMarca")
+    public String EditarMarca(@ModelAttribute Marcas M) throws SQLException {
+        MS.ModificarMarca(M);
+        return "redirect:/listamarcas";
     }
 
     @GetMapping("/EliminarMarca/{Id_Marca}")

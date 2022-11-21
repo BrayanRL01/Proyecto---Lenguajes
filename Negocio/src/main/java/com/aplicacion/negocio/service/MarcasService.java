@@ -3,12 +3,9 @@ package com.aplicacion.negocio.service;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aplicacion.negocio.controller.JDBCconnection;
@@ -55,7 +52,7 @@ public class MarcasService {
     }
 
     public Marcas ObtenerMarcaPorID(Long id) throws SQLException {
-        Marcas M = new Marcas();
+        Marcas M;
         JDBC.init();
 
         JDBC.prepareCall("BEGIN NEGOCIO.SP_OBTENER_MARCA_ID (?,?); END;");
@@ -67,9 +64,7 @@ public class MarcasService {
 
         String N = (String) JDBC.call.getObject(2);
 
-        M = new Marcas(
-                id,
-                N);
+        M = new Marcas(id, N);
 
         JDBC.call.close();
         JDBC.close();
@@ -86,7 +81,7 @@ public class MarcasService {
         JDBC.call.setString(1, M.getNombre_Marca());
         JDBC.call.registerOutParameter(2, OracleTypes.NUMBER);
 
-        JDBC.call.executeUpdate();
+        JDBC.call.execute();
 
         JDBC.call.close();
         JDBC.close();
@@ -120,6 +115,7 @@ public class MarcasService {
         JDBC.call.registerOutParameter(2, OracleTypes.NUMBER);
 
         JDBC.call.execute();
+
         JDBC.call.close();
         JDBC.close();
     }
