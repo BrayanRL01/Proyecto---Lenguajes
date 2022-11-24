@@ -7,19 +7,17 @@ package com.aplicacion.negocio.service;
 import com.aplicacion.negocio.controller.JDBCconnection;
 import com.aplicacion.negocio.entity.DetalleObj;
 import com.aplicacion.negocio.entity.DetalleVista;
-import com.aplicacion.negocio.entity.FacturaObj;
 import com.aplicacion.negocio.entity.FacturaVista;
 import com.aplicacion.negocio.entity.FacturasConDetalles;
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.List;
 import oracle.jdbc.OracleTypes;
 import oracle.sql.ARRAY;
 import oracle.sql.ArrayDescriptor;
-import oracle.sql.STRUCT;
 import oracle.sql.StructDescriptor;
 import org.springframework.stereotype.Service;
 
@@ -156,33 +154,36 @@ public class FacturasService {
         return factura;
     }
 
+
+    
     public void crearFactura() throws SQLException, ClassNotFoundException {
+        int numDetalles = 2;
         jdbc.init();
-        ArrayList<DetalleObj> arrayL = new ArrayList<>();
-       //----------------------------------
-       Dictionary map = (Dictionary) jdbc.getConn().getTypeMap();
-       map.put("OBJ_DETALLE_FACTURA", Class.forName("com.aplicacion.negocio.entity.DetalleObj"));
-       map.put("OBJ_DETALLES_FACTURA",Class.forName("com.aplicacion.negocio.entity.FacturaObj"));
+        Hashtable newMap = new Hashtable();
+        newMap.put("NEGOCIO.OBJ_DETALLE_FACTURA", Class.forName("com.aplicacion.negocio.entity.DetalleObj"));
+        jdbc.getConn().setTypeMap(newMap);
        
-       //-------
-
-       DetalleObj detalle1 = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA", 1L, 2L, 12323.5F, 1231321.4F);
-       DetalleObj detalle2 = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA", 2L, 5L, 4512.5F, 123.4F);
-       arrayL.add(detalle1);
-       arrayL.add(detalle2);
+  
+        //data[i++] = detalle
+        //Se crea el Array        
+        DetalleObj[] detallesFactura = new DetalleObj[numDetalles] ;
+        
+        //Se instancian los objetos
+        detallesFactura[0] = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA", 1, 3, 4000.0, 0.3);
+        detallesFactura[1] = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA", 3, 3, 6000.0, 0.3);
+        
+        //Se define el ARRAY apartir de la lista
+        ArrayDescriptor des = ArrayDescriptor.createDescriptor("NEGOCIO.FACTURA_ARR_OBJ", jdbc.getConn());
+        ARRAY array_a_enviar = new ARRAY(des,  jdbc.getConn(), detallesFactura );       
+        
+        //FacturaObj facturaObj1 = new FacturaObj("NEGOCIO.OBJ_DETALLE_FACTURA", 1L, 2L, 12323.5F, 1231321.4F); 
+        
         // Prepare a PL/SQL call
-        jdbc.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_FACTURA (?,?,?,?,?,?,?,?); END;");
-
+        jdbc.prepareCall("BEGIN NEGOCIO.TEST_FACTURA(?,?); END;");
+        
         // se le indica la posicion del parametro y el tipo
-        jdbc.call.setLong(1, 1);
-        jdbc.call.setLong(2, 1);
-        jdbc.call.setLong(3, 1);
-        jdbc.call.setLong(4, 1);
-        jdbc.call.setLong(5, 1);
-        jdbc.call.setObject(6, arrayL);
-        jdbc.call.registerOutParameter(7, OracleTypes.NUMBER);
-        jdbc.call.registerOutParameter(8, OracleTypes.VARCHAR);
-
+        jdbc.call.setArray(1,  array_a_enviar);
+        jdbc.call.registerOutParameter(2, OracleTypes.NUMBER);
         /*
                     IN_ID_VENDEDOR IN NUMBER, 
                     IN_ID_CLIENTE IN NUMBER, 
@@ -194,12 +195,11 @@ public class FacturasService {
                     RESULTADO OUT NUMBER, 
                     MENSAJE OUT VARCHAR2
          */
-        // se ejecuta el query
-
-       
-        jdbc.call.execute();
-
         
+        // se ejecuta el query
+        jdbc.call.execute();
+        int total = (int) jdbc.call.getInt(2);
+        System.out.println("Si funciono hay un 0: " +  total); 
         jdbc.call.close();
         jdbc.close();
     }
@@ -241,5 +241,5 @@ public class FacturasService {
 
                     RESULTADO OUT NUMBER, 
                     MENSAJE OUT VARCHAR2
-         */
+ */
         // se ejecuta el query
