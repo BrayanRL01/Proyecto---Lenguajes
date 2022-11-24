@@ -6,7 +6,7 @@ package com.aplicacion.negocio.controller;
 
 import com.aplicacion.negocio.entity.DetalleVista;
 import com.aplicacion.negocio.entity.FacturaVista;
-import com.aplicacion.negocio.entity.Facturas;
+import com.aplicacion.negocio.entity.FacturasConDetalles;
 import com.aplicacion.negocio.service.Detalles_FacturaService;
 import com.aplicacion.negocio.service.FacturasService;
 import java.sql.SQLException;
@@ -42,9 +42,19 @@ public class FacturasController {
     }
 
     @GetMapping("/verFactura/{id}")
-    public String listarDetalles(Model M, @PathVariable("id") long id_factura) throws SQLException {
-        List<DetalleVista> variable = factService.obtenerFactconDetalles(id_factura);
-        M.addAttribute("lista", variable);
-        return "Tmplt_listarDetalles";
+    public String listarDetalles(Model M, @PathVariable("id") long id_factura) throws SQLException, ClassNotFoundException {
+        FacturasConDetalles FacturasConDetalles = factService.obtenerFactconDetalles(id_factura);
+        M.addAttribute("factura", FacturasConDetalles);
+        M.addAttribute("detalles", FacturasConDetalles.getListaDetalles());
+        return "Tmplt_viewFactYDetalles";
     }
+
+    @GetMapping("/facturaN")
+    public String CrearFactura(Model model) throws SQLException, ClassNotFoundException {
+        
+        model.addAttribute("titulo", "Crear Factura");
+        factService.crearFactura();
+        return "Tmplt_listarFacturas";
+    }
+
 }
