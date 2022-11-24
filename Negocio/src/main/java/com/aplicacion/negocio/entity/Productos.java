@@ -22,8 +22,8 @@ public class Productos implements Serializable {
 
     private String Nombre_Categoria;
 
-
-    public Productos(Long id_Producto, String codigo, Long id_Categoria, Long id_Marca, String nombre, String detalle, Long precio, String tamano,
+    public Productos(Long id_Producto, String codigo, Long id_Categoria, Long id_Marca, String nombre, String detalle,
+            Long precio, String tamano,
             Long cantidad) {
         this.Id_Producto = id_Producto;
         this.Codigo = codigo;
@@ -34,7 +34,10 @@ public class Productos implements Serializable {
         this.Precio = precio;
         this.Tamano = tamano;
         this.Cantidad = cantidad;
-      
+    }
+
+    public Productos() {
+
     }
 
     public Long getId_Producto() {
@@ -116,8 +119,5 @@ public class Productos implements Serializable {
     public void setNombre_Categoria(String nombre_Categoria) {
         Nombre_Categoria = nombre_Categoria;
     }
-
-    
-
 
 }

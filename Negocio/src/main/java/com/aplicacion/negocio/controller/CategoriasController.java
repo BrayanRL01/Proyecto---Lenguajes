@@ -52,6 +52,7 @@ public class CategoriasController {
         return "nuevasubcategoria";
     }
 
+// Guarda la nueva categoría o subcategoría
     @PostMapping("/GuardarCategoria")
     public String GuardarCategoria(@ModelAttribute Categorias C) throws SQLException {
         CS.InsertarCategorias(C);
@@ -95,9 +96,14 @@ public class CategoriasController {
     }
 
     @GetMapping("/EliminarCategoria/{Id_Categoria}")
-    public String EliminarMarca(@PathVariable("Id_Categoria") Long Id_Categoria) throws SQLException {
+    public String EliminarCategoria(@PathVariable("Id_Categoria") Long Id_Categoria) throws SQLException {
         CS.EliminarCategoria(Id_Categoria);
         return "redirect:/listacategorias";
+    }
 
+    @GetMapping("/EliminarSubCategoria/{Id_Categoria}")
+    public String EliminarSubCategoria(@PathVariable("Id_Categoria") Long Id_Categoria) throws SQLException {
+        CS.EliminarCategoria(Id_Categoria);
+        return "redirect:/listasubcategorias";
     }
 }

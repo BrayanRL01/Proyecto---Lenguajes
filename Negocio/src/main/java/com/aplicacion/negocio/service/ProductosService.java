@@ -29,7 +29,7 @@ public class ProductosService {
         DB.call.execute();
 
         ResultSet RS = (ResultSet) DB.call.getObject(1);
-  
+
         while (RS.next()) {
             Productos P = new Productos(
                     RS.getLong(1),
@@ -40,9 +40,8 @@ public class ProductosService {
                     RS.getString(6),
                     RS.getLong(7),
                     RS.getString(8),
-                    RS.getLong(9)
-                );
-                    LP.add(P);
+                    RS.getLong(9));
+            LP.add(P);
         }
 
         RS.close();
@@ -50,5 +49,91 @@ public class ProductosService {
         DB.close();
 
         return LP;
+    }
+
+    public Productos ObtenerProductosPorID(Long id) throws SQLException {
+        Productos P = new Productos();
+
+        DB.init();
+
+        DB.prepareCall("BEGIN NEGOCIO.SP_OBTENER_UN_PRODUCTO(?,?,?,?); END;");
+
+        DB.call.setLong(1, id);
+        DB.call.registerOutParameter(2, OracleTypes.REF_CURSOR);
+        DB.call.registerOutParameter(3, OracleTypes.NUMBER);
+        DB.call.registerOutParameter(4, OracleTypes.VARCHAR);
+
+        DB.call.execute();
+        ResultSet RS = (ResultSet) DB.call.getObject(2);
+
+        while (RS.next()) {
+            P = new Productos(RS.getLong(1), RS.getString(2),
+                    RS.getLong(3), RS.getLong(4), RS.getString(5),
+                    RS.getString(6), RS.getLong(7),
+                    RS.getString(8), RS.getLong(9));
+        }
+
+        DB.call.close();
+        DB.close();
+
+        return P;
+    }
+
+    public void InsertarProducto(Productos P) throws SQLException {
+        DB.init();
+
+        DB.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_PRODUCTO (?,?,?,?,?,?,?,?,?,?); END;");
+
+        DB.call.setString(1, P.getCodigo());
+        DB.call.setLong(2, P.getId_Marca());
+        DB.call.setLong(3, P.getId_Categoria());
+        DB.call.setString(4, P.getNombre());
+        DB.call.setString(5, P.getDetalle());
+        DB.call.setLong(6, P.getPrecio());
+        DB.call.setString(7, P.getTamano());
+        DB.call.setLong(8, P.getCantidad());
+        DB.call.registerOutParameter(9, OracleTypes.NUMBER);
+        DB.call.registerOutParameter(10, OracleTypes.VARCHAR);
+
+        DB.call.execute();
+
+        DB.call.close();
+        DB.close();
+    }
+
+    public void ModificarProducto(Productos P) throws SQLException {
+        DB.init();
+
+        DB.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_PRODUCTO(?,?,?,?,?,?,?,?,?,?,?); END;");
+
+        DB.call.setLong(1, P.getId_Marca());
+        DB.call.setString(2, P.getCodigo());
+        DB.call.setLong(3, P.getId_Marca());
+        DB.call.setLong(4, P.getId_Categoria());
+        DB.call.setString(5, P.getNombre());
+        DB.call.setString(6, P.getDetalle());
+        DB.call.setLong(7, P.getPrecio());
+        DB.call.setString(8, P.getTamano());
+        DB.call.setLong(9, P.getCantidad());
+        DB.call.registerOutParameter(10, OracleTypes.NUMBER);
+        DB.call.registerOutParameter(11, OracleTypes.VARCHAR);
+
+        DB.call.execute();
+    }
+
+    public void EliminarProducto(Long Id) throws SQLException {
+
+        DB.init();
+
+        DB.prepareCall("BEGIN NEGOCIO.SP_ELIMINAR_PRODUCTO(?,?,?); END;");
+
+        DB.call.setLong(1, Id);
+        DB.call.registerOutParameter(2, OracleTypes.NUMBER);
+        DB.call.registerOutParameter(3, OracleTypes.VARCHAR);
+
+        DB.call.execute();
+
+        DB.call.close();
+        DB.close();
     }
 }

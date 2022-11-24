@@ -37,19 +37,19 @@
                     <td th:text="${tipo.getPrecio}"></td>
                     <td th:text="${tipo.getTamano}"></td>
                     <td th:text="${tipo.getCantidad}"></td>
-                    <!-- <td>
-                        <a th:href="@{/ModificarMarca/{Id_Marca}(Id_Marca=${tipo.getId_Marca})}">Editar</a>
+                    <td>
+                        <a th:href="@{/ModificarProducto/{Id_Producto}(Id_Producto=${tipo.getId_Producto})}">Editar</a>
                     </td>
                     <td>
-                        <a th:href="@{/EliminarMarca/{Id_Marca}(Id_Marca=${tipo.getId_Marca})}">Borrar</a>
-                    </td> -->
+                        <a th:href="@{/EliminarProducto/{Id_Producto}(Id_Producto=${tipo.getId_Producto})}">Borrar</a>
+                    </td>
                 </tr>
             </th:block>
         </tbody>
     </table>
-    <!-- <form class="form-inline my-2 my-lg-0" form-method="post" th:action="@{/nuevamarca}">
+    <form class="form-inline my-2 my-lg-0" form-method="post" th:action="@{/nuevoproducto}">
         <button class="btn btn-dark btn-lg " type="submit">Agregar Marca</button>
-    </form> -->
+    </form>
 </body>
 
 </html>

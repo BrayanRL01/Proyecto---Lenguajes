@@ -60,7 +60,6 @@ public class MarcasController {
     public String EliminarMarca(@PathVariable("Id_Marca") Long Id_Marca) throws SQLException {
         MS.EliminarMarca(Id_Marca);
         return "redirect:/listamarcas";
-
     }
 
 }

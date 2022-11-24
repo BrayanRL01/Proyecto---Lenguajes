@@ -136,7 +136,7 @@ public class CategoriasService {
     public void ModificarCategoria(Categorias C) throws SQLException {
         JDBC.init();
 
-        JDBC.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_CATEGORIA (?,?,?,?,?); END;");
+        JDBC.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_CATEGORIA(?,?,?,?,?); END;");
 
         JDBC.call.setLong(1, C.getId_Categoria());
         JDBC.call.setString(2, C.getNombre());
