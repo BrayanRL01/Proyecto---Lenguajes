@@ -106,7 +106,7 @@ public class ProductosService {
 
         DB.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_PRODUCTO(?,?,?,?,?,?,?,?,?,?,?); END;");
 
-        DB.call.setLong(1, P.getId_Marca());
+        DB.call.setLong(1, P.getId_Producto());
         DB.call.setString(2, P.getCodigo());
         DB.call.setLong(3, P.getId_Marca());
         DB.call.setLong(4, P.getId_Categoria());

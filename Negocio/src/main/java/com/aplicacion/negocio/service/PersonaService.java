@@ -168,18 +168,6 @@ public class PersonaService {
         // Prepare a PL/SQL call
         jdbc.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_PERSONA (?,?,?,?,?,?,?,?,?,?); END;");
 
-        /*
-         * IN_ID_PERSONA IN NUMBER,
-         * IN_CEDULA IN NUMBER,
-         * IN_NOMBRE IN VARCHAR2,
-         * IN_PRIMER_APELLIDO IN VARCHAR2,
-         * IN_SEGUNDO_APELLIDO IN VARCHAR2,
-         * IN_DIRECCION IN VARCHAR2,
-         * IN_EMAIL VARCHAR2,
-         * IN_TELEFONO IN VARCHAR2,
-         * IN_TIPO_PERSONA_ID IN NUMBER,
-         * RESULTADO OUT NUMBER
-         */
         jdbc.call.setLong(1, per.getId_persona());
         jdbc.call.setLong(2, per.getCedula());
         jdbc.call.setString(3, per.getNombre());
@@ -191,13 +179,7 @@ public class PersonaService {
         jdbc.call.setInt(9, per.getTipoPersonaId());
         jdbc.call.registerOutParameter(10, OracleTypes.NUMBER);
 
-        // se ejecuta el query
         jdbc.call.execute();
-
-        // Integer rset = (int) jdbc.call.getObject(10);
-        BigDecimal rset = (BigDecimal) jdbc.call.getObject(10);
-
-        System.out.println("+++++++++++++++++ Resultado de SP_MODIFICAR_PERSONA: " + rset);
         jdbc.call.close();
         jdbc.close();
     }
