@@ -46,8 +46,10 @@ public class CategoriasController {
 
     @GetMapping("/nuevasubcategoria")
     public String CrearSubCategoria(Model M) throws SQLException {
-        M.addAttribute("titulo", "Crear Categoria");
+        List<Categorias> Listasubcategorias = CS.ObtenerCategorias();
+        M.addAttribute("titulo", "Crear Subcategoria");
         M.addAttribute("Categorias", new Categorias());
+        M.addAttribute("Subcategoria", Listasubcategorias);
         M.addAttribute("boton", "Crear");
         return "nuevasubcategoria";
     }
@@ -77,8 +79,10 @@ public class CategoriasController {
     @GetMapping("/ModificarSubCategoria/{Id_Categoria}")
     public String ModificarSubCategoria(@PathVariable("Id_Categoria") Long Id_Categoria, Model M) throws SQLException {
         Categorias Categoria = CS.ObtenerCategoriasPorID(Id_Categoria);
+        List<Categorias> ListaCategorias = CS.ObtenerCategorias();
         M.addAttribute("titulo", "Editar Subcategoría");
         M.addAttribute("SubCategorias", Categoria);
+        M.addAttribute("Categorias", ListaCategorias);
         M.addAttribute("boton", "Actualizar");
         return "modificarsubcategoria";
     }

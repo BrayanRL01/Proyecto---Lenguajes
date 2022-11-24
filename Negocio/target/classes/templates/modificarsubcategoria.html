@@ -42,9 +42,13 @@
                                     th:field="*{Nombre}" placeholder="Nombre de categoría">
                                 <label for="floatingInput">Nombre de Categoría</label>
                                 <br>
-                                <input type="text" class="form-control rounded-3" id="floatingInput"
-                                    th:field="*{Categoria_Madre_Id}" placeholder="Nombre de la marca">
-                                <label for="floatingInput"></label>
+                                <div class="form-row mb-3">
+                                    <select th:field="*{Categoria_Madre_Id}" class="form-control form-control-sm col-md-6"
+                                        id="Id_Categoria">
+                                        <option th:each="x:${Categorias}" th:value="${x.getId_Categoria}"
+                                            th:text="${x.getNombre}">
+                                    </select>
+                                </div>
                             </div>
                             <button class="w-100 mb-2 btn btn-lg rounded-3 btn-success" type="submit"
                                 th:text="${boton}"></button>
