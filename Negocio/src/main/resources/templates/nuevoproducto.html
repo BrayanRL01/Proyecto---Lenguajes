@@ -54,14 +54,14 @@
                                 <select th:field="*{Id_Marca}" class="form-control form-control-sm col-md-6"
                                     id="Id_Marca">
                                     <option th:each="x:${Marca}" th:value="${x.getId_Marca}"
-                                        th:text="${x.getNombre_Marca}" th:selected="${Producto.getId_Producto}">
+                                        th:text="${x.getNombre_Marca}">
                                 </select>
                             </div>
                             <div class="form-row mb-3">
                                 <select th:field="*{Id_Categoria}" class="form-control form-control-sm col-md-6"
                                     id="Id_Categoria">
                                     <option th:each="x:${Subcategoria}" th:value="${x.getId_Categoria}"
-                                        th:text="${x.getNombre}" th:selected="${Producto.getId_Producto}">
+                                        th:text="${x.getNombre}">
                                 </select>
                             </div>
                             <div class="form-floating mb-3">
