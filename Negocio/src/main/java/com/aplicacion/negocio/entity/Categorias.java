@@ -1,8 +1,10 @@
 package com.aplicacion.negocio.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.*;
+
 @Entity
 public class Categorias implements Serializable {
     @Id
@@ -13,9 +15,15 @@ public class Categorias implements Serializable {
     private Long Categoria_Madre_Id;
 
     public Categorias(Long id_Categoria, String nombre, Long categoria_Madre_Id) {
-        Id_Categoria = id_Categoria;
-        Nombre = nombre;
-        Categoria_Madre_Id = categoria_Madre_Id;
+        this.Id_Categoria = id_Categoria;
+        this.Nombre = nombre;
+        this.Categoria_Madre_Id = categoria_Madre_Id;
+    }
+
+    public Categorias() {
+    }
+
+    public Categorias(Long id, String n, BigDecimal m) {
     }
 
     public Long getId_Categoria() {

@@ -29,57 +29,19 @@ public class PersonaService {
         jdbc.init();
 
         // Prepare a PL/SQL call
-        jdbc.prepareCall("BEGIN NEGOCIO.SP_OBTENER_PERSONAS (?); END;");
+        jdbc.prepareCall("BEGIN NEGOCIO.SP_OBTENER_PERSONAS (?,?,?); END;");
 
         // se le indica la posicion del parametro y el tipo
         jdbc.call.registerOutParameter(1, OracleTypes.REF_CURSOR);
+        jdbc.call.registerOutParameter(2, OracleTypes.NUMBER);
+        jdbc.call.registerOutParameter(3, OracleTypes.VARCHAR);
         // se ejecuta el query
         jdbc.call.execute();
         // rset guarda el resultado del llamado
         ResultSet rset = (ResultSet) jdbc.call.getObject(1);
-        // como ver el nombre de las columnas
-        /*
-         * ResultSetMetaData rsmd = rset.getMetaData();
-         * String name = "1-" + rsmd.getColumnName(1);
-         * name += " 2-" + rsmd.getColumnName(2);
-         * name += " 3-" + rsmd.getColumnName(3);
-         * name += " 4-" + rsmd.getColumnName(4);
-         * name += " 5-" + rsmd.getColumnName(5);
-         * name += " 6-" + rsmd.getColumnName(6);
-         * name += " 7-" + rsmd.getColumnName(7);
-         * name += " 8-" + rsmd.getColumnName(8);
-         * name += " 9-" + rsmd.getColumnName(9);
-         * //name += " 9-" + rsmd.getColumnName(10);
-         * System.out.println(name);
-         */
-        // Dump the cursor
+  
         while (rset.next()) {
-            /*
-             * String nombre = rset.getString("NOMBRE");
-             * Long cedula = rset.getLong("CEDULA");
-             * String apellido1 = rset.getString("PRIMER_APELLIDO");
-             * String apellido2 = rset.getString("SEGUNDO_APELLIDO");
-             * String direccion = rset.getString("DIRECCION");
-             * String mail = rset.getString("EMAIL");
-             * String telefono = rset.getString("TELEFONO");
-             * String tipoP = rset.getString("TIPO_PERSONA");
-             * System.out.println("dsadadsdaasdsaasds "+cedula);
-             * 
-             * // PER.NOMBRE, PER.PRIMER_APELLIDO, PER.SEGUNDO_APELLIDO, PER.DIRECCION,
-             * PER.EMAIL, PER.TELEFONO, PER.TIPO_PERSONA
-             * /* var += ("Email: "+mail+", "+
-             * "Nombre: "+nombre+", "+
-             * "apellido1: "+apellido1+", "+
-             * "apellido2: "+apellido2+", "+
-             * "direccion: "+direccion+", "+
-             * "telefono: "+telefono+", "+
-             * "tipoP: "+tipoP+"\n"
-             * ); // puede llamar por columna o por numero de columna
-             */
-            // 1-ID_PERSONA 2-CEDULA 3-NOMBRE 4-PRIMER_APELLIDO 5-SEGUNDO_APELLIDO
-            // 6-DIRECCION 7-EMAIL 8-TELEFONO
-            // Long id_persona, Long cedula, String nombre, String primerAp, String
-            // segundoAp, String direccion, String email, String telefono
+   
             Personas per = new Personas(
                     rset.getLong(1),
                     rset.getLong(2),

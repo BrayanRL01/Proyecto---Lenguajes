@@ -5,36 +5,44 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "TAB_CATEGORIAS", schema = "NEGOCIO")
+@Table(name = "TAB_PRODUCTOS", schema = "NEGOCIO")
 public class Productos implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private Long Id_Categoria;
+    private Long Id_Producto;
     private String Codigo;
+    private Long Id_Categoria;
+    private Long Id_Marca;
     private String Nombre;
     private String Detalle;
-    private long Precio;
+    private Long Precio;
     private String Tamano;
     private Long Cantidad;
 
-    public Productos(Long id_Categoria, String codigo, String nombre, String detalle, long precio, String tamano,
+    private String Nombre_Categoria;
+
+
+    public Productos(Long id_Producto, String codigo, Long id_Categoria, Long id_Marca, String nombre, String detalle, Long precio, String tamano,
             Long cantidad) {
-        Id_Categoria = id_Categoria;
-        Codigo = codigo;
-        Nombre = nombre;
-        Detalle = detalle;
-        Precio = precio;
-        Tamano = tamano;
-        Cantidad = cantidad;
+        this.Id_Producto = id_Producto;
+        this.Codigo = codigo;
+        this.Id_Categoria = id_Categoria;
+        this.Id_Marca = id_Marca;
+        this.Nombre = nombre;
+        this.Detalle = detalle;
+        this.Precio = precio;
+        this.Tamano = tamano;
+        this.Cantidad = cantidad;
+      
     }
 
-    public Long getId_Categoria() {
-        return Id_Categoria;
+    public Long getId_Producto() {
+        return Id_Producto;
     }
 
-    public void setId_Categoria(Long id_Categoria) {
-        Id_Categoria = id_Categoria;
+    public void setId_Producto(Long id_Producto) {
+        Id_Producto = id_Producto;
     }
 
     public String getCodigo() {
@@ -61,11 +69,11 @@ public class Productos implements Serializable {
         Detalle = detalle;
     }
 
-    public long getPrecio() {
+    public Long getPrecio() {
         return Precio;
     }
 
-    public void setPrecio(long precio) {
+    public void setPrecio(Long precio) {
         Precio = precio;
     }
 
@@ -84,5 +92,32 @@ public class Productos implements Serializable {
     public void setCantidad(Long cantidad) {
         Cantidad = cantidad;
     }
+
+    public Long getId_Categoria() {
+        return Id_Categoria;
+    }
+
+    public void setId_Categoria(Long id_Categoria) {
+        Id_Categoria = id_Categoria;
+    }
+
+    public Long getId_Marca() {
+        return Id_Marca;
+    }
+
+    public void setId_Marca(Long id_Marca) {
+        Id_Marca = id_Marca;
+    }
+
+    public String getNombre_Categoria() {
+        return Nombre_Categoria;
+    }
+
+    public void setNombre_Categoria(String nombre_Categoria) {
+        Nombre_Categoria = nombre_Categoria;
+    }
+
+    
+
 
 }

@@ -1,6 +1,5 @@
 package com.aplicacion.negocio.service;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,22 +18,18 @@ public class MarcasService {
     JDBCconnection JDBC = new JDBCconnection();
 
     public List<Marcas> ObtenerMarcas() throws SQLException {
-        // Crea la lista para los objetos.
         List<Marcas> ArrayMarcas = new ArrayList<>();
 
-        // Realiza la conexión a la DB.
         JDBC.init();
 
-        // Prepara el llamado al procedimiento.
-        JDBC.prepareCall("BEGIN NEGOCIO.SP_OBTENER_MARCAS (?); END;");
+        JDBC.prepareCall("BEGIN NEGOCIO.SP_OBTENER_MARCAS (?,?,?); END;");
 
-        // Se le indica la posición del parametro y el tipo.
         JDBC.call.registerOutParameter(1, OracleTypes.REF_CURSOR);
+        JDBC.call.registerOutParameter(2, OracleTypes.NUMBER);
+        JDBC.call.registerOutParameter(3, OracleTypes.VARCHAR);
 
-        // Se ejecuta el query.
         JDBC.call.execute();
 
-        // RS guarda el resultado del llamado.
         ResultSet RS = (ResultSet) JDBC.call.getObject(1);
 
         while (RS.next()) {
@@ -43,7 +38,6 @@ public class MarcasService {
                     RS.getString(2));
             ArrayMarcas.add(M);
         }
-        // Close all the resources
         RS.close();
         JDBC.call.close();
         JDBC.close();
@@ -55,10 +49,12 @@ public class MarcasService {
         Marcas M;
         JDBC.init();
 
-        JDBC.prepareCall("BEGIN NEGOCIO.SP_OBTENER_MARCA_ID (?,?); END;");
+        JDBC.prepareCall("BEGIN NEGOCIO.SP_OBTENER_UNA_MARCA (?,?,?,?); END;");
 
         JDBC.call.setLong(1, id);
         JDBC.call.registerOutParameter(2, OracleTypes.VARCHAR);
+        JDBC.call.registerOutParameter(3, OracleTypes.NUMBER);
+        JDBC.call.registerOutParameter(4, OracleTypes.VARCHAR);
 
         JDBC.call.execute();
 
@@ -76,10 +72,11 @@ public class MarcasService {
 
         JDBC.init();
 
-        JDBC.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_MARCAS (?,?); END;");
+        JDBC.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_MARCA (?,?,?); END;");
 
         JDBC.call.setString(1, M.getNombre_Marca());
         JDBC.call.registerOutParameter(2, OracleTypes.NUMBER);
+        JDBC.call.registerOutParameter(2, OracleTypes.VARCHAR);
 
         JDBC.call.execute();
 
@@ -90,29 +87,25 @@ public class MarcasService {
     public void ModificarMarca(Marcas M) throws SQLException {
         JDBC.init();
 
-        // Prepare a PL/SQL call
-        JDBC.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_MARCA (?,?,?); END;");
+        JDBC.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_MARCA (?,?,?,?); END;");
 
         JDBC.call.setLong(1, M.getId_Marca());
         JDBC.call.setString(2, M.getNombre_Marca());
         JDBC.call.registerOutParameter(3, OracleTypes.NUMBER);
+        JDBC.call.registerOutParameter(4, OracleTypes.VARCHAR);
 
-        // se ejecuta el query
         JDBC.call.execute();
-
-        BigDecimal BD = (BigDecimal) JDBC.call.getObject(3);
-
-        System.out.println("Modificación de Marca: " + BD);
     }
 
     public void EliminarMarca(Long Id_Marca) throws SQLException {
 
         JDBC.init();
 
-        JDBC.prepareCall("BEGIN NEGOCIO.SP_ELIMINAR_MARCAS (?,?); END;");
+        JDBC.prepareCall("BEGIN NEGOCIO.SP_ELIMINAR_MARCA (?,?,?); END;");
 
         JDBC.call.setLong(1, Id_Marca);
         JDBC.call.registerOutParameter(2, OracleTypes.NUMBER);
+        JDBC.call.registerOutParameter(3, OracleTypes.VARCHAR);
 
         JDBC.call.execute();
 
