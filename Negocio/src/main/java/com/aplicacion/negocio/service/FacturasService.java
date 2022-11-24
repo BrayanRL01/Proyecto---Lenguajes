@@ -158,40 +158,18 @@ public class FacturasService {
 
     public void crearFactura() throws SQLException, ClassNotFoundException {
         jdbc.init();
+        ArrayList<DetalleObj> arrayL = new ArrayList<>();
+       //----------------------------------
+       Dictionary map = (Dictionary) jdbc.getConn().getTypeMap();
+       map.put("OBJ_DETALLE_FACTURA", Class.forName("com.aplicacion.negocio.entity.DetalleObj"));
+       map.put("OBJ_DETALLES_FACTURA",Class.forName("com.aplicacion.negocio.entity.FacturaObj"));
+       
+       //-------
 
-        //create obj bs for testing
-        //FacturaObj facturaObj = new FacturaObj("NEGOCIO.OBJ_DETALLES_FACTURA");
-
-        //String sql_type, Long productoID, Long cantidad, Float precio, Float IVA
-        //DetalleObj detalle1 = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA", 1L, 2L, 12323.5F, 1231321.4F);
-        Object[] project1 = new Object[] {"NEGOCIO.OBJ_DETALLE_FACTURA", 1L, 2L, 12323.5F, 1231321.4F};
-        //DetalleObj detalle2 = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA", 2L, 5L, 4512.5F, 123.4F);
-        Object[] project2 = new Object[] {"NEGOCIO.OBJ_DETALLE_FACTURA", 2L, 5L, 4512.5F, 123.4F};
-        //facturaObj.add(detalle1);
-        //facturaObj.add(detalle2);
-        // ------------------------------
-
-
-        // descriptor for OBJECT type defined in database
-        StructDescriptor projectTypeDesc = StructDescriptor.createDescriptor("NEGOCIO.OBJ_DETALLE_FACTURA", jdbc.getConn());
-        //StructDescriptor projectTypeDesc2 = StructDescriptor.createDescriptor("NEGOCIO.OBJ_DETALLES_FACTURA", jdbc.getConn());
-
-        // each struct is one ProjectType object
-        STRUCT structProject1 = new STRUCT(projectTypeDesc, jdbc.getConn(),project1);
-        STRUCT structProject2 = new STRUCT(projectTypeDesc, jdbc.getConn(), project2);
-
-        STRUCT[] structArrayOfProjects = {structProject1, structProject2};
-
-        // descriptor of TABLE type defined in database
-        ArrayDescriptor projectTypeArrayDesc = ArrayDescriptor.createDescriptor("NEGOCIO.OBJ_DETALLES_FACTURA", jdbc.getConn());
-
-        // array holding two ProjectType objects
-        ARRAY arrayOfProjects = new ARRAY(projectTypeArrayDesc, jdbc.getConn(), structArrayOfProjects);
-
-        // ------------------
-        
-        //ARRAY a = new ARRAY(des, jdbc.getConn(), detalle1);
-
+       DetalleObj detalle1 = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA", 1L, 2L, 12323.5F, 1231321.4F);
+       DetalleObj detalle2 = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA", 2L, 5L, 4512.5F, 123.4F);
+       arrayL.add(detalle1);
+       arrayL.add(detalle2);
         // Prepare a PL/SQL call
         jdbc.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_FACTURA (?,?,?,?,?,?,?,?); END;");
 
@@ -201,7 +179,7 @@ public class FacturasService {
         jdbc.call.setLong(3, 1);
         jdbc.call.setLong(4, 1);
         jdbc.call.setLong(5, 1);
-        jdbc.call.setArray(6, arrayOfProjects);
+        jdbc.call.setObject(6, arrayL);
         jdbc.call.registerOutParameter(7, OracleTypes.NUMBER);
         jdbc.call.registerOutParameter(8, OracleTypes.VARCHAR);
 
@@ -217,9 +195,51 @@ public class FacturasService {
                     MENSAJE OUT VARCHAR2
          */
         // se ejecuta el query
+
+       
         jdbc.call.execute();
 
+        
         jdbc.call.close();
         jdbc.close();
     }
 }
+/*
+
+        ArrayDescriptor arraydesc = ArrayDescriptor.createDescriptor("NEGOCIO.OBJ_DETALLES_FACTURA", jdbc.getConn()); //(sql_type_name, connection);
+       
+       DetalleObj detalle1 = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA", 1L, 2L, 12323.5F, 1231321.4F);
+       DetalleObj detalle2 = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA", 2L, 5L, 4512.5F, 123.4F);
+       
+       Object[] obj = new Object[2];
+       obj[0] = detalle1;
+       obj[1] = detalle2;
+       
+       ARRAY array = new ARRAY(arraydesc, jdbc.getConn(), obj);
+       //-------
+
+        // Prepare a PL/SQL call
+        jdbc.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_FACTURA (?,?,?,?,?,?,?,?); END;");
+
+        // se le indica la posicion del parametro y el tipo
+        jdbc.call.setLong(1, 1);
+        jdbc.call.setLong(2, 1);
+        jdbc.call.setLong(3, 1);
+        jdbc.call.setLong(4, 1);
+        jdbc.call.setLong(5, 1);
+        jdbc.call.setArray(6, array);
+        jdbc.call.registerOutParameter(7, OracleTypes.NUMBER);
+        jdbc.call.registerOutParameter(8, OracleTypes.VARCHAR);
+
+        /*
+                    IN_ID_VENDEDOR IN NUMBER, 
+                    IN_ID_CLIENTE IN NUMBER, 
+                    IN_TIPO_VENTA_ID IN NUMBER, 
+                    IN_TOTAL_ENTREGA IN NUMBER, 
+                    IN_MEDIO_PAGO_ID IN NUMBER, 
+                    IN_OBJ_DETALLES_FACTURA IN OBJ_DETALLES_FACTURA, 
+
+                    RESULTADO OUT NUMBER, 
+                    MENSAJE OUT VARCHAR2
+         */
+        // se ejecuta el query
