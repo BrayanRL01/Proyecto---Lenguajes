@@ -1153,6 +1153,20 @@ RESULTADO:= 0;
 END;
 /
 
+CREATE OR REPLACE PROCEDURE SP_MODIFICAR_PRINCIPALES (IN_ID_CATEGORIA IN NUMBER, IN_NOMBRE IN VARCHAR2, RESULTADO OUT NUMBER, MENSAJE OUT VARCHAR2) AS
+BEGIN
+UPDATE NEGOCIO.TAB_CATEGORIAS
+SET 
+NOMBRE = IN_NOMBRE
+WHERE ID_CATEGORIA = IN_ID_CATEGORIA;
+RESULTADO :=0;
+EXCEPTION
+WHEN OTHERS THEN
+    MENSAJE := 'No se pudo modificar la marca ya que el nuevo nombre esta siendo utilizado por otra en el sistema';
+    RESULTADO := 1;
+END;
+/
+
 --Este procedimiento modifica una categoria
 CREATE OR REPLACE PROCEDURE SP_MODIFICAR_CATEGORIA (IN_ID_CATEGORIA IN NUMBER, IN_NOMBRE IN VARCHAR2, IN_CATEGORIA_MADRE_ID IN NUMBER,
 RESULTADO OUT NUMBER, MENSAJE OUT VARCHAR2) AS 
@@ -1321,20 +1335,15 @@ END;
 
 */
 
-
-
 /*
 var print_test refcursor
 exec SP_OBTENER_UNA_MARCA(10, :print_test);
 print print_test;
 
 
-
-
 var print_test VARCHAR2
 exec SP_OBTENER_UNA_MARCA(10, :print_test);
 print print_test;
-
 
 
 var vtest varchar2(100);

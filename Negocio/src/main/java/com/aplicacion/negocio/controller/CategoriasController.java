@@ -89,7 +89,7 @@ public class CategoriasController {
 
     @PostMapping("/EditarCategoria")
     public String EditarCategoria(@ModelAttribute Categorias C) throws SQLException {
-        CS.ModificarCategoria(C);
+        CS.ModificarPrincipales(C);
         return "redirect:/listacategorias";
     }
 
