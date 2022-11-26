@@ -12,13 +12,11 @@ import com.aplicacion.negocio.entity.FacturasConDetalles;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 import oracle.jdbc.OracleTypes;
 import oracle.sql.ARRAY;
 import oracle.sql.ArrayDescriptor;
-import oracle.sql.StructDescriptor;
 import org.springframework.stereotype.Service;
 
 /**
@@ -154,8 +152,6 @@ public class FacturasService {
         return factura;
     }
 
-
-    
     public void crearFactura() throws SQLException, ClassNotFoundException {
         int numDetalles = 2;
         jdbc.init();
@@ -169,21 +165,25 @@ public class FacturasService {
         DetalleObj[] detallesFactura = new DetalleObj[numDetalles] ;
         
         //Se instancian los objetos
-        detallesFactura[0] = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA", 1, 3, 4000.0, 0.3);
+        detallesFactura[0] = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA", 1, 2, 4000.0, 0.3);
         detallesFactura[1] = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA", 3, 3, 6000.0, 0.3);
         
         //Se define el ARRAY apartir de la lista
-        ArrayDescriptor des = ArrayDescriptor.createDescriptor("NEGOCIO.FACTURA_ARR_OBJ", jdbc.getConn());
+        ArrayDescriptor des = ArrayDescriptor.createDescriptor("NEGOCIO.OBJ_DETALLES_FACTURA", jdbc.getConn());
         ARRAY array_a_enviar = new ARRAY(des,  jdbc.getConn(), detallesFactura );       
         
-        //FacturaObj facturaObj1 = new FacturaObj("NEGOCIO.OBJ_DETALLE_FACTURA", 1L, 2L, 12323.5F, 1231321.4F); 
-        
         // Prepare a PL/SQL call
-        jdbc.prepareCall("BEGIN NEGOCIO.TEST_FACTURA(?,?); END;");
+        jdbc.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_FACTURA(?,?,?,?,?,?,?,?); END;");
         
         // se le indica la posicion del parametro y el tipo
-        jdbc.call.setArray(1,  array_a_enviar);
-        jdbc.call.registerOutParameter(2, OracleTypes.NUMBER);
+        jdbc.call.setInt(1, 1);
+        jdbc.call.setInt(2, 3);
+        jdbc.call.setInt(3, 1);
+        jdbc.call.setInt(4, 1);
+        jdbc.call.setInt(5, 1);
+        jdbc.call.setArray(6, array_a_enviar);
+        jdbc.call.registerOutParameter(7, OracleTypes.NUMBER);
+        jdbc.call.registerOutParameter(8, OracleTypes.VARCHAR);
         /*
                     IN_ID_VENDEDOR IN NUMBER, 
                     IN_ID_CLIENTE IN NUMBER, 
@@ -191,18 +191,18 @@ public class FacturasService {
                     IN_TOTAL_ENTREGA IN NUMBER, 
                     IN_MEDIO_PAGO_ID IN NUMBER, 
                     IN_OBJ_DETALLES_FACTURA IN OBJ_DETALLES_FACTURA, 
-
                     RESULTADO OUT NUMBER, 
                     MENSAJE OUT VARCHAR2
          */
-        
         // se ejecuta el query
+        
         jdbc.call.execute();
-        int total = (int) jdbc.call.getInt(2);
-        System.out.println("Si funciono hay un 0: " +  total); 
+        int Resultado = (int) jdbc.call.getInt(7);
+        String Mensaje = (String) jdbc.call.getString(8);
+        System.out.println("Codigo Resultado: " +  Resultado + " " +  Mensaje); 
         jdbc.call.close();
         jdbc.close();
-    }
+    } 
 }
 /*
 
