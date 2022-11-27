@@ -76,7 +76,7 @@ public class MarcasService {
 
         JDBC.call.setString(1, M.getNombre_Marca());
         JDBC.call.registerOutParameter(2, OracleTypes.NUMBER);
-        JDBC.call.registerOutParameter(2, OracleTypes.VARCHAR);
+        JDBC.call.registerOutParameter(3, OracleTypes.VARCHAR);
 
         JDBC.call.execute();
 
@@ -92,9 +92,10 @@ public class MarcasService {
         JDBC.call.setLong(1, M.getId_Marca());
         JDBC.call.setString(2, M.getNombre_Marca());
         JDBC.call.registerOutParameter(3, OracleTypes.NUMBER);
-        JDBC.call.registerOutParameter(4, OracleTypes.VARCHAR);
+        JDBC.call.registerOutParameter(4, OracleTypes.VARCHAR); 
 
         JDBC.call.execute();
+
     }
 
     public void EliminarMarca(Long Id_Marca) throws SQLException {
@@ -108,6 +109,8 @@ public class MarcasService {
         JDBC.call.registerOutParameter(3, OracleTypes.VARCHAR);
 
         JDBC.call.execute();
+
+        // String Mensaje = (String) JDBC.call.getObject(3);
 
         JDBC.call.close();
         JDBC.close();

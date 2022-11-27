@@ -9,6 +9,16 @@
 </head>
 
 <body>
+    <div class="alert alert-primary" role="alert" th:if="${mensaje != null}">
+        <label th:text="${mensaje}"></label>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div class="alert alert-danger" role="alert" th:if="${error != null}">
+        <label th:text="${error}"></label>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+
     <table class="table table-dark table-striped" id="tabla">
         <thead class="thead-dark">
             <tr>
@@ -38,7 +48,7 @@
         </tbody>
     </table>
     <form class="form-inline my-2 my-lg-0" form-method="post" th:action="@{/nuevasubcategoria}">
-        <button class="btn btn-dark btn-lg " type="submit">Agregar Categoria</button>
+        <button class="btn btn-dark btn-lg " type="submit">Agregar Subcategoría</button>
     </form>
 </body>
 

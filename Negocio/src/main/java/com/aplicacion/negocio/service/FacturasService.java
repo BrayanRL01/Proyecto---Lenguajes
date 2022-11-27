@@ -36,10 +36,12 @@ public class FacturasService {
         jdbc.init();
 
         // Prepare a PL/SQL call
-        jdbc.prepareCall("BEGIN NEGOCIO.SP_OBTENER_FACTURAS (?); END;");
+        jdbc.prepareCall("BEGIN NEGOCIO.SP_OBTENER_FACTURAS (?,?,?); END;");
 
         // se le indica la posicion del parametro y el tipo
         jdbc.call.registerOutParameter(1, OracleTypes.REF_CURSOR);
+        jdbc.call.registerOutParameter(2, OracleTypes.NUMBER);
+        jdbc.call.registerOutParameter(3, OracleTypes.VARCHAR);
         // se ejecuta el query
         jdbc.call.execute();
         // rset guarda el resultado del llamado

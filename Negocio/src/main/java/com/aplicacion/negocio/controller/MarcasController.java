@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aplicacion.negocio.entity.Marcas;
 import com.aplicacion.negocio.service.MarcasService;
@@ -36,8 +37,9 @@ public class MarcasController {
     }
 
     @PostMapping("/GuardarMarca")
-    public String GuardarMarca(@ModelAttribute Marcas M) throws SQLException {
+    public String GuardarMarca(@ModelAttribute Marcas M, RedirectAttributes flash) throws SQLException {
         MS.InsertarMarcas(M);
+        flash.addFlashAttribute("mensaje", "Marca creada con éxito.");
         return "redirect:/listamarcas";
     }
 
@@ -51,14 +53,16 @@ public class MarcasController {
     }
 
     @PostMapping("/EditarMarca")
-    public String EditarMarca(@ModelAttribute Marcas M) throws SQLException {
+    public String EditarMarca(@ModelAttribute Marcas M, RedirectAttributes flash) throws SQLException {
         MS.ModificarMarca(M);
+        flash.addFlashAttribute("mensaje", "Marca actualizada con éxito.");
         return "redirect:/listamarcas";
     }
 
     @GetMapping("/EliminarMarca/{Id_Marca}")
-    public String EliminarMarca(@PathVariable("Id_Marca") Long Id_Marca) throws SQLException {
+    public String EliminarMarca(@PathVariable("Id_Marca") Long Id_Marca, RedirectAttributes flash) throws SQLException {
         MS.EliminarMarca(Id_Marca);
+        flash.addFlashAttribute("mensaje", "Marca eliminada con éxito.");
         return "redirect:/listamarcas";
     }
 

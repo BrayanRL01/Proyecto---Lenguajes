@@ -9,6 +9,11 @@
 </head>
 
 <body>
+    <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${mensaje != null}">
+        <label th:text="${mensaje}"></label>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
     <table class="table table-dark table-striped" id="tabla">
         <thead class="thead-dark">
             <tr>

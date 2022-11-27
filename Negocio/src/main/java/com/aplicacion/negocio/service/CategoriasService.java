@@ -94,8 +94,6 @@ public class CategoriasService {
             C = new Categorias(N.getLong(1), N.getString(2), N.getLong(3));
         }
 
-        // C = new Categorias(N.getLong(1), N.getString(2), N.getLong(3));
-
         JDBC.call.close();
         JDBC.close();
 
@@ -145,7 +143,6 @@ public class CategoriasService {
 
         JDBC.call.execute();
     }
-
 
     public void ModificarCategoria(Categorias C) throws SQLException {
         JDBC.init();

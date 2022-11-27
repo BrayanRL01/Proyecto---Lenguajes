@@ -6,10 +6,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aplicacion.negocio.entity.Categorias;
 import com.aplicacion.negocio.service.CategoriasService;
@@ -20,7 +22,7 @@ public class CategoriasController {
     @Autowired
     CategoriasService CS;
 
-// Lista de categorías y subcategorías
+    // Lista de categorías y subcategorías
     @GetMapping("/listacategorias")
     public String Index(Model M) throws SQLException {
         List<Categorias> ListaCategorias = CS.ObtenerCategorias();
@@ -35,7 +37,7 @@ public class CategoriasController {
         return "listasubcategorias";
     }
 
-// Crear nuevas categorías y subcategorías.
+    // Crear nuevas categorías y subcategorías.
     @GetMapping("/nuevacategoria")
     public String CrearCategoria(Model M) throws SQLException {
         M.addAttribute("titulo", "Crear Categoria");
@@ -54,7 +56,7 @@ public class CategoriasController {
         return "nuevasubcategoria";
     }
 
-// Guarda la nueva categoría o subcategoría
+    // Guarda la nueva categoría o subcategoría
     @PostMapping("/GuardarCategoria")
     public String GuardarCategoria(@ModelAttribute Categorias C) throws SQLException {
         CS.InsertarCategorias(C);
@@ -93,9 +95,21 @@ public class CategoriasController {
         return "redirect:/listacategorias";
     }
 
+    private boolean everythingOk() {
+        return true;
+    }
+
     @PostMapping("/EditarSubCategoria")
-    public String EditarSubCategoria(@ModelAttribute Categorias C) throws SQLException {
+    public String EditarSubCategoria(@ModelAttribute Categorias C, RedirectAttributes M)
+            throws SQLException {
+        if (!everythingOk()) {
+            M.addFlashAttribute("error",
+                    "No se actualizó la subcategoría debido a que el nombre escrito ya está en uso.");
+            return "redirect:/listasubcategorias";
+        }
+        
         CS.ModificarCategoria(C);
+        M.addFlashAttribute("mensaje", "Se actualizó la subcategoría.");
         return "redirect:/listasubcategorias";
     }
 
