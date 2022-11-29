@@ -66,12 +66,12 @@ public class PersonasController {
     // postMapping
     @PostMapping("/savePersona")
     public String GuardarUsuario(@ModelAttribute Personas usuarios) throws SQLException {
-        personaService.actualizarPersona(usuarios);
+        personaService.savePersonas(usuarios);
         return "redirect:/personaLista";
     }
     
     @PostMapping("/actualizaPersona")
-    public String actualizarTpersona(@ModelAttribute Personas usuarios) throws SQLException {
+    public String actualizarPersona(@ModelAttribute Personas usuarios) throws SQLException {
         personaService.actualizarPersona(usuarios);
         return "redirect:/personaLista";
     }   

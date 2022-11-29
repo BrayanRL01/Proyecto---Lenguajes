@@ -67,8 +67,20 @@ public class PersonaService {
         jdbc.init();
 
         // Prepare a PL/SQL call
-        jdbc.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_PERSONA (?,?,?,?,?,?,?,?); END;");
-
+        jdbc.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_PERSONA (?,?,?,?,?,?,?,?,?,?); END;");
+        
+        jdbc.call.setLong(1,per.getCedula());
+        jdbc.call.setString(2, per.getNombre());
+        jdbc.call.setString(3, per.getPrimerAp());
+        jdbc.call.setString(4, per.getSegundoAp());
+        jdbc.call.setString(5, per.getDireccion());
+        jdbc.call.setString(6, per.getEmail());
+        jdbc.call.setString(7, per.getTelefono());
+        jdbc.call.setInt(8, per.getTipoPersonaId());
+        jdbc.call.registerOutParameter(9, OracleTypes.NUMBER);
+        jdbc.call.registerOutParameter(10, OracleTypes.VARCHAR);
+        
+        
         jdbc.call.execute();
 
         jdbc.call.close();
