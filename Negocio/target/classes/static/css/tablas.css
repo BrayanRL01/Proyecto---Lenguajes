@@ -84,12 +84,12 @@ tr:hover a{
 }
 
 .btn-agregar{
-    width: 280px;
-    height: 60px;
+    width: 650px;
+    height: 55px;
     color: white;
     background-color: #009a87;
     border-color: transparent;
-    font-size: 19px;
+    font-size: 25px;
     font-weight: 600;
     cursor: pointer;
     transition: background-color .5s;

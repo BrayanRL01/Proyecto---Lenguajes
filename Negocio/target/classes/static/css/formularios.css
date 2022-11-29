@@ -41,7 +41,7 @@ form{
     align-items: center;
 }
 
-input, .tipoPersona{
+input, .desplegable{
     /*margin-left: 20px;*/
     margin-top: 20px;
     border: #009a87 solid 1px;
@@ -55,7 +55,7 @@ input, .tipoPersona{
     padding-left: 10px;
 }
 
-.tipoPersona{
+.desplegable{
     width: 414px;
     height: 44px;
     /*color: rgb(133, 133, 133);*/
@@ -65,7 +65,7 @@ input::placeholder{
     font-size: 19px;
 }
 
-input:focus, .tipoPersona:focus{
+input:focus, .desplegable:focus{
     transition: outline .1s;
     border: none;
     outline: #f68a53 solid 3px;
@@ -80,8 +80,8 @@ input:focus, .tipoPersona:focus{
 }
 
 .botones button{
-    width: 240px;
-    height: 50px;
+    width: 200px;
+    height: 40px;
     color: white;
     background-color: #009a87;
     border-color: transparent;
