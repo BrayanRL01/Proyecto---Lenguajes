@@ -23,15 +23,18 @@ public class MarcasController {
     @GetMapping("/listamarcas")
     public String Index(Model M) throws SQLException {
         List<Marcas> ListaMarcas = MS.ObtenerMarcas();
+        M.addAttribute("titulo", "Marcas");
         M.addAttribute("TAB_MARCAS", ListaMarcas);
         return "listamarcas";
     }
 
     @GetMapping("/nuevamarca")
     public String CrearMarca(Model M) throws SQLException {
-        M.addAttribute("titulo", "Crear Marca");
+        M.addAttribute("titulo", "Marcas");
+        M.addAttribute("accion", "añadiendo");
+        M.addAttribute("prefijo", "a");
         M.addAttribute("Marcas", new Marcas());
-        M.addAttribute("boton", "Crear");
+        M.addAttribute("boton", "Añadir");
         return "nuevamarca";
     }
 
@@ -44,7 +47,9 @@ public class MarcasController {
     @GetMapping("/ModificarMarca/{Id_Marca}")
     public String EditarMarca(@PathVariable("Id_Marca") Long Id_Marca, Model M) throws SQLException {
         Marcas Marca = MS.ObtenerMarcaPorID(Id_Marca);
-        M.addAttribute("titulo", "Editar Persona");
+        M.addAttribute("accion", "editando");
+        M.addAttribute("prefijo", "de");
+        M.addAttribute("titulo", "Marcas");
         M.addAttribute("Marcas", Marca);
         M.addAttribute("boton", "Actualizar");
         return "modificarmarca";
