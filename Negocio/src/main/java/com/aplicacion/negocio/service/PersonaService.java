@@ -2,14 +2,12 @@ package com.aplicacion.negocio.service;
 
 import com.aplicacion.negocio.controller.JDBCconnection;
 import com.aplicacion.negocio.entity.Personas;
-import com.aplicacion.negocio.repository.PersonaRepository;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import oracle.jdbc.OracleTypes;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,8 +17,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class PersonaService {
 
-    @Autowired
-    PersonaRepository personaRepository;
     // instancia para la conexion a la BD
     JDBCconnection jdbc = new JDBCconnection();
 
@@ -33,57 +29,19 @@ public class PersonaService {
         jdbc.init();
 
         // Prepare a PL/SQL call
-        jdbc.prepareCall("BEGIN NEGOCIO.SP_OBTENER_PERSONAS (?); END;");
+        jdbc.prepareCall("BEGIN NEGOCIO.SP_OBTENER_PERSONAS (?,?,?); END;");
 
         // se le indica la posicion del parametro y el tipo
         jdbc.call.registerOutParameter(1, OracleTypes.REF_CURSOR);
+        jdbc.call.registerOutParameter(2, OracleTypes.NUMBER);
+        jdbc.call.registerOutParameter(3, OracleTypes.VARCHAR);
         // se ejecuta el query
         jdbc.call.execute();
         // rset guarda el resultado del llamado
         ResultSet rset = (ResultSet) jdbc.call.getObject(1);
-        // como ver el nombre de las columnas
-        /*
-         * ResultSetMetaData rsmd = rset.getMetaData();
-         * String name = "1-" + rsmd.getColumnName(1);
-         * name += " 2-" + rsmd.getColumnName(2);
-         * name += " 3-" + rsmd.getColumnName(3);
-         * name += " 4-" + rsmd.getColumnName(4);
-         * name += " 5-" + rsmd.getColumnName(5);
-         * name += " 6-" + rsmd.getColumnName(6);
-         * name += " 7-" + rsmd.getColumnName(7);
-         * name += " 8-" + rsmd.getColumnName(8);
-         * name += " 9-" + rsmd.getColumnName(9);
-         * //name += " 9-" + rsmd.getColumnName(10);
-         * System.out.println(name);
-         */
-        // Dump the cursor
+  
         while (rset.next()) {
-            /*
-             * String nombre = rset.getString("NOMBRE");
-             * Long cedula = rset.getLong("CEDULA");
-             * String apellido1 = rset.getString("PRIMER_APELLIDO");
-             * String apellido2 = rset.getString("SEGUNDO_APELLIDO");
-             * String direccion = rset.getString("DIRECCION");
-             * String mail = rset.getString("EMAIL");
-             * String telefono = rset.getString("TELEFONO");
-             * String tipoP = rset.getString("TIPO_PERSONA");
-             * System.out.println("dsadadsdaasdsaasds "+cedula);
-             * 
-             * // PER.NOMBRE, PER.PRIMER_APELLIDO, PER.SEGUNDO_APELLIDO, PER.DIRECCION,
-             * PER.EMAIL, PER.TELEFONO, PER.TIPO_PERSONA
-             * /* var += ("Email: "+mail+", "+
-             * "Nombre: "+nombre+", "+
-             * "apellido1: "+apellido1+", "+
-             * "apellido2: "+apellido2+", "+
-             * "direccion: "+direccion+", "+
-             * "telefono: "+telefono+", "+
-             * "tipoP: "+tipoP+"\n"
-             * ); // puede llamar por columna o por numero de columna
-             */
-            // 1-ID_PERSONA 2-CEDULA 3-NOMBRE 4-PRIMER_APELLIDO 5-SEGUNDO_APELLIDO
-            // 6-DIRECCION 7-EMAIL 8-TELEFONO
-            // Long id_persona, Long cedula, String nombre, String primerAp, String
-            // segundoAp, String direccion, String email, String telefono
+   
             Personas per = new Personas(
                     rset.getLong(1),
                     rset.getLong(2),
@@ -210,18 +168,6 @@ public class PersonaService {
         // Prepare a PL/SQL call
         jdbc.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_PERSONA (?,?,?,?,?,?,?,?,?,?); END;");
 
-        /*
-         * IN_ID_PERSONA IN NUMBER,
-         * IN_CEDULA IN NUMBER,
-         * IN_NOMBRE IN VARCHAR2,
-         * IN_PRIMER_APELLIDO IN VARCHAR2,
-         * IN_SEGUNDO_APELLIDO IN VARCHAR2,
-         * IN_DIRECCION IN VARCHAR2,
-         * IN_EMAIL VARCHAR2,
-         * IN_TELEFONO IN VARCHAR2,
-         * IN_TIPO_PERSONA_ID IN NUMBER,
-         * RESULTADO OUT NUMBER
-         */
         jdbc.call.setLong(1, per.getId_persona());
         jdbc.call.setLong(2, per.getCedula());
         jdbc.call.setString(3, per.getNombre());
@@ -233,14 +179,9 @@ public class PersonaService {
         jdbc.call.setInt(9, per.getTipoPersonaId());
         jdbc.call.registerOutParameter(10, OracleTypes.NUMBER);
 
-        // se ejecuta el query
         jdbc.call.execute();
-
-        // Integer rset = (int) jdbc.call.getObject(10);
-        BigDecimal rset = (BigDecimal) jdbc.call.getObject(10);
-
-        System.out.println("+++++++++++++++++ Resultado de SP_MODIFICAR_PERSONA: " + rset);
-
+        jdbc.call.close();
+        jdbc.close();
     }
 
     public void eliminarPersona(Long per) throws SQLException {
@@ -254,10 +195,11 @@ public class PersonaService {
         jdbc.call.registerOutParameter(2, OracleTypes.NUMBER);
 
         // se ejecuta el query
-        jdbc.call.setQueryTimeout(10);
         jdbc.call.execute();
 
         // System.out.println("+++++++++++++++++ Resultado de SP_ELIMINAR_PERSONA: " +
         // rset);
+        jdbc.call.close();
+        jdbc.close();
     }
 }

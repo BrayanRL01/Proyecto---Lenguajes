@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  *
@@ -17,13 +16,14 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "TAB_TIPOS_PERSONA", schema = "NEGOCIO")
+//@Table(name = "TAB_TIPOS_PERSONA", schema = "NEGOCIO")
 public class Tipo_Personas implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_tipo_persona;
 
+    private Long id_tipo_persona;
     private String nombre;
+
 
     public Long getId_tipo_persona() {
         return id_tipo_persona;
