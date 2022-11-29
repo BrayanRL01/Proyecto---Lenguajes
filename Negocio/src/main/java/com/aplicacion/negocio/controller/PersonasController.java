@@ -56,7 +56,13 @@ public class PersonasController {
         personaService.actualizarPersona(usuarios);
         return "redirect:/personaLista";
     }
-
+    
+    @PostMapping("/actualizaPersona")
+    public String actualizarTpersona(@ModelAttribute Personas usuarios) throws SQLException {
+        personaService.actualizarPersona(usuarios);
+        return "redirect:/personaLista";
+    }   
+    
     @GetMapping("/editUsuario/{id}")
     public String editarPersona(@PathVariable("id") long id_persona, Model model) throws SQLException {
         Personas usuarios = personaService.getPersonaPorID(id_persona);
@@ -65,7 +71,7 @@ public class PersonasController {
         model.addAttribute("usuarios", usuarios);
         model.addAttribute("tipoPersonas", tipoPersonas);
         model.addAttribute("boton", "Actualizar");
-        return "crearPersona";
+        return "actualizaPersona";
     }
 
     @GetMapping("/deleteusuario/{id}")
