@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  *
@@ -21,9 +20,10 @@ import javax.persistence.Table;
 public class Tipo_Personas implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_tipo_persona;
 
+    private Long id_tipo_persona;
     private String nombre;
+
 
     public Long getId_tipo_persona() {
         return id_tipo_persona;

@@ -72,6 +72,5 @@ public class PersonasController {
     public String eliminarUsuario(@PathVariable("id") long id_usuario) throws SQLException {
         personaService.eliminarPersona(id_usuario);
         return "redirect:/personaLista";
-
     }
 }
