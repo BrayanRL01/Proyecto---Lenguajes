@@ -28,7 +28,7 @@ public class TipoPersonasService {
 
         // Prepare a PL/SQL call
         jdbc.prepareCall("BEGIN NEGOCIO.SP_OBTENER_TIPOS_PERSONA (?,?,?); END;");
-       
+
         // se le indica la posicion del parametro y el tipo
         jdbc.call.registerOutParameter(1, OracleTypes.REF_CURSOR);
         jdbc.call.registerOutParameter(2, OracleTypes.NUMBER);
@@ -40,11 +40,12 @@ public class TipoPersonasService {
 
         while (rset.next()) {
             Tipo_Personas per = new Tipo_Personas(
-                    rset.getLong(1),
-                    rset.getString(2));
-            contenedor.add(per);
+                rset.getLong(1),
+                rset.getString(2));
+        contenedor.add(per);
         }
-        // Close all the resources
+     
+
         rset.close();
         jdbc.call.close();
         jdbc.close();
@@ -57,13 +58,13 @@ public class TipoPersonasService {
 
         // Prepare a PL/SQL call
         jdbc.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_TIPO_PERSONA (?,?,?); END;");
-        
+
         jdbc.call.setString(1, nom.getNombre());
         jdbc.call.registerOutParameter(2, OracleTypes.NUMBER);
         jdbc.call.registerOutParameter(3, OracleTypes.VARCHAR);
 
         jdbc.call.execute();
-        
+
         BigDecimal rset = (BigDecimal) jdbc.call.getObject(2);
         System.out.println(rset);
 
@@ -88,17 +89,16 @@ public class TipoPersonasService {
 
         // se almacena el resultado del query en rset
         String nombre = (String) jdbc.call.getObject(2);
-        
-            per = new Tipo_Personas(
-            id_Tpersona , nombre
-            );
-    
+
+        per = new Tipo_Personas(
+                id_Tpersona, nombre);
+
         jdbc.call.close();
         jdbc.close();
 
         return per;
     }
-    
+
     public void actualizarTPersona(Tipo_Personas tper) throws SQLException {
         jdbc.init();
 

@@ -20,6 +20,9 @@ public class Productos implements Serializable {
     private String Tamano;
     private Long Cantidad;
 
+    private String Marca;
+    private String Categoria;
+
     public Productos(Long id_Producto, String codigo, Long id_Categoria, Long id_Marca, String nombre, String detalle,
             Long precio, String tamano,
             Long cantidad) {
@@ -36,6 +39,20 @@ public class Productos implements Serializable {
 
     public Productos() {
 
+    }
+
+    public Productos(Long id_Producto, String codigo, String marca, String categoria, String nombre, String detalle,
+            Long precio, String tamano,
+            Long cantidad) {
+        Id_Producto = id_Producto;
+        Codigo = codigo;
+        Marca = marca;
+        Categoria = categoria;
+        Nombre = nombre;
+        Detalle = detalle;
+        Precio = precio;
+        Tamano = tamano;
+        Cantidad = cantidad;
     }
 
     public Long getId_Producto() {
@@ -108,6 +125,22 @@ public class Productos implements Serializable {
 
     public void setId_Marca(Long id_Marca) {
         Id_Marca = id_Marca;
+    }
+
+    public String getMarca() {
+        return Marca;
+    }
+
+    public void setMarca(String marca) {
+        Marca = marca;
+    }
+
+    public String getCategoria() {
+        return Categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        Categoria = categoria;
     }
 
 }

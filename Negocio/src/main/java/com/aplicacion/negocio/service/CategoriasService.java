@@ -68,7 +68,7 @@ public class CategoriasService {
             C = new Categorias(
                     RS.getLong(1),
                     RS.getString(2),
-                    RS.getLong(3));
+                    RS.getString(3));
             LC.add(C);
         }
         // Close all the resources

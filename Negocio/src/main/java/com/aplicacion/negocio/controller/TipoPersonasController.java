@@ -46,8 +46,8 @@ public class TipoPersonasController {
     public String actualizarTpersona(@ModelAttribute Tipo_Personas usuarios) throws SQLException {
         tpService.actualizarTPersona(usuarios);
         return "redirect:/tpPersonaLista";
-    }    
-    
+    }
+
     @GetMapping("/editTpersona/{id}")
     public String editarTPersona(@PathVariable("id") long id_Tpersona, Model model) throws SQLException {
         Tipo_Personas usuarios = tpService.getTPersonaPorID(id_Tpersona);
@@ -56,6 +56,7 @@ public class TipoPersonasController {
         model.addAttribute("boton", "Actualizar");
         return "actualizaTpersona";
     }
+
     @GetMapping("/deleteTpersona/{id}")
     public String eliminarUsuario(@PathVariable("id") long id_usuario) throws SQLException {
         tpService.eliminarTPersona(id_usuario);

@@ -37,8 +37,8 @@ public class ProductosService {
             Productos P = new Productos(
                     RS.getLong(1),
                     RS.getString(2),
-                    RS.getLong(3),
-                    RS.getLong(4),
+                    RS.getString(3),
+                    RS.getString(4),
                     RS.getString(5),
                     RS.getString(6),
                     RS.getLong(7),
