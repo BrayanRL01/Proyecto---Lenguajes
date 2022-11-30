@@ -32,6 +32,7 @@ public class ProductosController {
     @GetMapping("/listaproductos")
     public String Index(Model M) throws SQLException {
         List<Productos> ListaProductos = PS.ObtenerProductos();
+        M.addAttribute("titulo", "Productos");
         M.addAttribute("Productos", ListaProductos);
         return "listaproductos";
     }
@@ -40,11 +41,13 @@ public class ProductosController {
     public String CrearProducto(Model M) throws SQLException {
         List<Marcas> ListaMarcas = MS.ObtenerMarcas();
         List<Categorias> ListaCategorias = CS.ObtenerSubCategorias();
-        M.addAttribute("titulo", "Crear Producto");
+        M.addAttribute("titulo", "Productos");
+        M.addAttribute("accion", "añadiendo");
+        M.addAttribute("prefijo", "a");
         M.addAttribute("Producto", new Productos());
         M.addAttribute("Marca", ListaMarcas);
         M.addAttribute("Subcategoria", ListaCategorias);
-        M.addAttribute("boton", "Crear");
+        M.addAttribute("boton", "Añadir");
         return "nuevoproducto";
     }
 
@@ -59,11 +62,13 @@ public class ProductosController {
         Productos Producto = PS.ObtenerProductosPorID(id_Producto);
         List<Marcas> ListaMarcas = MS.ObtenerMarcas();
         List<Categorias> ListaCategorias = CS.ObtenerSubCategorias();
-        M.addAttribute("titulo", "Editar Categoría");
+        M.addAttribute("accion", "editando");
+        M.addAttribute("prefijo", "de");
+        M.addAttribute("titulo", "Productos");
         M.addAttribute("Producto", Producto);
         M.addAttribute("Marca", ListaMarcas);
         M.addAttribute("Subcategoria", ListaCategorias);
-        M.addAttribute("update", "Actualizar");
+        M.addAttribute("boton", "Actualizar");
         return "modificarproducto";
     }
 

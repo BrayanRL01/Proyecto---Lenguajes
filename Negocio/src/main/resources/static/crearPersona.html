@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Formulario Personas</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/home.css"/>
+        <link rel="stylesheet" href="css/formularios.css"/>
+    </head>
+    <body>
+        <div class="container">
+            <div class="navbar">
+                <nav>
+                    <div class="menu">
+                        <ul class="opciones">
+                            <li>
+                                Gestión de inventario
+                                <div>
+                                    <ul class="opciones-inventario">
+                                        <li><a href="url">Categorias</a></li>
+                                        <li><a href="url">Marcas</a></li>
+                                        <li><a href="url">Unidades</a></li>
+                                        <li><a href="url">Productos</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="logo-container">
+                            <a href="index.html"><img src="imagenes/logo.png" alt="LOGO" ></a>
+                        </div>
+                        <ul class="opciones">
+                            <li>
+                                Gestión de sistema
+                                <div>
+                                    <ul class="opciones-sistema">
+                                        <li><a href="url">Tipos de persona</a></li>
+                                        <li><a href="url">Roles</a></li>
+                                        <li><a href="url">Estados</a></li>
+                                        <li><a href="informacionPersonas.html">Personas</a></li>
+                                        <li><a href="url">Usuarios</a></li>
+                                        <li><a href="url">Tipos de venta</a></li>
+                                        <li><a href="url">Medios de pago</a></li>
+                                        <li><a href="url">Facturas</a></li>
+                                        <li><a href="url">Detalles factura</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div> <!-- div navbar -->
+        </div> <!-- div container 1 -->
+        
+        <div class="container-formulario">
+            <h1>Estás añadiendo una persona</h1>
+            <div class="formulario">
+                <form action="POST">
+                    <!--  <label for="cedula">Cédula</label>
+                            <label for="nombre">Nombre</label>
+                            <label for="primerApellido">Primer apellido</label>
+                            <label for="segundoApellido">Segundo apellido</label>
+                    -->
+                    <input type="text" id="cedula" placeholder="Cédula">
+                    <input type="text" id="nombre" placeholder="Nombre">
+                    <input type="text" id="primerApellido" placeholder="Primer apellido">
+                    <input type="text" id="segundoApellido" placeholder="Segundo apellido">
+                    <input type="text" id="direccion" placeholder="Dirección">
+                    <input type="text" id="email" placeholder="Email">
+                    <input type="text" id="telefono" placeholder="Teléfono">
+                    <div class="seleccion">
+                        <select id="tipoPersona" class="tipoPersona">
+                            <option class="default" value="default">Tipo de persona</option>
+                            <option value="second">Opción 1</option>
+                            <option value="third">Opción 2</option>
+                        </select>
+                    </div>
+                    <div class="botones">
+                        <a href="crearPersona.html">
+                            <button type="submit" class="btn-agregar" name="btn-agregar" />Agregar esta persona a la tabla</button>
+                        </a>
+                        <a href="javascript: history.go(-1)">
+                            <button type="button" class="btn-cancelar" name="btn-cancelar" />Cancelar y volver atrás</button>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

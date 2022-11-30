@@ -514,7 +514,7 @@ VALUES (V_MAX_FACTURA, OUT_MAX_DETALLE, V_PRODUCTO, IN_CANTIDAD, V_TAMANO, V_PRE
 END; 
 /
 
--- Este proceso hace el calculo del total de una factura en especifico y lo a�ade a su row en la tabla.
+-- Este proceso hace el calculo del total de una factura en especifico y lo a?ade a su row en la tabla.
 CREATE OR REPLACE PROCEDURE SP_CALCULAR_TOTAL_FACTURA(IN_FACTURA_ID NUMBER) AS 
 OUT_TOTAL_FACTURA DECIMAL;
 BEGIN

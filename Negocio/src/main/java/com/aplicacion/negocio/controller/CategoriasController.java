@@ -25,6 +25,7 @@ public class CategoriasController {
     @GetMapping("/listacategorias")
     public String Index(Model M) throws SQLException {
         List<Categorias> ListaCategorias = CS.ObtenerCategorias();
+        M.addAttribute("titulo", "Categorías");
         M.addAttribute("TAB_CATEGORIAS", ListaCategorias);
         return "listacategorias";
     }
@@ -32,6 +33,7 @@ public class CategoriasController {
     @GetMapping("/listasubcategorias")
     public String IndexII(Model M) throws SQLException {
         List<Categorias> ListaSubCategorias = CS.ObtenerSubCategorias();
+        M.addAttribute("titulo", "Subcategorías");
         M.addAttribute("TAB_SUBCATEGORIAS", ListaSubCategorias);
         return "listasubcategorias";
     }
@@ -39,19 +41,23 @@ public class CategoriasController {
     // Crear nuevas categorías y subcategorías.
     @GetMapping("/nuevacategoria")
     public String CrearCategoria(Model M) throws SQLException {
-        M.addAttribute("titulo", "Crear Categoria");
+        M.addAttribute("accion", "añadiendo");
+        M.addAttribute("prefijo", "a");
+        M.addAttribute("titulo", "Categorías");
         M.addAttribute("Categorias", new Categorias());
-        M.addAttribute("boton", "Crear");
+        M.addAttribute("boton", "Añadir");
         return "nuevacategoria";
     }
 
     @GetMapping("/nuevasubcategoria")
     public String CrearSubCategoria(Model M) throws SQLException {
         List<Categorias> Listasubcategorias = CS.ObtenerCategorias();
-        M.addAttribute("titulo", "Crear Subcategoria");
+        M.addAttribute("accion", "añadiendo");
+        M.addAttribute("prefijo", "a");
+        M.addAttribute("titulo", "Subcategorías");
         M.addAttribute("Categorias", new Categorias());
         M.addAttribute("Subcategoria", Listasubcategorias);
-        M.addAttribute("boton", "Crear");
+        M.addAttribute("boton", "Añadir");
         return "nuevasubcategoria";
     }
 
@@ -74,7 +80,9 @@ public class CategoriasController {
     @GetMapping("/ModificarCategoria/{Id_Categoria}")
     public String ModificarCategoria(@PathVariable("Id_Categoria") Long Id_Categoria, Model M) throws SQLException {
         Categorias Categoria = CS.ObtenerCategoriasPorID(Id_Categoria);
-        M.addAttribute("titulo", "Editar Categoría");
+        M.addAttribute("accion", "editando");
+        M.addAttribute("prefijo", "de");
+        M.addAttribute("titulo", "Categorías");
         M.addAttribute("Categorias", Categoria);
         M.addAttribute("boton", "Actualizar");
         return "modificarcategoria";
@@ -84,7 +92,9 @@ public class CategoriasController {
     public String ModificarSubCategoria(@PathVariable("Id_Categoria") Long Id_Categoria, Model M) throws SQLException {
         Categorias Categoria = CS.ObtenerCategoriasPorID(Id_Categoria);
         List<Categorias> ListaCategorias = CS.ObtenerCategorias();
-        M.addAttribute("titulo", "Editar Subcategoría");
+        M.addAttribute("accion", "editando");
+        M.addAttribute("prefijo", "de");
+        M.addAttribute("titulo", "Subcategorías");
         M.addAttribute("SubCategorias", Categoria);
         M.addAttribute("Categorias", ListaCategorias);
         M.addAttribute("boton", "Actualizar");

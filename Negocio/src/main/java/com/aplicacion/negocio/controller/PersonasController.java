@@ -28,12 +28,23 @@ public class PersonasController {
 
     @Autowired
     TipoPersonasService tpService;
+    
+    @GetMapping("/")
+    public String home(){
+        return "home";
+    }
+    
+    @GetMapping("/home")
+    public String home2(){
+        return "home";
+    }
 
     @GetMapping("/personaLista")
     public String index(Model M) throws SQLException {
         // List<Tipo_Personas> tpLista = tpService.lista();
         List<Personas> variable = personaService.obtenerPersonas();
         // System.out.println ("variableeeeeeeeeeeee: "+variable);
+        M.addAttribute("titulo", "Personas");
         M.addAttribute("lista", variable);
         return "Tmplt_pLista";
     }
@@ -42,10 +53,12 @@ public class PersonasController {
     @GetMapping("/personaN")
     public String CrearUsuario(Model model) throws SQLException {
         List<Tipo_Personas> listaTipoPersonas = tpService.obtenerTipoPersonas();
-        model.addAttribute("titulo", "Crear Persona");
+        model.addAttribute("accion", "añadiendo");
+        model.addAttribute("prefijo", "a");
+        model.addAttribute("titulo", "Personas");
         model.addAttribute("usuarios", new Personas());
         model.addAttribute("tipoPersonas", listaTipoPersonas);
-        model.addAttribute("boton", "Crear");
+        model.addAttribute("boton", "Añadir");
         return "crearPersona";
     }
 
@@ -53,19 +66,27 @@ public class PersonasController {
     // postMapping
     @PostMapping("/savePersona")
     public String GuardarUsuario(@ModelAttribute Personas usuarios) throws SQLException {
-        personaService.actualizarPersona(usuarios);
+        personaService.savePersonas(usuarios);
         return "redirect:/personaLista";
     }
-
+    
+    @PostMapping("/actualizaPersona")
+    public String actualizarPersona(@ModelAttribute Personas usuarios) throws SQLException {
+        personaService.actualizarPersona(usuarios);
+        return "redirect:/personaLista";
+    }   
+    
     @GetMapping("/editUsuario/{id}")
     public String editarPersona(@PathVariable("id") long id_persona, Model model) throws SQLException {
         Personas usuarios = personaService.getPersonaPorID(id_persona);
         List<Tipo_Personas> tipoPersonas = tpService.obtenerTipoPersonas();
-        model.addAttribute("titulo", "Editar Persona");
+        model.addAttribute("accion", "editando");
+        model.addAttribute("prefijo", "de");
+        model.addAttribute("titulo", "Personas");
         model.addAttribute("usuarios", usuarios);
         model.addAttribute("tipoPersonas", tipoPersonas);
         model.addAttribute("boton", "Actualizar");
-        return "crearPersona";
+        return "actualizaPersona";
     }
 
     @GetMapping("/deleteusuario/{id}")
