@@ -1,5 +1,6 @@
 package com.aplicacion.negocio.service;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -94,8 +95,6 @@ public class CategoriasService {
             C = new Categorias(N.getLong(1), N.getString(2), N.getLong(3));
         }
 
-        // C = new Categorias(N.getLong(1), N.getString(2), N.getLong(3));
-
         JDBC.call.close();
         JDBC.close();
 
@@ -146,7 +145,6 @@ public class CategoriasService {
         JDBC.call.execute();
     }
 
-
     public void ModificarCategoria(Categorias C) throws SQLException {
         JDBC.init();
 
@@ -159,6 +157,11 @@ public class CategoriasService {
         JDBC.call.registerOutParameter(5, OracleTypes.VARCHAR);
 
         JDBC.call.execute();
+
+        BigDecimal N = (BigDecimal) JDBC.call.getObject(4);
+        String Mensaje = (String) JDBC.call.getObject(5);
+        System.out.println(N + Mensaje);
+
     }
 
     public void EliminarCategoria(Long ID) throws SQLException {
@@ -172,6 +175,13 @@ public class CategoriasService {
         JDBC.call.registerOutParameter(3, OracleTypes.VARCHAR);
 
         JDBC.call.execute();
+
+        BigDecimal N = (BigDecimal) JDBC.call.getObject(2);
+        String M = (String) JDBC.call.getObject(3);
+
+        if (N.intValue() == 1) {
+            System.out.println(N + ": " + M);
+        }
 
         JDBC.call.close();
         JDBC.close();

@@ -20,7 +20,7 @@
                     <tr>
                         <th scope="col">ID de Categoria</th>
                         <th scope="col">Nombre de categoria</th>
-                        <th scope="col">Categoria Madre</th>
+                      <!--   <th scope="col">Categoria Madre</th> -->   
                         <th scope="col">Editar</th>
                         <th scope="col">Eliminar</th>
                     </tr>
@@ -30,7 +30,7 @@
                     <tr>
                         <td th:text="${tipo.getId_Categoria}"></td>
                         <td th:text="${tipo.getNombre}"></td>
-                        <td th:text="${tipo.getCategoria_Madre_Id}"></td>
+                        <!--  <td th:text="${tipo.getCategoria_Madre_Id}"></td> -->   
                         <td>
                             <a th:href="@{/ModificarCategoria/{Id_Categoria}(Id_Categoria=${tipo.getId_Categoria})}">Editar</a>
                         </td>

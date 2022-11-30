@@ -23,12 +23,15 @@ public class ProductosService {
 
         DB.init();
 
-        DB.prepareCall("BEGIN NEGOCIO.SP_OBTENER_PRODUCTOS(?); END;");
+        DB.prepareCall("BEGIN NEGOCIO.SP_OBTENER_PRODUCTOS(?,?,?); END;");
         DB.call.registerOutParameter(1, OracleTypes.REF_CURSOR);
+        DB.call.registerOutParameter(2, OracleTypes.NUMBER);
+        DB.call.registerOutParameter(3, OracleTypes.VARCHAR);
 
         DB.call.execute();
 
         ResultSet RS = (ResultSet) DB.call.getObject(1);
+        String N = (String) DB.call.getObject(3);
 
         while (RS.next()) {
             Productos P = new Productos(
@@ -43,6 +46,8 @@ public class ProductosService {
                     RS.getLong(9));
             LP.add(P);
         }
+
+        System.out.println(N);
 
         RS.close();
         DB.call.close();
@@ -77,7 +82,7 @@ public class ProductosService {
         DB.close();
 
         return P;
-    }
+    }    
 
     public void InsertarProducto(Productos P) throws SQLException {
         DB.init();
@@ -96,6 +101,10 @@ public class ProductosService {
         DB.call.registerOutParameter(10, OracleTypes.VARCHAR);
 
         DB.call.execute();
+
+        String Mensaje = (String) DB.call.getObject(10);
+
+        System.out.println(Mensaje);
 
         DB.call.close();
         DB.close();

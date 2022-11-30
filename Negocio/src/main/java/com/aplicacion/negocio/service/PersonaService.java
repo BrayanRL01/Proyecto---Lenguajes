@@ -2,6 +2,7 @@ package com.aplicacion.negocio.service;
 
 import com.aplicacion.negocio.controller.JDBCconnection;
 import com.aplicacion.negocio.entity.Personas;
+import com.aplicacion.negocio.entity.Tipo_Personas;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -63,44 +64,23 @@ public class PersonaService {
     }
 
     public void savePersonas(Personas per) throws SQLException {
-        /*
-         * IN_CEDULA IN NUMBER,
-         * IN_NOMBRE IN VARCHAR2,
-         * IN_PRIMER_APELLIDO IN VARCHAR2,
-         * IN_SEGUNDO_APELLIDO IN VARCHAR2,
-         * IN_DIRECCION IN VARCHAR2,
-         * IN_EMAIL VARCHAR2,
-         * IN_TELEFONO IN VARCHAR2,
-         * IN_TIPO_PERSONA_ID IN NUMBER
-         */
-        // Connect to the database
         jdbc.init();
 
         // Prepare a PL/SQL call
-        jdbc.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_PERSONA (?,?,?,?,?,?,?,?); END;");
-
-        /*
-         * String name = "1-" + per.getCedula();
-         * name += " 2-" + per.getNombre();
-         * name += " 3-" + per.getPrimerAp();
-         * name += " 4-" + per.getSegundoAp();
-         * name += " 5-" + per.getDireccion();
-         * name += " 6-" + per.getEmail();
-         * name += " 7-" + per.getTelefono();
-         * name += " 8-" + per.getTipoPersonaId();
-         * name += " 9-" + per.getTipoPersonaDesc();
-         * System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOO"+name);
-         * 
-         * jdbc.call.setLong(1,per.getCedula());
-         * jdbc.call.setString(2,per.getNombre());
-         * jdbc.call.setString(3,per.getPrimerAp());
-         * jdbc.call.setString(4,per.getSegundoAp());
-         * jdbc.call.setString(5,per.getDireccion());
-         * jdbc.call.setString(6,per.getEmail());
-         * jdbc.call.setString(7,per.getTelefono());
-         * jdbc.call.setInt(8,per.getTipoPersonaId());
-         */
-        // se ejecuta el query
+        jdbc.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_PERSONA (?,?,?,?,?,?,?,?,?,?); END;");
+        
+        jdbc.call.setLong(1,per.getCedula());
+        jdbc.call.setString(2, per.getNombre());
+        jdbc.call.setString(3, per.getPrimerAp());
+        jdbc.call.setString(4, per.getSegundoAp());
+        jdbc.call.setString(5, per.getDireccion());
+        jdbc.call.setString(6, per.getEmail());
+        jdbc.call.setString(7, per.getTelefono());
+        jdbc.call.setInt(8, per.getTipoPersonaId());
+        jdbc.call.registerOutParameter(9, OracleTypes.NUMBER);
+        jdbc.call.registerOutParameter(10, OracleTypes.VARCHAR);
+        
+        
         jdbc.call.execute();
 
         jdbc.call.close();
@@ -113,10 +93,12 @@ public class PersonaService {
         jdbc.init();
 
         // Prepare a PL/SQL call
-        jdbc.prepareCall("BEGIN NEGOCIO.SP_OBTENER_UNA_PERSONA (?,?); END;");
+        jdbc.prepareCall("BEGIN NEGOCIO.SP_OBTENER_UNA_PERSONA (?,?,?,?); END;");
 
         jdbc.call.setLong(1, id);
         jdbc.call.registerOutParameter(2, OracleTypes.REF_CURSOR);
+        jdbc.call.registerOutParameter(3, OracleTypes.NUMBER);
+        jdbc.call.registerOutParameter(4, OracleTypes.VARCHAR);
 
         // se ejecuta el query
         jdbc.call.execute();
@@ -166,7 +148,7 @@ public class PersonaService {
         jdbc.init();
 
         // Prepare a PL/SQL call
-        jdbc.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_PERSONA (?,?,?,?,?,?,?,?,?,?); END;");
+        jdbc.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_PERSONA (?,?,?,?,?,?,?,?,?,?,?); END;");
 
         jdbc.call.setLong(1, per.getId_persona());
         jdbc.call.setLong(2, per.getCedula());
@@ -178,6 +160,7 @@ public class PersonaService {
         jdbc.call.setString(8, per.getTelefono());
         jdbc.call.setInt(9, per.getTipoPersonaId());
         jdbc.call.registerOutParameter(10, OracleTypes.NUMBER);
+        jdbc.call.registerOutParameter(11, OracleTypes.VARCHAR);
 
         jdbc.call.execute();
         jdbc.call.close();
@@ -189,10 +172,11 @@ public class PersonaService {
         jdbc.init();
 
         // Prepare a PL/SQL call
-        jdbc.prepareCall("BEGIN NEGOCIO.SP_ELIMINAR_PERSONA (?,?); END;");
+        jdbc.prepareCall("BEGIN NEGOCIO.SP_ELIMINAR_PERSONA (?,?,?); END;");
 
         jdbc.call.setLong(1, per);
         jdbc.call.registerOutParameter(2, OracleTypes.NUMBER);
+        jdbc.call.registerOutParameter(3, OracleTypes.VARCHAR);
 
         // se ejecuta el query
         jdbc.call.execute();
@@ -202,4 +186,5 @@ public class PersonaService {
         jdbc.call.close();
         jdbc.close();
     }
+
 }
