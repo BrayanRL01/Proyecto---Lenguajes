@@ -6,8 +6,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 import org.springframework.stereotype.Service;
 
 import com.aplicacion.negocio.controller.JDBCconnection;
@@ -181,10 +179,8 @@ public class CategoriasService {
         BigDecimal N = (BigDecimal) JDBC.call.getObject(2);
         String M = (String) JDBC.call.getObject(3);
 
-        if (N.intValue() == 0) {
-            JOptionPane.showMessageDialog(null, "Se eliminó el dato con éxito.");
-        } else {
-            JOptionPane.showMessageDialog(null, M);
+        if (N.intValue() == 1) {
+            System.out.println(N + ": " + M);
         }
 
         JDBC.call.close();
