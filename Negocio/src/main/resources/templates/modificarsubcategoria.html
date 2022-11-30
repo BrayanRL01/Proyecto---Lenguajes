@@ -39,12 +39,12 @@
                         <form class="">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control rounded-3" id="floatingInput"
-                                    th:field="*{Nombre}" placeholder="Nombre de categoría">
-                                <label for="floatingInput">Nombre de Categoría</label>
+                                    th:field="*{Nombre}" placeholder="Subcategoría">
+                                <label for="floatingInput">Nombre de subcategoría</label>
                                 <br>
                                 <div class="form-row mb-3">
-                                    <select th:field="*{Categoria_Madre_Id}" class="form-control form-control-sm col-md-6"
-                                        id="Id_Categoria">
+                                    <select th:field="*{Categoria_Madre_Id}"
+                                        class="form-control form-control-sm col-md-6" id="Id_Categoria">
                                         <option th:each="x:${Categorias}" th:value="${x.getId_Categoria}"
                                             th:text="${x.getNombre}">
                                     </select>

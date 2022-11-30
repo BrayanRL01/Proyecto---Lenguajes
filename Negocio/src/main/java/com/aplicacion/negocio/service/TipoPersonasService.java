@@ -88,6 +88,7 @@ public class TipoPersonasService {
         jdbc.call.execute();
         
         BigDecimal rset = (BigDecimal) jdbc.call.getObject(2);
+        System.out.println(rset);
 
         jdbc.call.close();
         jdbc.close();
@@ -139,9 +140,6 @@ public class TipoPersonasService {
 
         // se ejecuta el query
         jdbc.call.execute();
-
-        // Integer rset = (int) jdbc.call.getObject(10);
-        BigDecimal rset = (BigDecimal) jdbc.call.getObject(3);
 
         jdbc.call.close();
         jdbc.close();

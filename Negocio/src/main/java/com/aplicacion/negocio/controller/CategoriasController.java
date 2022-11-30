@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,8 +57,11 @@ public class CategoriasController {
 
     // Guarda la nueva categoría o subcategoría
     @PostMapping("/GuardarCategoria")
-    public String GuardarCategoria(@ModelAttribute Categorias C) throws SQLException {
+    public String GuardarCategoria(@ModelAttribute Categorias C, RedirectAttributes M) throws SQLException {
         CS.InsertarCategorias(C);
+        if (C != null) {
+            M.addFlashAttribute("mensaje", "Se agrego una nueva categoría.");
+        }
         return "redirect:/listacategorias";
     }
 
@@ -90,38 +92,37 @@ public class CategoriasController {
     }
 
     @PostMapping("/EditarCategoria")
-    public String EditarCategoria(@ModelAttribute Categorias C) throws SQLException {
+    public String EditarCategoria(@ModelAttribute Categorias C, RedirectAttributes M) throws SQLException {
         CS.ModificarPrincipales(C);
+        M.addFlashAttribute("mensaje", "Se actualizó la categoría.");
         return "redirect:/listacategorias";
-    }
 
-    private boolean everythingOk() {
-        return true;
     }
 
     @PostMapping("/EditarSubCategoria")
     public String EditarSubCategoria(@ModelAttribute Categorias C, RedirectAttributes M)
             throws SQLException {
-        if (!everythingOk()) {
-            M.addFlashAttribute("error",
-                    "No se actualizó la subcategoría debido a que el nombre escrito ya está en uso.");
-            return "redirect:/listasubcategorias";
-        }
-        
         CS.ModificarCategoria(C);
         M.addFlashAttribute("mensaje", "Se actualizó la subcategoría.");
         return "redirect:/listasubcategorias";
+
     }
 
     @GetMapping("/EliminarCategoria/{Id_Categoria}")
-    public String EliminarCategoria(@PathVariable("Id_Categoria") Long Id_Categoria) throws SQLException {
+    public String EliminarCategoria(@PathVariable("Id_Categoria") Long Id_Categoria, RedirectAttributes M)
+            throws SQLException {
         CS.EliminarCategoria(Id_Categoria);
+        M.addFlashAttribute("mensaje", "Se eliminó la categoría con éxito.");
         return "redirect:/listacategorias";
+
     }
 
     @GetMapping("/EliminarSubCategoria/{Id_Categoria}")
-    public String EliminarSubCategoria(@PathVariable("Id_Categoria") Long Id_Categoria) throws SQLException {
+    public String EliminarSubCategoria(@PathVariable("Id_Categoria") Long Id_Categoria, RedirectAttributes M)
+            throws SQLException {
         CS.EliminarCategoria(Id_Categoria);
+        M.addFlashAttribute("mensaje", "Se eliminó la subcategoría con éxito.");
         return "redirect:/listasubcategorias";
+
     }
 }

@@ -23,9 +23,9 @@
 <body>
     <!-- Pasamos el objeto de tipo persona 
         -->
-    <form th:object="${SubCategorias}" th:action="@{/EditarSubCategoria}" method="POST">
+    <form th:object="${Estados}" th:action="@{/GuardarEstado}" method="POST">
 
-        <input type="hidden" th:field="*{Id_Categoria}">
+        <input type="hidden" th:field="*{Estado_Usuario_Id}">
         <div class="modal modal-signin d-block py-5" tabindex="-1" role="dialog" id="modalSignin"
             style="background-image: url(../images//home/hp01.jpg); margin-top: 90px; z-index: 1;">
             <div class="modal-dialog" role="document">
@@ -39,16 +39,8 @@
                         <form class="">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control rounded-3" id="floatingInput"
-                                    th:field="*{Nombre}" placeholder="Subcategoría">
-                                <label for="floatingInput">Nombre de subcategoría</label>
-                                <br>
-                                <div class="form-row mb-3">
-                                    <select th:field="*{Categoria_Madre_Id}"
-                                        class="form-control form-control-sm col-md-6" id="Id_Categoria">
-                                        <option th:each="x:${Categorias}" th:value="${x.getId_Categoria}"
-                                            th:text="${x.getNombre}">
-                                    </select>
-                                </div>
+                                    th:field="*{Nombre}" placeholder="Nombre del estado">
+                                <label for="floatingInput">Nombre de estado</label>
                             </div>
                             <button class="w-100 mb-2 btn btn-lg rounded-3 btn-success" type="submit"
                                 th:text="${boton}"></button>

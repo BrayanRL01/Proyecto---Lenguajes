@@ -1,9 +1,12 @@
 package com.aplicacion.negocio.service;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 import org.springframework.stereotype.Service;
 
@@ -156,6 +159,11 @@ public class CategoriasService {
         JDBC.call.registerOutParameter(5, OracleTypes.VARCHAR);
 
         JDBC.call.execute();
+
+        BigDecimal N = (BigDecimal) JDBC.call.getObject(4);
+        String Mensaje = (String) JDBC.call.getObject(5);
+        System.out.println(N + Mensaje);
+
     }
 
     public void EliminarCategoria(Long ID) throws SQLException {
@@ -169,6 +177,15 @@ public class CategoriasService {
         JDBC.call.registerOutParameter(3, OracleTypes.VARCHAR);
 
         JDBC.call.execute();
+
+        BigDecimal N = (BigDecimal) JDBC.call.getObject(2);
+        String M = (String) JDBC.call.getObject(3);
+
+        if (N.intValue() == 0) {
+            JOptionPane.showMessageDialog(null, "Se eliminó el dato con éxito.");
+        } else {
+            JOptionPane.showMessageDialog(null, M);
+        }
 
         JDBC.call.close();
         JDBC.close();
