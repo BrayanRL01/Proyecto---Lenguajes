@@ -20,8 +20,6 @@ public class Productos implements Serializable {
     private String Tamano;
     private Long Cantidad;
 
-    private String Nombre_Categoria;
-
     public Productos(Long id_Producto, String codigo, Long id_Categoria, Long id_Marca, String nombre, String detalle,
             Long precio, String tamano,
             Long cantidad) {
@@ -110,14 +108,6 @@ public class Productos implements Serializable {
 
     public void setId_Marca(Long id_Marca) {
         Id_Marca = id_Marca;
-    }
-
-    public String getNombre_Categoria() {
-        return Nombre_Categoria;
-    }
-
-    public void setNombre_Categoria(String nombre_Categoria) {
-        Nombre_Categoria = nombre_Categoria;
     }
 
 }

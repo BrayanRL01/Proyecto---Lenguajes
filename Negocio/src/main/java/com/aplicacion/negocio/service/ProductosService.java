@@ -82,7 +82,7 @@ public class ProductosService {
         DB.close();
 
         return P;
-    }
+    }    
 
     public void InsertarProducto(Productos P) throws SQLException {
         DB.init();

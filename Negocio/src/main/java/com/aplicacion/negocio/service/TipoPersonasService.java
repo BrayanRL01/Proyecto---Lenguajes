@@ -80,26 +80,19 @@ public class TipoPersonasService {
         jdbc.prepareCall("BEGIN NEGOCIO.SP_OBTENER_UN_TIPO_PERSONA (?,?,?,?); END;");
 
         jdbc.call.setLong(1, id_Tpersona);
-        jdbc.call.registerOutParameter(2, OracleTypes.REF_CURSOR);
+        jdbc.call.registerOutParameter(2, OracleTypes.VARCHAR);
         jdbc.call.registerOutParameter(3, OracleTypes.NUMBER);
         jdbc.call.registerOutParameter(4, OracleTypes.VARCHAR);
         // se ejecuta el query
         jdbc.call.execute();
 
         // se almacena el resultado del query en rset
-        ResultSet rset = (ResultSet) jdbc.call.getObject(2);
-
-        while (rset.next()) {
-            Long nombre = rset.getLong("ID_TIPO_PERSONA");
-            String cedula = rset.getString("NOMBRE");
-
-            System.out.println(nombre + ", " + cedula);
-
+        String nombre = (String) jdbc.call.getObject(2);
+        
             per = new Tipo_Personas(
-                    rset.getLong(1),
-                    rset.getString(2)
+            id_Tpersona , nombre
             );
-        }
+    
         jdbc.call.close();
         jdbc.close();
 
@@ -110,12 +103,12 @@ public class TipoPersonasService {
         jdbc.init();
 
         // Prepare a PL/SQL call
-        jdbc.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_TIPO_PERSONA (?,?,?); END;");
+        jdbc.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_TIPO_PERSONA (?,?,?,?); END;");
 
         jdbc.call.setLong(1, tper.getId_tipo_persona());
         jdbc.call.setString(2, tper.getNombre());
         jdbc.call.registerOutParameter(3, OracleTypes.NUMBER);
-
+        jdbc.call.registerOutParameter(4, OracleTypes.VARCHAR);
         // se ejecuta el query
         jdbc.call.execute();
 
