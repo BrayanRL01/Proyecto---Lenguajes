@@ -8,21 +8,21 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.aplicacion.negocio.controller.JDBCconnection;
-import com.aplicacion.negocio.entity.Marcas;
+import com.aplicacion.negocio.entity.TiposVenta;
 
 import oracle.jdbc.OracleTypes;
 
 @Service
-public class MarcasService {
-
+public class TipoVentaService {
+    
     JDBCconnection JDBC = new JDBCconnection();
 
-    public List<Marcas> ObtenerMarcas() throws SQLException {
-        List<Marcas> ArrayMarcas = new ArrayList<>();
+    public List<TiposVenta> ObtenerVentas() throws SQLException {
+        List<TiposVenta> ArrayVentas = new ArrayList<>();
 
         JDBC.init();
 
-        JDBC.prepareCall("BEGIN NEGOCIO.SP_OBTENER_MARCAS (?,?,?); END;");
+        JDBC.prepareCall("BEGIN NEGOCIO.SP_OBTENER_TIPOS_VENTA (?,?,?); END;");
 
         JDBC.call.registerOutParameter(1, OracleTypes.REF_CURSOR);
         JDBC.call.registerOutParameter(2, OracleTypes.NUMBER);
@@ -33,23 +33,24 @@ public class MarcasService {
         ResultSet RS = (ResultSet) JDBC.call.getObject(1);
 
         while (RS.next()) {
-            Marcas M = new Marcas(
+            TiposVenta TV = new TiposVenta(
                     RS.getLong(1),
                     RS.getString(2));
-            ArrayMarcas.add(M);
+            ArrayVentas.add(TV);
         }
         RS.close();
         JDBC.call.close();
         JDBC.close();
 
-        return ArrayMarcas;
+        return ArrayVentas;
     }
 
-    public Marcas ObtenerMarcaPorID(Long id) throws SQLException {
-        Marcas M;
+    public TiposVenta ObtenerVentaPorID(Long id) throws SQLException {
+
+        TiposVenta TV;
         JDBC.init();
 
-        JDBC.prepareCall("BEGIN NEGOCIO.SP_OBTENER_UNA_MARCA (?,?,?,?); END;");
+        JDBC.prepareCall("BEGIN NEGOCIO.SP_OBTENER_UN_TIPO_VENTA (?,?,?,?); END;");
 
         JDBC.call.setLong(1, id);
         JDBC.call.registerOutParameter(2, OracleTypes.VARCHAR);
@@ -60,21 +61,21 @@ public class MarcasService {
 
         String N = (String) JDBC.call.getObject(2);
 
-        M = new Marcas(id, N);
+        TV = new TiposVenta(id, N);
 
         JDBC.call.close();
         JDBC.close();
 
-        return M;
+        return TV;
     }
 
-    public void InsertarMarcas(Marcas M) throws SQLException {
+    public void InsertarTipoVenta(TiposVenta TV) throws SQLException {
 
         JDBC.init();
 
-        JDBC.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_MARCA (?,?,?); END;");
+        JDBC.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_TIPO_VENTA (?,?,?); END;");
 
-        JDBC.call.setString(1, M.getNombre_Marca());
+        JDBC.call.setString(1, TV.getNombre());
         JDBC.call.registerOutParameter(2, OracleTypes.NUMBER);
         JDBC.call.registerOutParameter(3, OracleTypes.VARCHAR);
 
@@ -84,13 +85,13 @@ public class MarcasService {
         JDBC.close();
     }
 
-    public void ModificarMarca(Marcas M) throws SQLException {
+    public void ModificarTipoVenta(TiposVenta TV) throws SQLException {
         JDBC.init();
 
-        JDBC.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_MARCA (?,?,?,?); END;");
+        JDBC.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_TIPO_VENTA (?,?,?,?); END;");
 
-        JDBC.call.setLong(1, M.getId_Marca());
-        JDBC.call.setString(2, M.getNombre_Marca());
+        JDBC.call.setLong(1, TV.getVenta_Id());
+        JDBC.call.setString(2, TV.getNombre());
         JDBC.call.registerOutParameter(3, OracleTypes.NUMBER);
         JDBC.call.registerOutParameter(4, OracleTypes.VARCHAR); 
 
@@ -98,19 +99,17 @@ public class MarcasService {
 
     }
 
-    public void EliminarMarca(Long Id_Marca) throws SQLException {
+    public void EliminarTipoVenta(Long Id) throws SQLException {
 
         JDBC.init();
 
-        JDBC.prepareCall("BEGIN NEGOCIO.SP_ELIMINAR_MARCA (?,?,?); END;");
+        JDBC.prepareCall("BEGIN NEGOCIO.SP_ELIMINAR_TIPO_VENTA (?,?,?); END;");
 
-        JDBC.call.setLong(1, Id_Marca);
+        JDBC.call.setLong(1, Id);
         JDBC.call.registerOutParameter(2, OracleTypes.NUMBER);
         JDBC.call.registerOutParameter(3, OracleTypes.VARCHAR);
 
         JDBC.call.execute();
-
-        // String Mensaje = (String) JDBC.call.getObject(3);
 
         JDBC.call.close();
         JDBC.close();
