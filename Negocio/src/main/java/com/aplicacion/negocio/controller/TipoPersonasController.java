@@ -1,5 +1,6 @@
 package com.aplicacion.negocio.controller;
 
+import com.aplicacion.negocio.entity.Mensaje;
 import com.aplicacion.negocio.entity.Tipo_Personas;
 import com.aplicacion.negocio.service.TipoPersonasService;
 import java.sql.SQLException;
@@ -11,12 +12,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class TipoPersonasController {
 
     @Autowired
     TipoPersonasService tpService;
+    
+    Mensaje msj = new Mensaje();
 
     @GetMapping("/tpPersonaLista")
     public String Index(Model M) throws SQLException {
@@ -37,9 +41,16 @@ public class TipoPersonasController {
     }
 
     @PostMapping("/saveTPersona")
-    public String GuardarUsuario(@ModelAttribute Tipo_Personas usuarios) throws SQLException {
-        tpService.saveTPersonas(usuarios);
-        return "redirect:/tpPersonaLista";
+    public String GuardarUsuario(@ModelAttribute Tipo_Personas usuarios, RedirectAttributes redirAttrs) throws SQLException {
+        msj = tpService.saveTPersonas(usuarios);
+        if(msj.getNumero() == 1){//falla
+            redirAttrs.addFlashAttribute("error", "Error:"+msj.getMensaje());
+            return "redirect:/tpPersonaLista";
+        }
+        else{
+            redirAttrs.addFlashAttribute("success", "Nuevo tipo persona guardada correctamente");
+            return "redirect:/tpPersonaLista";
+        }
     }
 
     @PostMapping("/actualizaTPersona")

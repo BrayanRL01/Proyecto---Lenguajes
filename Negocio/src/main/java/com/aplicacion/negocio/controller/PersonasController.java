@@ -1,5 +1,6 @@
 package com.aplicacion.negocio.controller;
 
+import com.aplicacion.negocio.entity.Mensaje;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import com.aplicacion.negocio.entity.Personas;
 import com.aplicacion.negocio.entity.Tipo_Personas;
 import com.aplicacion.negocio.service.PersonaService;
 import com.aplicacion.negocio.service.TipoPersonasService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -28,6 +30,8 @@ public class PersonasController {
 
     @Autowired
     TipoPersonasService tpService;
+    
+    Mensaje msj = new Mensaje();
     
     @GetMapping("/")
     public String home(){
@@ -65,15 +69,30 @@ public class PersonasController {
     // accion de guardar la nueva persona desde el html de crearPersona por eso el
     // postMapping
     @PostMapping("/savePersona")
-    public String GuardarUsuario(@ModelAttribute Personas usuarios) throws SQLException {
-        personaService.savePersonas(usuarios);
-        return "redirect:/personaLista";
+    public String GuardarUsuario(@ModelAttribute Personas usuarios, RedirectAttributes redirAttrs) throws SQLException {
+        msj= personaService.savePersonas(usuarios);
+        if(msj.getNumero() == 1){//falla
+            redirAttrs.addFlashAttribute("error", "Error:"+msj.getMensaje());
+            return "redirect:/personaLista";
+        }
+        else {
+            redirAttrs.addFlashAttribute("success", "Nueva persona guardada correctamente");
+            return "redirect:/personaLista"; //1
+        }
+            
     }
     
     @PostMapping("/actualizaPersona")
-    public String actualizarPersona(@ModelAttribute Personas usuarios) throws SQLException {
-        personaService.actualizarPersona(usuarios);
-        return "redirect:/personaLista";
+    public String actualizarPersona(@ModelAttribute Personas usuarios, RedirectAttributes redirAttrs) throws SQLException {
+        msj = personaService.actualizarPersona(usuarios);
+        if(msj.getNumero()==1){ //falla
+            redirAttrs.addFlashAttribute("error", "Error:"+msj.getMensaje());
+            return "redirect:/personaLista";
+        }
+        else{
+            redirAttrs.addFlashAttribute("success", "Se edito Persona con ID: "+usuarios.getId_persona());
+            return "redirect:/personaLista";
+        }
     }   
     
     @GetMapping("/editUsuario/{id}")
@@ -90,8 +109,15 @@ public class PersonasController {
     }
 
     @GetMapping("/deleteusuario/{id}")
-    public String eliminarUsuario(@PathVariable("id") long id_usuario) throws SQLException {
-        personaService.eliminarPersona(id_usuario);
-        return "redirect:/personaLista";
+    public String eliminarUsuario(@PathVariable("id") long id_usuario, RedirectAttributes redirAttrs) throws SQLException {
+        msj = personaService.eliminarPersona(id_usuario);
+        if(msj.getNumero()==1){ //falla
+            redirAttrs.addFlashAttribute("error", "Error:"+msj.getMensaje());
+            return "redirect:/personaLista";
+        }
+        else{
+            redirAttrs.addFlashAttribute("success", "Se elimino Persona con ID: "+id_usuario);
+            return "redirect:/personaLista";
+        }
     }
 }

@@ -21,8 +21,8 @@
                     <tr>
                         <th scope="col">ID de Producto</th>
                         <th scope="col">Codigo del producto</th>
-                        <th scope="col">Marca</th>
-                        <th scope="col">Categoria</th>
+                        <th scope="col">ID de Categoria</th>
+                        <th scope="col">ID de Marca</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Detalle</th>
                         <th scope="col">Precio</th>
@@ -37,8 +37,8 @@
                     <tr>
                         <td th:text="${tipo.getId_Producto}"></td>
                         <td th:text="${tipo.getCodigo}"></td>
-                        <td th:text="${tipo.getMarca}"></td>
-                        <td th:text="${tipo.getCategoria}"></td>
+                        <td th:text="${tipo.getId_Categoria}"></td>
+                        <td th:text="${tipo.getId_Marca}"></td>
                         <td th:text="${tipo.getNombre}"></td>
                         <td th:text="${tipo.getDetalle}"></td>
                         <td th:text="${tipo.getPrecio}"></td>
