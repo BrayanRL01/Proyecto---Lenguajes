@@ -1,9 +1,8 @@
 package com.aplicacion.negocio.service;
 
 import com.aplicacion.negocio.controller.JDBCconnection;
+import com.aplicacion.negocio.entity.Mensaje;
 import com.aplicacion.negocio.entity.Personas;
-import com.aplicacion.negocio.entity.Tipo_Personas;
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,6 +19,8 @@ public class PersonaService {
 
     // instancia para la conexion a la BD
     JDBCconnection jdbc = new JDBCconnection();
+    
+    Mensaje msj = new Mensaje();
 
     public List<Personas> obtenerPersonas() throws SQLException {
 
@@ -63,8 +64,9 @@ public class PersonaService {
         return contenedor;
     }
 
-    public void savePersonas(Personas per) throws SQLException {
+    public Mensaje savePersonas(Personas per) throws SQLException {
         jdbc.init();
+        msj = new Mensaje();
 
         // Prepare a PL/SQL call
         jdbc.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_PERSONA (?,?,?,?,?,?,?,?,?,?); END;");
@@ -77,14 +79,18 @@ public class PersonaService {
         jdbc.call.setString(6, per.getEmail());
         jdbc.call.setString(7, per.getTelefono());
         jdbc.call.setInt(8, per.getTipoPersonaId());
-        jdbc.call.registerOutParameter(9, OracleTypes.NUMBER);
-        jdbc.call.registerOutParameter(10, OracleTypes.VARCHAR);
-        
-        
+        jdbc.call.registerOutParameter(9, OracleTypes.NUMBER); //worked or not
+        jdbc.call.registerOutParameter(10, OracleTypes.VARCHAR); //mensaje de error
+       
         jdbc.call.execute();
-
+        
+        msj.setNumero(jdbc.call.getInt(9));
+        msj.setMensaje(jdbc.call.getString(10));
+        
         jdbc.call.close();
         jdbc.close();
+        
+        return msj;
     }
 
     public Personas getPersonaPorID(Long id) throws SQLException {
@@ -144,7 +150,8 @@ public class PersonaService {
         return per;
     }
 
-    public void actualizarPersona(Personas per) throws SQLException {
+    public Mensaje actualizarPersona(Personas per) throws SQLException {
+        msj = new Mensaje();
         jdbc.init();
 
         // Prepare a PL/SQL call
@@ -163,12 +170,19 @@ public class PersonaService {
         jdbc.call.registerOutParameter(11, OracleTypes.VARCHAR);
 
         jdbc.call.execute();
+        
+        msj.setNumero(jdbc.call.getInt(10));
+        msj.setMensaje(jdbc.call.getString(11));
+        
         jdbc.call.close();
         jdbc.close();
+        
+        return msj;
     }
 
-    public void eliminarPersona(Long per) throws SQLException {
-
+    public Mensaje eliminarPersona(Long per) throws SQLException {
+        msj = new Mensaje();
+        
         jdbc.init();
 
         // Prepare a PL/SQL call
@@ -180,11 +194,15 @@ public class PersonaService {
 
         // se ejecuta el query
         jdbc.call.execute();
-
+        
+        msj.setNumero(jdbc.call.getInt(2));
+        msj.setMensaje(jdbc.call.getString(3));
         // System.out.println("+++++++++++++++++ Resultado de SP_ELIMINAR_PERSONA: " +
         // rset);
         jdbc.call.close();
         jdbc.close();
+        
+        return msj;
     }
 
 }
