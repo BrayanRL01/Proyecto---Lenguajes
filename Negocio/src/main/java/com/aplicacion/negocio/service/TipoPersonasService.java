@@ -1,6 +1,7 @@
 package com.aplicacion.negocio.service;
 
 import com.aplicacion.negocio.controller.JDBCconnection;
+import com.aplicacion.negocio.entity.Mensaje;
 import com.aplicacion.negocio.entity.Tipo_Personas;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 public class TipoPersonasService {
 
     JDBCconnection jdbc = new JDBCconnection();
+    Mensaje msj = new Mensaje();
 
     public List<Tipo_Personas> obtenerTipoPersonas() throws SQLException {
         // crear lista que el metodo va devolver
@@ -52,7 +54,8 @@ public class TipoPersonasService {
         return contenedor;
     }
 
-    public void saveTPersonas(Tipo_Personas nom) throws SQLException {
+    public Mensaje saveTPersonas(Tipo_Personas nom) throws SQLException {
+        msj = new Mensaje();
         jdbc.init();
 
         // Prepare a PL/SQL call
@@ -65,10 +68,14 @@ public class TipoPersonasService {
         jdbc.call.execute();
         
         BigDecimal rset = (BigDecimal) jdbc.call.getObject(2);
-        System.out.println(rset);
+        
+        msj.setNumero(jdbc.call.getInt(2));
+        msj.setMensaje(jdbc.call.getString(3));
 
         jdbc.call.close();
         jdbc.close();
+        
+        return msj;
     }
 
     public Tipo_Personas getTPersonaPorID(long id_Tpersona) throws SQLException {
