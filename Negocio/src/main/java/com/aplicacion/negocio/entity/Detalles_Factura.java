@@ -29,6 +29,10 @@ public class Detalles_Factura {
     private Long subtotal;
     private String tamano;
 
+    public Detalles_Factura() {
+       this.cantidad = (long) 0;
+    }
+
     public Long getIDDetalle() {
         return IDDetalle;
     }
