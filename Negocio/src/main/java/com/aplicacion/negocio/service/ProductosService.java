@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.aplicacion.negocio.controller.JDBCconnection;
+import com.aplicacion.negocio.entity.Mensaje;
 import com.aplicacion.negocio.entity.Productos;
 
 import oracle.jdbc.OracleTypes;
@@ -16,6 +17,8 @@ import oracle.jdbc.OracleTypes;
 public class ProductosService {
 
     JDBCconnection DB = new JDBCconnection();
+
+    Mensaje M = new Mensaje();
 
     public List<Productos> ObtenerProductos() throws SQLException {
 
@@ -84,7 +87,7 @@ public class ProductosService {
         return P;
     }    
 
-    public void InsertarProducto(Productos P) throws SQLException {
+    public Mensaje InsertarProducto(Productos P) throws SQLException {
         DB.init();
 
         DB.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_PRODUCTO (?,?,?,?,?,?,?,?,?,?); END;");
@@ -102,15 +105,16 @@ public class ProductosService {
 
         DB.call.execute();
 
-        String Mensaje = (String) DB.call.getObject(10);
-
-        System.out.println(Mensaje);
+       M.setNumero(DB.call.getInt(9));
+       M.setMensaje(DB.call.getString(10));
 
         DB.call.close();
         DB.close();
+
+        return M;
     }
 
-    public void ModificarProducto(Productos P) throws SQLException {
+    public Mensaje ModificarProducto(Productos P) throws SQLException {
         DB.init();
 
         DB.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_PRODUCTO(?,?,?,?,?,?,?,?,?,?,?); END;");
@@ -128,9 +132,14 @@ public class ProductosService {
         DB.call.registerOutParameter(11, OracleTypes.VARCHAR);
 
         DB.call.execute();
+
+        M.setNumero(DB.call.getInt(10));
+        M.setMensaje(DB.call.getString(11));
+
+        return M;
     }
 
-    public void EliminarProducto(Long Id) throws SQLException {
+    public Mensaje EliminarProducto(Long Id) throws SQLException {
 
         DB.init();
 
@@ -142,7 +151,12 @@ public class ProductosService {
 
         DB.call.execute();
 
+        M.setNumero(DB.call.getInt(2));
+        M.setMensaje(DB.call.getString(3));
+
         DB.call.close();
         DB.close();
+
+        return M;
     }
 }

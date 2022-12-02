@@ -4,7 +4,7 @@
  */
 package com.aplicacion.negocio.controller;
 
-import com.aplicacion.negocio.entity.DetalleVista;
+// import com.aplicacion.negocio.entity.DetalleVista;
 import com.aplicacion.negocio.entity.FacturaVista;
 import com.aplicacion.negocio.entity.FacturasConDetalles;
 import com.aplicacion.negocio.service.Detalles_FacturaService;

@@ -1,15 +1,18 @@
 package com.aplicacion.negocio.service;
 
-import com.aplicacion.negocio.controller.JDBCconnection;
-import com.aplicacion.negocio.entity.Mensaje;
-import com.aplicacion.negocio.entity.Tipo_Personas;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import oracle.jdbc.OracleTypes;
+
 import org.springframework.stereotype.Service;
+
+import com.aplicacion.negocio.controller.JDBCconnection;
+import com.aplicacion.negocio.entity.Mensaje;
+import com.aplicacion.negocio.entity.Tipo_Personas;
+
+import oracle.jdbc.OracleTypes;
 
 /**
  *
@@ -42,11 +45,10 @@ public class TipoPersonasService {
 
         while (rset.next()) {
             Tipo_Personas per = new Tipo_Personas(
-                rset.getLong(1),
-                rset.getString(2));
-        contenedor.add(per);
+                    rset.getLong(1),
+                    rset.getString(2));
+            contenedor.add(per);
         }
-     
 
         rset.close();
         jdbc.call.close();
@@ -68,14 +70,12 @@ public class TipoPersonasService {
 
         jdbc.call.execute();
 
-        BigDecimal rset = (BigDecimal) jdbc.call.getObject(2);
-        
         msj.setNumero(jdbc.call.getInt(2));
         msj.setMensaje(jdbc.call.getString(3));
 
         jdbc.call.close();
         jdbc.close();
-        
+
         return msj;
     }
 

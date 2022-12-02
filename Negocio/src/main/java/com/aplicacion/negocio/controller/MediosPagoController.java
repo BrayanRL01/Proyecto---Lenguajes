@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aplicacion.negocio.entity.MediosPago;
+import com.aplicacion.negocio.entity.Mensaje;
 import com.aplicacion.negocio.service.MediosPagoService;
 
 @Controller
@@ -20,6 +21,8 @@ public class MediosPagoController {
 
     @Autowired
     MediosPagoService MPS;
+
+    Mensaje M;
 
     @GetMapping("/listampagos")
     public String Index(Model M) throws SQLException {
@@ -38,9 +41,14 @@ public class MediosPagoController {
 
     @PostMapping("/GuardarMPago")
     public String GuardarMPago(@ModelAttribute MediosPago MP, RedirectAttributes flash) throws SQLException {
-        MPS.InsertarMedioPago(MP);
-        flash.addFlashAttribute("mensaje", "Medio de pago creado con éxito.");
-        return "redirect:/listampagos";
+        M = MPS.InsertarMedioPago(MP);
+        if (M.getNumero() == 0) {
+            flash.addFlashAttribute("mensaje", "Medio de pago creado con éxito.");
+            return "redirect:/listampagos";
+        } else {
+            flash.addFlashAttribute("error", "Hubo un error: " + M.getMensaje());
+            return "redirect:/listampagos";
+        }
     }
 
     @GetMapping("/ModificarMPago/{Medio_Id}")
@@ -55,17 +63,27 @@ public class MediosPagoController {
 
     @PostMapping("/EditarMPago")
     public String EditarMPago(@ModelAttribute MediosPago MP, RedirectAttributes flash) throws SQLException {
-        MPS.ModificarMedioPago(MP);
-        flash.addFlashAttribute("mensaje", "Medio de pago actualizado con éxito.");
-        return "redirect:/listampagos";
+        M = MPS.ModificarMedioPago(MP);
+        if (M.getNumero() == 0) {
+            flash.addFlashAttribute("mensaje", "Medio de pago actualizado con éxito.");
+            return "redirect:/listampagos";
+        } else {
+            flash.addFlashAttribute("error", "Hubo un error: " + M.getMensaje());
+            return "redirect:/listampagos";
+        }
     }
 
     @GetMapping("/EliminarMPago/{Medio_Id}")
     public String EliminarMPago(@PathVariable("Medio_Id") Long Medio_Id, RedirectAttributes flash)
             throws SQLException {
-        MPS.EliminarMedioPago(Medio_Id);
-        flash.addFlashAttribute("mensaje", "Medio de pago eliminado con éxito.");
-        return "redirect:/listampagos";
+        M = MPS.EliminarMedioPago(Medio_Id);
+        if (M.getNumero() == 0) {
+            flash.addFlashAttribute("mensaje", "Medio de pago eliminado con éxito.");
+            return "redirect:/listampagos";
+        } else {
+            flash.addFlashAttribute("error", "Hubo un error: " + M.getMensaje());
+            return "redirect:/listampagos";
+        }
     }
 
 }

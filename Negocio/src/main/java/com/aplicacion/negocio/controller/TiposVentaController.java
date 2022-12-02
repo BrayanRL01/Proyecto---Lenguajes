@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.aplicacion.negocio.entity.Mensaje;
 import com.aplicacion.negocio.entity.TiposVenta;
 import com.aplicacion.negocio.service.TipoVentaService;
 
@@ -20,6 +21,8 @@ public class TiposVentaController {
 
     @Autowired
     TipoVentaService TVS;
+
+    Mensaje M;
 
     @GetMapping("/listatventas")
     public String Index(Model M) throws SQLException {
@@ -38,9 +41,15 @@ public class TiposVentaController {
 
     @PostMapping("/GuardarTVenta")
     public String GuardarEstado(@ModelAttribute TiposVenta TV, RedirectAttributes flash) throws SQLException {
-        TVS.InsertarTipoVenta(TV);
-        flash.addFlashAttribute("mensaje", "Tipo de venta creado con éxito.");
-        return "redirect:/listatventas";
+        M = TVS.InsertarTipoVenta(TV);
+        if (M.getNumero() == 0) {
+            flash.addFlashAttribute("mensaje", "Tipo de venta creado con éxito.");
+            return "redirect:/listatventas";
+        } else {
+            flash.addFlashAttribute("error", "Hubo un error: " + M.getMensaje());
+            return "redirect:/listatventas";
+        }
+
     }
 
     @GetMapping("/ModificarTVenta/{Venta_Id}")
@@ -55,16 +64,26 @@ public class TiposVentaController {
 
     @PostMapping("/EditarTVenta")
     public String EditarEstado(@ModelAttribute TiposVenta TV, RedirectAttributes flash) throws SQLException {
-        TVS.ModificarTipoVenta(TV);
-        flash.addFlashAttribute("mensaje", "Tipo de venta actualizado con éxito.");
-        return "redirect:/listatventas";
+        M = TVS.ModificarTipoVenta(TV);
+        if (M.getNumero() == 0) {
+            flash.addFlashAttribute("mensaje", "Tipo de venta actualizado con éxito.");
+            return "redirect:/listatventas";
+        } else {
+            flash.addFlashAttribute("error", "Hubo un error: " + M.getMensaje());
+            return "redirect:/listatventas";
+        }
     }
 
     @GetMapping("/EliminarTVenta/{Venta_Id}")
     public String EliminarMarca(@PathVariable("Venta_Id") Long Venta_Id, RedirectAttributes flash)
             throws SQLException {
-        TVS.EliminarTipoVenta(Venta_Id);
-        flash.addFlashAttribute("mensaje", "Tipo de venta eliminado con éxito.");
-        return "redirect:/listatventas";
+        M = TVS.EliminarTipoVenta(Venta_Id);
+        if (M.getNumero() == 0) {
+            flash.addFlashAttribute("mensaje", "Tipo de venta eliminado con éxito.");
+            return "redirect:/listatventas";
+        } else {
+            flash.addFlashAttribute("error", "Hubo un error: " + M.getMensaje());
+            return "redirect:/listatventas";
+        }
     }
 }
