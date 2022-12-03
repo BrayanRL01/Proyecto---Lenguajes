@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.aplicacion.negocio.controller.JDBCconnection;
 import com.aplicacion.negocio.entity.EstadoUsuario;
+import com.aplicacion.negocio.entity.Mensaje;
 
 import oracle.jdbc.OracleTypes;
 
@@ -16,6 +17,8 @@ import oracle.jdbc.OracleTypes;
 public class EstadoUsuarioService {
     
     JDBCconnection JDBC = new JDBCconnection();
+
+    Mensaje M = new Mensaje();
 
     public List<EstadoUsuario> ObtenerEstados() throws SQLException {
         List<EstadoUsuario> ArrayEstados = new ArrayList<>();
@@ -69,7 +72,7 @@ public class EstadoUsuarioService {
         return EU;
     }
 
-    public void InsertarEstados(EstadoUsuario EU) throws SQLException {
+    public Mensaje InsertarEstados(EstadoUsuario EU) throws SQLException {
 
         JDBC.init();
 
@@ -81,11 +84,16 @@ public class EstadoUsuarioService {
 
         JDBC.call.execute();
 
+        M.setNumero(JDBC.call.getInt(2));
+        M.setMensaje(JDBC.call.getString(3));
+
         JDBC.call.close();
         JDBC.close();
+
+        return M;
     }
 
-    public void ModificarEstado(EstadoUsuario EU) throws SQLException {
+    public Mensaje ModificarEstado(EstadoUsuario EU) throws SQLException {
         JDBC.init();
 
         JDBC.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_ESTADO_USUARIO (?,?,?,?); END;");
@@ -97,9 +105,14 @@ public class EstadoUsuarioService {
 
         JDBC.call.execute();
 
+        M.setNumero(JDBC.call.getInt(3));
+        M.setMensaje(JDBC.call.getString(4));
+
+        return M;
+
     }
 
-    public void EliminarEstado(Long Id) throws SQLException {
+    public Mensaje EliminarEstado(Long Id) throws SQLException {
 
         JDBC.init();
 
@@ -111,8 +124,13 @@ public class EstadoUsuarioService {
 
         JDBC.call.execute();
 
+        M.setNumero(JDBC.call.getInt(2));
+        M.setMensaje(JDBC.call.getString(3));
+
         JDBC.call.close();
         JDBC.close();
+
+        return M;
     }
 
 }

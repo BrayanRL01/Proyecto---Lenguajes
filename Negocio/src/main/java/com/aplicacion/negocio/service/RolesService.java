@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.aplicacion.negocio.controller.JDBCconnection;
+import com.aplicacion.negocio.entity.Mensaje;
 import com.aplicacion.negocio.entity.Roles;
 
 import oracle.jdbc.OracleTypes;
@@ -16,6 +17,8 @@ import oracle.jdbc.OracleTypes;
 public class RolesService {
 
     JDBCconnection JDBC = new JDBCconnection();
+
+    Mensaje M = new Mensaje();
 
     public List<Roles> ObtenerRoles() throws SQLException {
         List<Roles> ArrayRoles = new ArrayList<>();
@@ -69,7 +72,7 @@ public class RolesService {
         return R;
     }
 
-    public void InsertarRoles(Roles R) throws SQLException {
+    public Mensaje InsertarRoles(Roles R) throws SQLException {
 
         JDBC.init();
 
@@ -81,11 +84,16 @@ public class RolesService {
 
         JDBC.call.execute();
 
+        M.setNumero(JDBC.call.getInt(2));
+        M.setMensaje(JDBC.call.getString(3));
+
         JDBC.call.close();
         JDBC.close();
+
+        return M;
     }
 
-    public void ModificarRol(Roles R) throws SQLException {
+    public Mensaje ModificarRol(Roles R) throws SQLException {
         JDBC.init();
 
         JDBC.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_ROLE (?,?,?,?); END;");
@@ -97,9 +105,13 @@ public class RolesService {
 
         JDBC.call.execute();
 
+        M.setNumero(JDBC.call.getInt(3));
+        M.setMensaje(JDBC.call.getString(4));
+
+        return M;
     }
 
-    public void EliminarRol(Long Id) throws SQLException {
+    public Mensaje EliminarRol(Long Id) throws SQLException {
 
         JDBC.init();
 
@@ -111,7 +123,12 @@ public class RolesService {
 
         JDBC.call.execute();
 
+        M.setNumero(JDBC.call.getInt(2));
+        M.setMensaje(JDBC.call.getString(3));
+
         JDBC.call.close();
         JDBC.close();
+
+        return M;
     }
 }

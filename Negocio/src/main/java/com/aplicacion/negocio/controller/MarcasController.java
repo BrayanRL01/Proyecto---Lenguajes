@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aplicacion.negocio.entity.Marcas;
+import com.aplicacion.negocio.entity.Mensaje;
 import com.aplicacion.negocio.service.MarcasService;
 
 @Controller
@@ -20,6 +21,8 @@ public class MarcasController {
 
     @Autowired
     MarcasService MS;
+
+    Mensaje N = new Mensaje();
 
     @GetMapping("/listamarcas")
     public String Index(Model M) throws SQLException {
@@ -41,9 +44,14 @@ public class MarcasController {
 
     @PostMapping("/GuardarMarca")
     public String GuardarMarca(@ModelAttribute Marcas M, RedirectAttributes flash) throws SQLException {
-        MS.InsertarMarcas(M);
-        flash.addFlashAttribute("mensaje", "Marca creada con éxito.");
-        return "redirect:/listamarcas";
+        N = MS.InsertarMarcas(M);
+        if (N.getNumero() == 0) {
+            flash.addFlashAttribute("mensaje", "Marca creada con éxito.");
+            return "redirect:/listamarcas";
+        } else {
+            flash.addFlashAttribute("error", "Hubo un error: " + N.getMensaje());
+            return "redirect:/listamarcas";
+        }
     }
 
     @GetMapping("/ModificarMarca/{Id_Marca}")
@@ -59,16 +67,26 @@ public class MarcasController {
 
     @PostMapping("/EditarMarca")
     public String EditarMarca(@ModelAttribute Marcas M, RedirectAttributes flash) throws SQLException {
-        MS.ModificarMarca(M);
-        flash.addFlashAttribute("mensaje", "Marca actualizada con éxito.");
-        return "redirect:/listamarcas";
+        N = MS.ModificarMarca(M);
+        if (N.getNumero() == 0) {
+            flash.addFlashAttribute("mensaje", "Marca actualizada con éxito.");
+            return "redirect:/listamarcas";
+        } else {
+            flash.addFlashAttribute("error", "Hubo un error: " + N.getMensaje());
+            return "redirect:/listamarcas";
+        }
     }
 
     @GetMapping("/EliminarMarca/{Id_Marca}")
     public String EliminarMarca(@PathVariable("Id_Marca") Long Id_Marca, RedirectAttributes flash) throws SQLException {
-        MS.EliminarMarca(Id_Marca);
-        flash.addFlashAttribute("mensaje", "Marca eliminada con éxito.");
-        return "redirect:/listamarcas";
+        N = MS.EliminarMarca(Id_Marca);
+        if (N.getNumero() == 0) {
+            flash.addFlashAttribute("mensaje", "Marca eliminada con éxito.");
+            return "redirect:/listamarcas";
+        } else {
+            flash.addFlashAttribute("error", "Hubo un error: " + N.getMensaje());
+            return "redirect:/listamarcas";
+        }
     }
 
 }

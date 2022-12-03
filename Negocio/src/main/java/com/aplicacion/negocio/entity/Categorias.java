@@ -13,11 +13,18 @@ public class Categorias implements Serializable {
     private Long Id_Categoria;
     private String Nombre;
     private Long Categoria_Madre_Id;
+    private String Nombre_Madre;
 
     public Categorias(Long id_Categoria, String nombre, Long categoria_Madre_Id) {
         this.Id_Categoria = id_Categoria;
         this.Nombre = nombre;
         this.Categoria_Madre_Id = categoria_Madre_Id;
+    }
+
+    public Categorias(Long id_Categoria, String nombre, String nombre_Madre) {
+        Id_Categoria = id_Categoria;
+        Nombre = nombre;
+        Nombre_Madre = nombre_Madre;
     }
 
     public Categorias() {
@@ -48,6 +55,14 @@ public class Categorias implements Serializable {
 
     public void setCategoria_Madre_Id(Long categoria_Madre_Id) {
         Categoria_Madre_Id = categoria_Madre_Id;
+    }
+
+    public String getNombre_Madre() {
+        return Nombre_Madre;
+    }
+
+    public void setNombre_Madre(String nombre_Madre) {
+        Nombre_Madre = nombre_Madre;
     }
 
 }

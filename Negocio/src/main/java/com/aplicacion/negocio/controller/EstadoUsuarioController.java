@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aplicacion.negocio.entity.EstadoUsuario;
+import com.aplicacion.negocio.entity.Mensaje;
 import com.aplicacion.negocio.service.EstadoUsuarioService;
 
 @Controller
@@ -20,6 +21,8 @@ public class EstadoUsuarioController {
 
     @Autowired
     EstadoUsuarioService EUS;
+
+    Mensaje M;
 
     @GetMapping("/listaestados")
     public String Index(Model M) throws SQLException {
@@ -38,9 +41,14 @@ public class EstadoUsuarioController {
 
     @PostMapping("/GuardarEstado")
     public String GuardarEstado(@ModelAttribute EstadoUsuario EU, RedirectAttributes flash) throws SQLException {
-        EUS.InsertarEstados(EU);
-        flash.addFlashAttribute("mensaje", "Estado creado con éxito.");
-        return "redirect:/listaestados";
+        M = EUS.InsertarEstados(EU);
+        if (M.getNumero() == 0) {
+            flash.addFlashAttribute("mensaje", "Estado de usuario creado con éxito.");
+            return "redirect:/listaestados";
+        } else {
+            flash.addFlashAttribute("error", "Hubo un error: " + M.getMensaje());
+            return "redirect:/listaestados";
+        }
     }
 
     @GetMapping("/ModificarEstado/{Estado_Usuario_Id}")
@@ -55,16 +63,26 @@ public class EstadoUsuarioController {
 
     @PostMapping("/EditarEstado")
     public String EditarEstado(@ModelAttribute EstadoUsuario EU, RedirectAttributes flash) throws SQLException {
-        EUS.ModificarEstado(EU);
-        flash.addFlashAttribute("mensaje", "Estado actualizado con éxito.");
-        return "redirect:/listaestados";
+        M = EUS.ModificarEstado(EU);
+        if (M.getNumero() == 0) {
+            flash.addFlashAttribute("mensaje", "Estado de usuario actualizado con éxito.");
+            return "redirect:/listaestados";
+        } else {
+            flash.addFlashAttribute("error", "Hubo un error: " + M.getMensaje());
+            return "redirect:/listaestados";
+        }
     }
 
     @GetMapping("/EliminarEstado/{Estado_Usuario_Id}")
     public String EliminarMarca(@PathVariable("Estado_Usuario_Id") Long Estado_Usuario_Id, RedirectAttributes flash)
             throws SQLException {
-        EUS.EliminarEstado(Estado_Usuario_Id);
-        flash.addFlashAttribute("mensaje", "Estado eliminado con éxito.");
-        return "redirect:/listaestados";
+        M = EUS.EliminarEstado(Estado_Usuario_Id);
+        if (M.getNumero() == 0) {
+            flash.addFlashAttribute("mensaje", "Estado de usuario eliminado con éxito.");
+            return "redirect:/listaestados";
+        } else {
+            flash.addFlashAttribute("error", "Hubo un error: " + M.getMensaje());
+            return "redirect:/listaestados";
+        }
     }
 }

@@ -74,6 +74,7 @@ public class TipoPersonasController {
         model.addAttribute("boton", "Actualizar");
         return "actualizaTpersona";
     }
+
     @GetMapping("/deleteTpersona/{id}")
     public String eliminarUsuario(@PathVariable("id") long id_usuario, RedirectAttributes redirAttrs) throws SQLException {
         msj= tpService.eliminarTPersona(id_usuario);

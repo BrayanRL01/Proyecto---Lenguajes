@@ -21,8 +21,7 @@
 </head>
 
 <body>
-    <!-- Pasamos el objeto de tipo persona 
-        -->
+
     <form th:object="${Rol}" th:action="@{/EditarRol}" method="POST">
 
         <input type="hidden" th:field="*{Rol_Id}">
@@ -39,7 +38,7 @@
                         <form class="">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control rounded-3" id="floatingInput"
-                                    th:field="*{Nombre}" placeholder="Nombre del rol">
+                                    th:field="*{Nombre}" placeholder="Nombre de rol">
                                 <label for="floatingInput">Nombre del rol</label>
                             </div>
                             <button class="w-100 mb-2 btn btn-lg rounded-3 btn-success" type="submit"

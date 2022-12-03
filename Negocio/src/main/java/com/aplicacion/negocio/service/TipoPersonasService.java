@@ -1,15 +1,18 @@
 package com.aplicacion.negocio.service;
 
-import com.aplicacion.negocio.controller.JDBCconnection;
-import com.aplicacion.negocio.entity.Mensaje;
-import com.aplicacion.negocio.entity.Tipo_Personas;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import oracle.jdbc.OracleTypes;
+
 import org.springframework.stereotype.Service;
+
+import com.aplicacion.negocio.controller.JDBCconnection;
+import com.aplicacion.negocio.entity.Mensaje;
+import com.aplicacion.negocio.entity.Tipo_Personas;
+
+import oracle.jdbc.OracleTypes;
 
 /**
  *
@@ -30,7 +33,7 @@ public class TipoPersonasService {
 
         // Prepare a PL/SQL call
         jdbc.prepareCall("BEGIN NEGOCIO.SP_OBTENER_TIPOS_PERSONA (?,?,?); END;");
-       
+
         // se le indica la posicion del parametro y el tipo
         jdbc.call.registerOutParameter(1, OracleTypes.REF_CURSOR);
         jdbc.call.registerOutParameter(2, OracleTypes.NUMBER);
@@ -46,7 +49,7 @@ public class TipoPersonasService {
                     rset.getString(2));
             contenedor.add(per);
         }
-        // Close all the resources
+
         rset.close();
         jdbc.call.close();
         jdbc.close();
@@ -60,7 +63,7 @@ public class TipoPersonasService {
 
         // Prepare a PL/SQL call
         jdbc.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_TIPO_PERSONA (?,?,?); END;");
-        
+
         jdbc.call.setString(1, nom.getNombre());
         jdbc.call.registerOutParameter(2, OracleTypes.NUMBER);
         jdbc.call.registerOutParameter(3, OracleTypes.VARCHAR);
@@ -72,7 +75,7 @@ public class TipoPersonasService {
 
         jdbc.call.close();
         jdbc.close();
-        
+
         return msj;
     }
 
@@ -93,11 +96,10 @@ public class TipoPersonasService {
 
         // se almacena el resultado del query en rset
         String nombre = (String) jdbc.call.getObject(2);
-        
-            per = new Tipo_Personas(
-            id_Tpersona , nombre
-            );
-    
+
+        per = new Tipo_Personas(
+                id_Tpersona, nombre);
+
         jdbc.call.close();
         jdbc.close();
 

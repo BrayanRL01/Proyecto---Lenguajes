@@ -16,14 +16,12 @@ import javax.persistence.Id;
  */
 
 @Entity
-//@Table(name = "TAB_TIPOS_PERSONA", schema = "NEGOCIO")
 public class Tipo_Personas implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id_tipo_persona;
     private String nombre;
-
 
     public Long getId_tipo_persona() {
         return id_tipo_persona;
@@ -41,12 +39,14 @@ public class Tipo_Personas implements Serializable {
         this.nombre = nombre;
     }
 
-    public Tipo_Personas() {
-    }
-
     public Tipo_Personas(Long id_tipo_persona, String nombre) {
         this.id_tipo_persona = id_tipo_persona;
         this.nombre = nombre;
     }
+
+    public Tipo_Personas() {
+    }
+
+    
 
 }

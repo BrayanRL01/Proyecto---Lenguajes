@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.aplicacion.negocio.controller.JDBCconnection;
 import com.aplicacion.negocio.entity.MediosPago;
+import com.aplicacion.negocio.entity.Mensaje;
 
 import oracle.jdbc.OracleTypes;
 
@@ -16,6 +17,8 @@ import oracle.jdbc.OracleTypes;
 public class MediosPagoService {
 
     JDBCconnection JDBC = new JDBCconnection();
+
+    Mensaje M = new Mensaje();
 
     public List<MediosPago> ObtenerMPagos() throws SQLException {
         List<MediosPago> ArrayMedios = new ArrayList<>();
@@ -70,7 +73,7 @@ public class MediosPagoService {
         return MP;
     }
 
-    public void InsertarMedioPago(MediosPago MP) throws SQLException {
+    public Mensaje InsertarMedioPago(MediosPago MP) throws SQLException {
 
         JDBC.init();
 
@@ -82,11 +85,16 @@ public class MediosPagoService {
 
         JDBC.call.execute();
 
+        M.setNumero(JDBC.call.getInt(2));
+        M.setMensaje(JDBC.call.getString(3));
+
         JDBC.call.close();
         JDBC.close();
+
+        return M;
     }
 
-    public void ModificarMedioPago(MediosPago MP) throws SQLException {
+    public Mensaje ModificarMedioPago(MediosPago MP) throws SQLException {
         JDBC.init();
 
         JDBC.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_MEDIO_PAGO (?,?,?,?); END;");
@@ -98,9 +106,14 @@ public class MediosPagoService {
 
         JDBC.call.execute();
 
+        M.setNumero(JDBC.call.getInt(3));
+        M.setMensaje(JDBC.call.getString(4));
+
+        return M;
+
     }
 
-    public void EliminarMedioPago(Long Id) throws SQLException {
+    public Mensaje EliminarMedioPago(Long Id) throws SQLException {
 
         JDBC.init();
 
@@ -112,7 +125,12 @@ public class MediosPagoService {
 
         JDBC.call.execute();
 
+        M.setNumero(JDBC.call.getInt(2));
+        M.setMensaje(JDBC.call.getString(3));
+
         JDBC.call.close();
         JDBC.close();
+
+        return M;
     }
 }

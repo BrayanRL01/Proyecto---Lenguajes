@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Detalles de factura</title>
+        <link rel="stylesheet" href="/css/home.css"/>
+        <link rel="stylesheet" href="/css/formularios.css"/>
+        <link rel="stylesheet" href="/css/detallesFactura.css"/>
+
+    </head>
+    <body>
+        <header th:replace="plantilla/plantilla::barra-navegacion"></header>
+
+        <div class="container-formulario">
+            <h1>Estás creando los detalles de una factura</h1>
+            <div class="formulario">
+                <div class="container-tabla-productos">
+                    <h2>Productos para agregar</h2>
+                    <table id="tabla">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID de Producto</th>
+<!--                                <th scope="col">Codigo del producto</th>-->
+<!--                                <th scope="col">ID de Categoria</th>
+                                <th scope="col">ID de Marca</th>-->
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Detalle</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Tamano</th>
+                                <th scope="col">Añadir</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="tipo:${productos}">
+                            <tr>
+                                <td th:text="${tipo.getId_Producto}"></td>
+<!--                                <td th:text="${tipo.getCodigo}"></td>
+                                <td th:text="${tipo.getId_Categoria}"></td>
+                                <td th:text="${tipo.getId_Marca}"></td>-->
+                                <td th:text="${tipo.getNombre}"></td>
+                                <td th:text="${tipo.getDetalle}"></td>
+                                <td th:text="${tipo.getPrecio}"></td>
+                                <td th:text="${tipo.getTamano}"></td>
+                                <td>
+                                    <form th:action="@{/nuevosDetalles}" method="GET">
+                                        <input type="hidden" th:value="${tipo.getId_Producto}" th:name="Id_Producto">
+                                        <button type="submit">Añadir</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="container-detalle">
+                    <h2>Detalles para factura</h2>
+                    <table id="tabla" >
+                        <thead>
+                            <tr> <!-- table row = fila -->
+                                <th scope="col">Producto </th>
+                                <th scope="col">Precio </th>
+                                <th scope="col">Cantidad </th>
+                                <th scope="col">Tamaño </th>
+                                <th scope="col">Total </th>
+                                <th scope="col">Eliminar </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="dorden:${cart}">
+                                <td th:text="${dorden.getProducto}"></td>
+                                <td th:text="${dorden.getPrecio}"></td>
+                                <td th:text="${dorden.getCantidad}"></td>
+                                <td th:text="${dorden.getTamano}"></td>
+                                <td th:text="${dorden.getSubtotal}"></td>
+<!--                                <td style="text-decoration: none"><a th:href="@{/delete/detalles/{nombre_producto} (nombre_producto=${dorden.PRODUCTO})}">Eliminar</a></td>-->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

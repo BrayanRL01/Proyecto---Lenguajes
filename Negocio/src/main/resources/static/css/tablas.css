@@ -102,3 +102,10 @@ tr:hover a{
     background-color: #f68a53;
     color: white;
 }
+
+/* Para los mensajes de CRUD de las tablas */
+.centro {
+    margin: auto;
+    display: inline;
+    padding: 10px;
+}
