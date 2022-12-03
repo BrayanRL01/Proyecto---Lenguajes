@@ -72,7 +72,7 @@ public class PersonasController {
     public String GuardarUsuario(@ModelAttribute Personas usuarios, RedirectAttributes redirAttrs) throws SQLException {
         msj= personaService.savePersonas(usuarios);
         if(msj.getNumero() == 1){//falla
-            redirAttrs.addFlashAttribute("error", "Error:"+msj.getMensaje());
+            redirAttrs.addFlashAttribute("error", "Error: "+msj.getMensaje());
             return "redirect:/personaLista";
         }
         else {
@@ -86,7 +86,7 @@ public class PersonasController {
     public String actualizarPersona(@ModelAttribute Personas usuarios, RedirectAttributes redirAttrs) throws SQLException {
         msj = personaService.actualizarPersona(usuarios);
         if(msj.getNumero()==1){ //falla
-            redirAttrs.addFlashAttribute("error", "Error:"+msj.getMensaje());
+            redirAttrs.addFlashAttribute("error", "Error: "+msj.getMensaje());
             return "redirect:/personaLista";
         }
         else{
@@ -112,7 +112,7 @@ public class PersonasController {
     public String eliminarUsuario(@PathVariable("id") long id_usuario, RedirectAttributes redirAttrs) throws SQLException {
         msj = personaService.eliminarPersona(id_usuario);
         if(msj.getNumero()==1){ //falla
-            redirAttrs.addFlashAttribute("error", "Error:"+msj.getMensaje());
+            redirAttrs.addFlashAttribute("error", "Error: "+msj.getMensaje());
             return "redirect:/personaLista";
         }
         else{

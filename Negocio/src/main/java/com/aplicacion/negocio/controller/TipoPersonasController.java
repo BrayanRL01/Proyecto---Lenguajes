@@ -44,19 +44,26 @@ public class TipoPersonasController {
     public String GuardarUsuario(@ModelAttribute Tipo_Personas usuarios, RedirectAttributes redirAttrs) throws SQLException {
         msj = tpService.saveTPersonas(usuarios);
         if(msj.getNumero() == 1){//falla
-            redirAttrs.addFlashAttribute("error", "Error:"+msj.getMensaje());
+            redirAttrs.addFlashAttribute("error", "Error: "+msj.getMensaje());
             return "redirect:/tpPersonaLista";
         }
         else{
-            redirAttrs.addFlashAttribute("success", "Nuevo tipo persona guardada correctamente");
+            redirAttrs.addFlashAttribute("success", "Nuevo Tipo Persona "+usuarios.getNombre()+" guardada correctamente");
             return "redirect:/tpPersonaLista";
         }
     }
 
     @PostMapping("/actualizaTPersona")
-    public String actualizarTpersona(@ModelAttribute Tipo_Personas usuarios) throws SQLException {
-        tpService.actualizarTPersona(usuarios);
-        return "redirect:/tpPersonaLista";
+    public String actualizarTpersona(@ModelAttribute Tipo_Personas usuarios, RedirectAttributes redirAttrs) throws SQLException {
+        msj= tpService.actualizarTPersona(usuarios);
+        if(msj.getNumero() == 1){//falla
+            redirAttrs.addFlashAttribute("error", "Error: "+msj.getMensaje());
+            return "redirect:/tpPersonaLista";
+        }
+        else {
+            redirAttrs.addFlashAttribute("success", "Persona con ID "+usuarios.getId_tipo_persona()+" ha sido actualizada.");
+            return "redirect:/tpPersonaLista"; //1
+        }        
     }    
     
     @GetMapping("/editTpersona/{id}")
@@ -68,8 +75,15 @@ public class TipoPersonasController {
         return "actualizaTpersona";
     }
     @GetMapping("/deleteTpersona/{id}")
-    public String eliminarUsuario(@PathVariable("id") long id_usuario) throws SQLException {
-        tpService.eliminarTPersona(id_usuario);
-        return "redirect:/tpPersonaLista";
+    public String eliminarUsuario(@PathVariable("id") long id_usuario, RedirectAttributes redirAttrs) throws SQLException {
+        msj= tpService.eliminarTPersona(id_usuario);
+        if(msj.getNumero() == 1){//falla
+            redirAttrs.addFlashAttribute("error", "Error: "+msj.getMensaje());
+            return "redirect:/tpPersonaLista";
+        }
+        else {
+            redirAttrs.addFlashAttribute("success", "Persona con ID "+id_usuario+" ha sido eliminada.");
+            return "redirect:/tpPersonaLista"; //1
+        }      
     }
 }
