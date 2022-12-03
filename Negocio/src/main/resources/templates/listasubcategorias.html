@@ -16,11 +16,11 @@
 
     <div class="container-tabla">
         <h1 th:replace="plantilla/plantilla :: titulo-tabla"></h1>
-        <div class="centro" th:if="${mensaje} != null">
+        <div class="centro" th:if="${success} != null">
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <i class="oi oi-check"></i>
                 <span>
-                    <strong th:text="${mensaje}"></strong>
+                    <strong th:text="${success}"></strong>
                 </span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                 </button>

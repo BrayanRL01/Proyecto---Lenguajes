@@ -21,8 +21,7 @@
 </head>
 
 <body>
-    <!-- Pasamos el objeto de tipo persona 
-        -->
+
     <form th:object="${Pago}" th:action="@{/GuardarMPago}" method="POST">
 
         <input type="hidden" th:field="*{Medio_Id}">

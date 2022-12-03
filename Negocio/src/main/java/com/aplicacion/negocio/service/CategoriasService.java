@@ -141,11 +141,11 @@ public class CategoriasService {
 
         JDBC.call.execute();
 
-        JDBC.call.close();
-        JDBC.close();
-
         M.setNumero(JDBC.call.getInt(3));
         M.setMensaje(JDBC.call.getString(4));
+
+        JDBC.call.close();
+        JDBC.close();
 
         return M;
     }
