@@ -50,7 +50,7 @@ public class ProductosService {
             LP.add(P);
         }
 
-        System.out.println(N);
+        //System.out.println(N);
 
         RS.close();
         DB.call.close();
@@ -75,12 +75,18 @@ public class ProductosService {
         ResultSet RS = (ResultSet) DB.call.getObject(2);
 
         while (RS.next()) {
-            P = new Productos(RS.getLong(1), RS.getString(2),
-                    RS.getLong(3), RS.getLong(4), RS.getString(5),
-                    RS.getString(6), RS.getLong(7),
-                    RS.getString(8), RS.getLong(9));
+            P = new Productos(
+                    RS.getLong(1),
+                    RS.getString(2),
+                    RS.getLong(3), 
+                    RS.getLong(4), 
+                    RS.getString(5),
+                    RS.getString(6), 
+                    RS.getLong(7),
+                    RS.getString(8), 
+                    RS.getLong(9));
         }
-
+        System.out.println("Producto: "+P.getId_Producto());
         DB.call.close();
         DB.close();
 

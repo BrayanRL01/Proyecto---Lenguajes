@@ -19,6 +19,7 @@ public class Detalles_Factura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long IDDetalle;
+    private Long productID;
     
     private Long FacturaID;
     private String producto;
@@ -33,6 +34,14 @@ public class Detalles_Factura {
        this.cantidad = (long) 0;
     }
 
+    public Long getProductID() {
+        return productID;
+    }
+
+    public void setProductID(Long productID) {
+        this.productID = productID;
+    }
+    
     public Long getIDDetalle() {
         return IDDetalle;
     }

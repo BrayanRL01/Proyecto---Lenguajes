@@ -36,14 +36,19 @@ public class FacturasController {
 
     @Autowired
     ProductosService PS;
-
+    
     //Para almacenar los detalles de la orden
     List<Detalles_Factura> listaDetalles = new ArrayList<>();
+    
+    List<Productos> listaProductos = new ArrayList<>();
 
     //Almacena los datos de la orden
     //FacturaVista factura = new FacturaVista();
     //List<Long> id_producto_guardado = new ArrayList<>();
-
+    public void regenerarProductos() throws SQLException{
+        listaProductos = PS.ObtenerProductos();
+    }
+    
     @GetMapping("/listaFacturas")
     public String listaFacturas(Model M) throws SQLException {
         List<FacturaVista> variable = factService.obtenerFacturasSinDetalle();
@@ -71,9 +76,9 @@ public class FacturasController {
         return "Tmplt_listarFacturas";
     }
 
-    @GetMapping("/nuevosDetalles")
-    public String creaFactura(@RequestParam(required = false, value = "Id_Producto") Long id, Model model) throws SQLException, ClassNotFoundException {
-        List<Productos> listaProductos = PS.ObtenerProductos();
+
+    @GetMapping("/nuevosDetalles/{id}/{num}")
+    public String creaFactura(@PathVariable("id") Long id, @PathVariable("num") Long num, Model model) throws SQLException, ClassNotFoundException {
 
         //Objeto de los detalles de la factura
         Detalles_Factura detalleFacturas = new Detalles_Factura();
@@ -84,14 +89,12 @@ public class FacturasController {
         //Variable para cambiar la cantidad
         Long cantidad = detalleFacturas.getCantidad();
 
-        //Lista para evitar datos duplicados
-        List<Detalles_Factura> facturaNueva = new ArrayList<>();
-
         //Obtener el producto en cuestión
         Productos producto = PS.ObtenerProductosPorID(id);
 
         //Configuración de las variables del detalle
         detalleFacturas.setProducto(producto.getNombre());
+        detalleFacturas.setProductID(producto.getId_Producto());
         detalleFacturas.setCantidad(cantidad + 1);
         detalleFacturas.setPrecio(producto.getPrecio());
         detalleFacturas.setTotalSinIva(producto.getPrecio() * detalleFacturas.getCantidad());
@@ -100,42 +103,33 @@ public class FacturasController {
 
         //Validar que el producto no se añada 2 veces
         //Long id_producto_actual = producto.getId_Producto();
-
         boolean ingresado = false; //listaDetalles.stream().anyMatch(p -> p.getProducto().equals(producto.getNombre()));
 
         for (int i = 0; i < listaDetalles.size(); i++) {
-            if (listaDetalles.get(i).getProducto().equals(producto.getNombre()) 
-                    && listaDetalles.get(i).getTamano().equals(producto.getTamano())
-                    && listaDetalles.get(i).getPrecio().equals(producto.getPrecio())){
+            if (listaDetalles.get(i).getProductID().equals(producto.getId_Producto())) {
                 ingresado = true;
+                break;
             } else {
                 ingresado = false;
             }
         }
-
+        System.out.println("Valor de ingresado: " + ingresado);
         if (!ingresado) {
             //Si no se ha ingresado se añade la fila o registro a la lista global
             listaDetalles.add(detalleFacturas);
-
+            
+            System.out.println("Se agrego producto");
         } else if (ingresado) {
             //Si ya se ha ingresado se cambian los parámetros/campos de ese registro
             //Se busca el registro a cambiar mediante el for
             for (Detalles_Factura detalle : listaDetalles) {
 
-                if (detalle.getProducto().equals(producto.getNombre()) && detalle.getTamano().equals(producto.getTamano())) {
+                if (detalle.getProductID().equals(producto.getId_Producto())) {
                     detalle.setCantidad(detalle.getCantidad() + 1);
                     detalle.setTotalSinIva(detalle.getPrecio() * detalle.getCantidad());
                     detalle.setSubtotal(detalle.getTotalSinIva() * (long) 1.13);
-                    detalle.setTamano(detalle.getTamano());
-                    facturaNueva.add(detalle);
-
-                } else if (!detalle.getProducto().equals(producto.getNombre()) || !detalle.getTamano().equals(producto.getTamano())) {
-                    //Si ya se ha cambiado se añade a la lista temporal creada antes
-                    facturaNueva.add(detalle);
                 }
             }
-            //Se hace el cambio de la lista global igualandola con la lista temporal
-            listaDetalles = facturaNueva;
         }
 
         //Se calcula el total de la factura
@@ -154,8 +148,8 @@ public class FacturasController {
 
     @GetMapping("/getDetalles")
     public String getCarrito(Model model) throws SQLException {
-        List<Productos> listaProductos = PS.ObtenerProductos();
-
+        //List<Productos> listaProductos = PS.ObtenerProductos();
+        
         model.addAttribute("productos", listaProductos);
         //Son las variables globales
         model.addAttribute("cart", listaDetalles);
@@ -163,7 +157,17 @@ public class FacturasController {
 
         return "Tmplt_Factura";
     }
+        @GetMapping("/nuevaFact")
+    public String nuevaFact(Model model) throws SQLException {
+        regenerarProductos();
+        listaDetalles = new ArrayList<>();
+        model.addAttribute("productos", listaProductos);
+        //Son las variables globales
+        model.addAttribute("cart", listaDetalles);
+        //model.addAttribute("orden", factura);
 
+        return "Tmplt_Factura";
+    }
     /* Lógica que se puede usar para borrar productos de los detalles a agregar
     
     @GetMapping("/delete/detalles/{nombre_producto}")
@@ -194,5 +198,4 @@ public class FacturasController {
 
         return "redirect:/getDetalles";
     }*/
-    
 }
