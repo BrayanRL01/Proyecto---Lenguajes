@@ -1251,3 +1251,4 @@ execute immediate 'grant EXECUTE on ' || x.OBJECT_NAME ||
 end loop;
 end;
 /
+select * from tab_facturas;

@@ -2,22 +2,65 @@
 
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+              integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
         <title>Detalles de factura</title>
         <link rel="stylesheet" href="/css/home.css"/>
         <link rel="stylesheet" href="/css/formularios.css"/>
         <link rel="stylesheet" href="/css/detallesFactura.css"/>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+        <style>
+            .centro {
+                margin: auto;
+                padding: 10px;
+                display: inline;
+            }
+        </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
         <header th:replace="plantilla/plantilla::barra-navegacion"></header>
 
+
         <div class="container-formulario">
             <h1>Estás creando los detalles de una factura</h1>
-            
+
+
+            <div class="centro" id="alert">
+                <div th:if="${success} != null">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="oi oi-check"></i>
+                        <span>
+                            <strong th:text="${success}"></strong> 
+                        </span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"> </button>
+                    </div>
+                </div>
+
+                <div th:if="${error} != null">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="oi oi-check"></i>
+                        <span>
+                            <strong th:text="${error}"></strong>
+                        </span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"> </button>
+                    </div>
+                </div>           
+
+            </div>
             <!-- meter lo de encabezado --> 
             <div class="formulario">
                 <div class="container-tabla-productos">
-                    <h2>Productos para agregar</h2>
+                    <div>
+                        <h2>Productos para agregar</h2>
+                    </div>
+
                     <table id="tabla">
                         <thead>
                             <tr>
@@ -25,7 +68,7 @@
                                 <th scope="col">Detalle</th>
                                 <th scope="col">Precio</th>
                                 <th scope="col">Tamano</th>
-                                <th scope="col">Cantitdad</th>
+                                <th scope="col">Cantidad</th>
                                 <th scope="col">Añadir</th>
                             </tr>
                         </thead>
@@ -37,36 +80,42 @@
                                 <td th:text="${tipo.getPrecio}"></td>
                                 <td th:text="${tipo.getTamano}"></td>
                                 <td th:text="${tipo.getCantidad}"></td>
-                                <td>
-                                    
-                                    <a th:href="@{/nuevosDetalles/{id}/{num}(id=${tipo.getId_Producto},num=2)}">Anadir</a>
-                                    
-                                    
-                                    <!-- 
-                                    <a th:href="@{/pathvars/item/{itemId}/detail/{dtlId}(itemId = ${item.id}, dtlId = ${dtl.id})}">
-                                    <form th:action="@{/nuevosDetalles}" method="GET">
-                                        <input type="hidden" th:value="${tipo.getId_Producto}" th:name="Id_Producto">
-                                        <button type="submit">Añadir</button>
-                                        <!-- th:href="@{/deleteusuario/{id_persona}(id_persona=${user.getId_persona})}
-                                        <td>
-                            <!-- th:href="@{/edit_rest/{id_restaurante} (id_restaurante=${user.getId_restaurante})}"
-                            <a th:href="@{/editUsuario/{id_persona}(id_persona=${user.getId_persona})}">Editar</a>
-                        </td>
-                                        
-                                        
-                                    </form>-->
-                                </td>
+                                <td><a th:href="@{/nuevosDetalles/{id}/{num}(id=${tipo.getId_Producto},num=2)}">Anadir</a> </td>
                             </tr>
                         </th:block>
                         </tbody>
                     </table>
                 </div>
                 <div class="container-detalle">
+                    <div>
+
+                        <div class="row g-2">
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control" id="floatingInputGrid" placeholder="name@example.com" value="mdo@example.com">
+                                    <label for="floatingInputGrid">Email address</label>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <select class="form-select" id="floatingSelectGrid">
+                                        <option selected>Open this select menu</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                    <label for="floatingSelectGrid">Works with selects</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <h2>Detalles para factura</h2>
                     <table id="tabla" >
                         <thead>
                             <tr> <!-- table row = fila -->
-                           <!--     <th scope="col">ProductoID </th> -->
+                                <!--     <th scope="col">ProductoID </th> -->
                                 <th scope="col">Nombre </th>
                                 <th scope="col">Precio </th>
                                 <th scope="col">Cantidad </th>
@@ -74,11 +123,12 @@
                                 <th scope="col">Total </th>
                                 <th scope="col">IVA </th>
                                 <th scope="col">Eliminar </th>
+                                <th scope="col">+/- </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="dorden:${cart}">
-                               <!-- <td th:text="${dorden.getProductID}"></td> -->
+                                <!-- <td th:text="${dorden.getProductID}"></td> -->
                                 <td th:text="${dorden.getProducto}"></td>
                                 <td th:text="${dorden.getPrecio}"></td>
                                 <td th:text="${dorden.getCantidad}"></td>
@@ -87,8 +137,8 @@
                                 <td>IVA</td>
                                 <td>
                                     <!-- th:href="@{/edit_rest/{id_restaurante} (id_restaurante=${user.getId_restaurante})}"
-                                        <a th:href="@{/deleteusuario/{id_persona}(id_persona=${user.getId_persona})}">Borrar</a>-->
-                                    <a>Borrar</a>
+                                        <a th:href="@{/borrarDetalle/{id}(id=${dorden.getProductID})}">Borrar</a>-->
+                                    <a th:href="@{/borrarDetalle/{id}(id=${dorden.getProductID})}">Borrar</a>
                                 </td>
 
                             </tr>
@@ -96,8 +146,17 @@
                     </table>
                     <button class="w-100 mb-2 btn btn-lg rounded-3 btn-success" type="submit">Continuar</button>
                 </div>
-                
+
             </div>
         </div>
+
+        <script type="text/javascript">
+            setTimeout(function () {
+
+                // Closing the alert
+                $('#alert').alert('close');
+            }, 5000);
+        </script>
+
     </body>
 </html>
