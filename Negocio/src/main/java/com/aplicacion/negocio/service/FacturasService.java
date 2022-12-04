@@ -7,6 +7,8 @@ package com.aplicacion.negocio.service;
 import com.aplicacion.negocio.controller.JDBCconnection;
 import com.aplicacion.negocio.entity.DetalleObj;
 import com.aplicacion.negocio.entity.DetalleVista;
+import com.aplicacion.negocio.entity.Detalles_Factura;
+import com.aplicacion.negocio.entity.FacturaResultado;
 import com.aplicacion.negocio.entity.FacturaVista;
 import com.aplicacion.negocio.entity.FacturasConDetalles;
 import java.sql.ResultSet;
@@ -154,21 +156,24 @@ public class FacturasService {
         return factura;
     }
 
-    public void crearFactura() throws SQLException, ClassNotFoundException {
-        int numDetalles = 2;
-        jdbc.init();
-        Hashtable newMap = new Hashtable();
-        newMap.put("NEGOCIO.OBJ_DETALLE_FACTURA", Class.forName("com.aplicacion.negocio.entity.DetalleObj"));
-        jdbc.getConn().setTypeMap(newMap);
-       
-  
-        //data[i++] = detalle
+    public FacturaResultado crearFactura(int idVendedor ,int id_cliente, long totalEntrega, List<Detalles_Factura> listaDetalles) throws SQLException, ClassNotFoundException {
+        //Obtiene el tamano de la lista
+        int numDetalles = listaDetalles.size();
+
         //Se crea el Array        
         DetalleObj[] detallesFactura = new DetalleObj[numDetalles] ;
+        jdbc.init();
+        Hashtable newMap = new Hashtable();
         
         //Se instancian los objetos
-        detallesFactura[0] = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA", 1, 2, 4000.0, 0.3);
-        detallesFactura[1] = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA", 3, 3, 6000.0, 0.3);
+        for (int i = 0; i < listaDetalles.size(); i++) {
+            listaDetalles.get(i).getProductID();
+            
+            detallesFactura[i] = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA",listaDetalles.get(i).getProductID(), listaDetalles.get(i).getCantidad().intValue() ,  listaDetalles.get(i).getPrecio(), listaDetalles.get(i).getIVA());
+        }
+
+        newMap.put("NEGOCIO.OBJ_DETALLE_FACTURA", Class.forName("com.aplicacion.negocio.entity.DetalleObj"));
+        jdbc.getConn().setTypeMap(newMap);
         
         //Se define el ARRAY apartir de la lista
         ArrayDescriptor des = ArrayDescriptor.createDescriptor("NEGOCIO.OBJ_DETALLES_FACTURA", jdbc.getConn());
@@ -204,6 +209,9 @@ public class FacturasService {
         System.out.println("Codigo Resultado: " +  Resultado + " " +  Mensaje); 
         jdbc.call.close();
         jdbc.close();
+
+        return new FacturaResultado (Resultado, Mensaje);
+    
     } 
 }
 /*

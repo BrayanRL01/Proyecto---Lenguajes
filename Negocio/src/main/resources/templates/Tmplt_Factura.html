@@ -6,7 +6,7 @@
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" 
               integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-        
+
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" 
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
@@ -25,6 +25,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
+
         <header th:replace="plantilla/plantilla::barra-navegacion"></header>
 
 
@@ -55,99 +56,120 @@
 
             </div>
             <!-- meter lo de encabezado --> 
-            <div class="formulario">
-                <div class="container-tabla-productos">
-                    <div>
-                        <h2>Productos para agregar</h2>
+            <form th:action="@{/facturaN}">
+                <div class="formulario">
+
+                    <!-- Tabla Productos --> 
+                    <div class="container-tabla-productos">
+                        <div>
+                            <h2>Productos para agregar</h2>
+                        </div>
+
+                        <table id="tabla">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Detalle</th>
+                                    <th scope="col">Precio</th>
+                                    <th scope="col">Tamano</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Añadir</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="tipo:${productos}">
+                                <tr>
+                                    <td th:text="${tipo.getNombre}"></td>
+                                    <td th:text="${tipo.getDetalle}"></td>
+                                    <td th:text="${tipo.getPrecio}"></td>
+                                    <td th:text="${tipo.getTamano}"></td>
+                                    <td th:text="${tipo.getCantidad}"></td>
+                                    <td><a th:href="@{/nuevosDetalles/{id}/{num}(id=${tipo.getId_Producto},num=2)}">Anadir</a> </td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
                     </div>
 
-                    <table id="tabla">
-                        <thead>
-                            <tr>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Detalle</th>
-                                <th scope="col">Precio</th>
-                                <th scope="col">Tamano</th>
-                                <th scope="col">Cantidad</th>
-                                <th scope="col">Añadir</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <th:block th:each="tipo:${productos}">
-                            <tr>
-                                <td th:text="${tipo.getNombre}"></td>
-                                <td th:text="${tipo.getDetalle}"></td>
-                                <td th:text="${tipo.getPrecio}"></td>
-                                <td th:text="${tipo.getTamano}"></td>
-                                <td th:text="${tipo.getCantidad}"></td>
-                                <td><a th:href="@{/nuevosDetalles/{id}/{num}(id=${tipo.getId_Producto},num=2)}">Anadir</a> </td>
-                            </tr>
-                        </th:block>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="container-detalle">
-                    <div>
-
-                        <div class="row g-2">
-                            <div class="col-md">
-                                <div class="form-floating">
-                                    <input type="email" class="form-control" id="floatingInputGrid" placeholder="name@example.com" value="mdo@example.com">
-                                    <label for="floatingInputGrid">Email address</label>
+                    <!-- Encabezado y Detalles --> 
+                    <div class="container-detalle">
+                        <!-- Encabezado--> 
+                        <div class="container-formulario-encabezado">
+                            <div class="row">
+                                <div class="col-md">
+                                    <label for="floatingInputGrid">Vendedor</label>
+                                    <input class="form-control" id="floatingInputGrid" placeholder="Admin" value=1>
+                                </div>
+                                <div class="col-md">
+                                    <label for="floatingInputGrid">Costo de Envio</label>
+                                    <input class="form-control" id="floatingInputGrid" placeholder=5000 value=5000>
                                 </div>
                             </div>
-                            <div class="col-md">
-                                <div class="form-floating">
-                                    <select class="form-select" id="floatingSelectGrid">
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                            <div style ="height:25px"> </div>
+                            <div class="row">
+                                <div class="col-md">
+                                    <label for="exampleFormControlSelect2">Cliente</label>
+                                    <select multiple class="form-control" id="exampleFormControlSelect2">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
                                     </select>
-                                    <label for="floatingSelectGrid">Works with selects</label>
+                                </div>
+                                <div class="col-md">
+                                    <label for="exampleFormControlSelect2">Tipo de Venta</label>
+                                    <select multiple class="form-control" id="exampleFormControlSelect2">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
+
+                        <!--Detalles --> 
+                        <div>
+                            <h2>Detalles para factura</h2>
+                            <table id="tabla" >
+                                <thead>
+                                    <tr> <!-- table row = fila -->
+                                        <!--     <th scope="col">ProductoID </th> -->
+                                        <th scope="col">Nombre </th>
+                                        <th scope="col">Precio </th>
+                                        <th scope="col">Cantidad </th>
+                                        <th scope="col">Tamaño </th>
+                                        <th scope="col">Total </th>
+                                        <th scope="col">IVA </th>
+                                        <th scope="col">Eliminar </th>
+                                        <th scope="col">+/- </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="dorden:${cart}">
+                                        <!-- <td th:text="${dorden.getProductID}"></td> -->
+                                        <td th:text="${dorden.getProducto}"></td>
+                                        <td th:text="${dorden.getPrecio}"></td>
+                                        <td th:text="${dorden.getCantidad}"></td>
+                                        <td th:text="${dorden.getTamano}"></td>
+                                        <td th:text="${dorden.getSubtotal}"></td>
+                                        <td>IVA</td>
+                                        <td>
+                                            <!-- th:href="@{/edit_rest/{id_restaurante} (id_restaurante=${user.getId_restaurante})}"
+                                                <a th:href="@{/borrarDetalle/{id}(id=${dorden.getProductID})}">Borrar</a>-->
+                                            <a th:href="@{/borrarDetalle/{id}(id=${dorden.getProductID})}">Borrar</a>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-success" type="submit">Generar Registro</button>
+                        </div>
                     </div>
 
-
-                    <h2>Detalles para factura</h2>
-                    <table id="tabla" >
-                        <thead>
-                            <tr> <!-- table row = fila -->
-                                <!--     <th scope="col">ProductoID </th> -->
-                                <th scope="col">Nombre </th>
-                                <th scope="col">Precio </th>
-                                <th scope="col">Cantidad </th>
-                                <th scope="col">Tamaño </th>
-                                <th scope="col">Total </th>
-                                <th scope="col">IVA </th>
-                                <th scope="col">Eliminar </th>
-                                <th scope="col">+/- </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="dorden:${cart}">
-                                <!-- <td th:text="${dorden.getProductID}"></td> -->
-                                <td th:text="${dorden.getProducto}"></td>
-                                <td th:text="${dorden.getPrecio}"></td>
-                                <td th:text="${dorden.getCantidad}"></td>
-                                <td th:text="${dorden.getTamano}"></td>
-                                <td th:text="${dorden.getSubtotal}"></td>
-                                <td>IVA</td>
-                                <td>
-                                    <!-- th:href="@{/edit_rest/{id_restaurante} (id_restaurante=${user.getId_restaurante})}"
-                                        <a th:href="@{/borrarDetalle/{id}(id=${dorden.getProductID})}">Borrar</a>-->
-                                    <a th:href="@{/borrarDetalle/{id}(id=${dorden.getProductID})}">Borrar</a>
-                                </td>
-
-                            </tr>
-                        </tbody>
-                    </table>
-                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-success" type="submit">Continuar</button>
                 </div>
-
-            </div>
         </div>
 
         <script type="text/javascript">

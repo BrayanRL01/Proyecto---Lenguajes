@@ -12,6 +12,7 @@ import com.aplicacion.negocio.entity.Productos;
 import com.aplicacion.negocio.service.Detalles_FacturaService;
 import com.aplicacion.negocio.service.FacturasService;
 import com.aplicacion.negocio.service.ProductosService;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class FacturasController {
     List<Detalles_Factura> listaDetalles = new ArrayList<>();
 
     List<Productos> listaProductos = new ArrayList<>();
-    
+
     Mensaje msj = new Mensaje();
 
     //Almacena los datos de la orden
@@ -55,19 +56,19 @@ public class FacturasController {
     }
 
     public boolean rebajarInv(Long id) {
-        boolean resultado=false;
+        boolean resultado = false;
         for (Productos producto : listaProductos) {
             if (Objects.equals(producto.getId_Producto(), id)) {
-                if(producto.getCantidad()>0){
-                producto.setCantidad(producto.getCantidad() - 1);
-                resultado = true;
-                }
-                else{
+                if (producto.getCantidad() > 0) {
+                    producto.setCantidad(producto.getCantidad() - 1);
+                    resultado = true;
+                } else {
                     System.out.println("Nada que rebajar");
                     resultado = false;
-                }    
+                }
             }
         }
+        System.out.println("Resultado del rebajo en el inventario:" + resultado );
         return resultado;
     }
 
@@ -113,7 +114,7 @@ public class FacturasController {
     public String CrearFactura(Model model) throws SQLException, ClassNotFoundException {
 
         model.addAttribute("titulo", "Crear Factura");
-        factService.crearFactura();
+        factService.crearFactura(1, 1, 1, listaDetalles);
         return "Tmplt_listarFacturas";
     }
 
@@ -133,9 +134,10 @@ public class FacturasController {
         detalleFacturas.setProducto(producto.getNombre());
         detalleFacturas.setProductID(producto.getId_Producto());
         detalleFacturas.setCantidad(cantidad + 1);
-        detalleFacturas.setPrecio(producto.getPrecio());
-        detalleFacturas.setTotalSinIva(producto.getPrecio() * detalleFacturas.getCantidad());
-        detalleFacturas.setSubtotal(detalleFacturas.getTotalSinIva() * (long) 1.13);
+        detalleFacturas.setPrecio(BigDecimal.valueOf(producto.getPrecio()));
+        detalleFacturas.setIVA(0.13);
+        detalleFacturas.setTotalSinIva(BigDecimal.valueOf(producto.getPrecio() * detalleFacturas.getCantidad()));
+        detalleFacturas.setSubtotal(detalleFacturas.getTotalSinIva().multiply(BigDecimal.valueOf(detalleFacturas.getIVA())));
         detalleFacturas.setTamano(producto.getTamano());
 
         //Validar que el producto no se añada 2 veces
@@ -150,14 +152,14 @@ public class FacturasController {
                 ingresado = false;
             }
         }
+        System.out.println("Ingresado: " + ingresado);
         if (!ingresado) {
             //Si no se ha ingresado se añade la fila o registro a la lista global
             
-            if(rebajarInv(id)){
-            System.out.println("Se agrego producto");
-            listaDetalles.add(detalleFacturas);
-            }
-            else{
+            if (rebajarInv(id)) {
+                System.out.println("Se agrego producto");
+                listaDetalles.add(detalleFacturas);
+            } else {
                 redirAttrs.addFlashAttribute("error", "Sin cantidad del producto");
             }
             
@@ -166,12 +168,11 @@ public class FacturasController {
             //Se busca el registro a cambiar mediante el for
             for (Detalles_Factura detalle : listaDetalles) {
 
-                if (detalle.getProductID().equals(producto.getId_Producto()) &&  rebajarInv(id)) {
+                if (detalle.getProductID().equals(producto.getId_Producto()) && rebajarInv(id)) {
                     detalle.setCantidad(detalle.getCantidad() + 1);
-                    detalle.setTotalSinIva(detalle.getPrecio() * detalle.getCantidad());
-                    detalle.setSubtotal(detalle.getTotalSinIva() * (long) 1.13);
-                }
-                else{
+                    detalle.setTotalSinIva(detalle.getPrecio().multiply(BigDecimal.valueOf(detalle.getCantidad())));
+                    detalle.setSubtotal(detalle.getTotalSinIva().add(detalle.getTotalSinIva().multiply(BigDecimal.valueOf((long) 1.13))));
+                } else {
                     redirAttrs.addFlashAttribute("error", "Sin cantidad del producto");
                 }
             }
@@ -179,15 +180,13 @@ public class FacturasController {
 
         //Se calcula el total de la factura
         //sumaTotal = listaDetalles.stream().mapToDouble(dt -> dt.getSubtotal()).sum();
-
         //Se cambia el total del objeto de factura creado de forma global
         //factura.setTotal((long) sumaTotal);
         model.addAttribute("titulo", "Detalles de factura");
         model.addAttribute("productos", listaProductos);
         model.addAttribute("cart", listaDetalles);
-        
 
-        System.out.println(producto.getNombre() + " " + ingresado);
+        System.out.println(producto.getNombre());
 
         return "redirect:/getDetalles";
     }
