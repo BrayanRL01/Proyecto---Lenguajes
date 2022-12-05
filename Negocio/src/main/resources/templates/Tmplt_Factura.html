@@ -56,15 +56,14 @@
             </div>
             <!-- meter lo de encabezado --> 
             <div class="formulario">
-                
+
                 <div class="container-tabla-productos">
                     <div>
                         <h2>Productos para agregar</h2>
-                        
+
                     </div>
+
                     
-                     <form method="GET" th:action="@{/agregaRapido}">
-                        </form>
                     <table id="tabla">
                         <thead>
                             <tr>
@@ -96,6 +95,8 @@
 
                     <h2>Detalles para factura</h2>
 
+                    
+                    
                     <table id="tabla" >
                         <thead>
                             <tr> <!-- table row = fila -->
@@ -149,17 +150,47 @@
     </body>
 </html>
 <!-- 
+esto es para el encabezado de la factura
+                    <form class="">
+                        <label>Vendedor</label>
+                        <div class="form-row mb-3">
+                            <select th:field="*{deChill}" class="form-control form-control-sm col-md-6" id="tipoPersonaId">
+                                <option th:each="x:${clientes}" 
+                                        th:value="${x.getId_persona}"
+                                        th:text="${x.getNombre} + ' ' + ${x.getPrimerAp}"/>
 
-                        <div class="row">
-                                <div class="form-group">
-                                    <input type="text" name="ProductID" placeholder="ProductID"/>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" name="Cantidad" placeholder="Cantidad"/>
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-primary mb-2">Submit</button>
-                                </div>    
+                            </select>
                         </div>
+                        <label>Cliente</label>
+                        <div class="form-row mb-3">
+                            <select th:field="*{deChill}" class="form-control form-control-sm col-md-6" id="tipoPersonaId">
+                                <option th:each="x:${clientes}" 
+                                        th:value="${x.getId_persona}"
+                                        th:text="${x.getNombre} + ' ' + ${x.getPrimerAp}"/>
+                            </select>
+                        </div>
+                        <div class="form-row mb-3">
+                            <label>Total de entrega</label>
+                            <input type="text" name="deChill" placeholder="Total de entrega"/>
+                        </div>
+                    </form>
 
+
+esto es para agregar rapido
+
+                    
+                    <form method="GET" th:action="@{/agregaRapido}">
+
+                     <div class="row">
+                        <div class="form-group">
+                            <input type="text" name="ProductID" placeholder="ProductID"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="Cantidad" placeholder="Cantidad"/>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                        </div>    
+                    </div>
+                    </form>
 -->

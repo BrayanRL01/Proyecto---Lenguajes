@@ -8,9 +8,11 @@ import com.aplicacion.negocio.entity.Detalles_Factura;
 import com.aplicacion.negocio.entity.FacturaVista;
 import com.aplicacion.negocio.entity.FacturasConDetalles;
 import com.aplicacion.negocio.entity.Mensaje;
+import com.aplicacion.negocio.entity.Personas;
 import com.aplicacion.negocio.entity.Productos;
 import com.aplicacion.negocio.service.Detalles_FacturaService;
 import com.aplicacion.negocio.service.FacturasService;
+import com.aplicacion.negocio.service.PersonaService;
 import com.aplicacion.negocio.service.ProductosService;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -36,6 +38,9 @@ public class FacturasController {
 
     @Autowired
     Detalles_FacturaService detallesService;
+    
+    @Autowired
+    PersonaService personaService;
 
     @Autowired
     ProductosService PS;
@@ -46,6 +51,8 @@ public class FacturasController {
     List<Productos> listaProductos = new ArrayList<>();
 
     Mensaje msj = new Mensaje();
+    
+    List<Personas> listaPersonas =new ArrayList<>();
 
     //Almacena los datos de la orden
     //FacturaVista factura = new FacturaVista();
@@ -288,6 +295,9 @@ public class FacturasController {
         model.addAttribute("titulo", "Detalles de factura");
         model.addAttribute("productos", listaProductos);
         model.addAttribute("cart", listaDetalles);
+        listaPersonas = personaService.obtenerPersonas();
+        model.addAttribute("clientes",listaPersonas);
+        model.addAttribute("deChill",new String());
 
         System.out.println(producto.getNombre() + " " + ingresado);
 
@@ -302,6 +312,8 @@ public class FacturasController {
         //Son las variables globales
         model.addAttribute("cart", listaDetalles);
         //model.addAttribute("orden", factura);
+        listaPersonas = personaService.obtenerPersonas();
+        model.addAttribute("clientes",listaPersonas);
 
         return "Tmplt_Factura";
     }
@@ -310,11 +322,15 @@ public class FacturasController {
     public String nuevaFact(Model model) throws SQLException {
         regenerarProductos();
         listaDetalles = new ArrayList<>();
+        
         model.addAttribute("productos", listaProductos);
         //Son las variables globales
         model.addAttribute("cart", listaDetalles);
         model.addAttribute("idRapido",new String());
         model.addAttribute("cantRapido",new Long(0L));
+        listaPersonas = personaService.obtenerPersonas();
+        model.addAttribute("clientes",listaPersonas);
+        model.addAttribute("deChill",new String());
         //model.addAttribute("orden", factura);
 
         return "Tmplt_Factura";

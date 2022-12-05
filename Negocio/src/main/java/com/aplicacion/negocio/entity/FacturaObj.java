@@ -19,6 +19,8 @@ public class FacturaObj implements SQLData {
     private String sql_type;
     
     private ArrayList<DetalleObj> objdetalleobjeto;
+    
+    
 
     public FacturaObj(String sql_type) {
         this.sql_type = sql_type;
