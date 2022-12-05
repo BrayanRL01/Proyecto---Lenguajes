@@ -8,14 +8,17 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.aplicacion.negocio.controller.JDBCconnection;
+import com.aplicacion.negocio.entity.Mensaje;
 import com.aplicacion.negocio.entity.TiposVenta;
 
 import oracle.jdbc.OracleTypes;
 
 @Service
 public class TipoVentaService {
-    
+
     JDBCconnection JDBC = new JDBCconnection();
+
+    Mensaje M = new Mensaje();
 
     public List<TiposVenta> ObtenerVentas() throws SQLException {
         List<TiposVenta> ArrayVentas = new ArrayList<>();
@@ -69,7 +72,7 @@ public class TipoVentaService {
         return TV;
     }
 
-    public void InsertarTipoVenta(TiposVenta TV) throws SQLException {
+    public Mensaje InsertarTipoVenta(TiposVenta TV) throws SQLException {
 
         JDBC.init();
 
@@ -81,11 +84,16 @@ public class TipoVentaService {
 
         JDBC.call.execute();
 
+        M.setNumero(JDBC.call.getInt(2));
+        M.setMensaje(JDBC.call.getString(3));
+
         JDBC.call.close();
         JDBC.close();
+
+        return M;
     }
 
-    public void ModificarTipoVenta(TiposVenta TV) throws SQLException {
+    public Mensaje ModificarTipoVenta(TiposVenta TV) throws SQLException {
         JDBC.init();
 
         JDBC.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_TIPO_VENTA (?,?,?,?); END;");
@@ -93,13 +101,17 @@ public class TipoVentaService {
         JDBC.call.setLong(1, TV.getVenta_Id());
         JDBC.call.setString(2, TV.getNombre());
         JDBC.call.registerOutParameter(3, OracleTypes.NUMBER);
-        JDBC.call.registerOutParameter(4, OracleTypes.VARCHAR); 
+        JDBC.call.registerOutParameter(4, OracleTypes.VARCHAR);
 
         JDBC.call.execute();
 
+        M.setNumero(JDBC.call.getInt(3));
+        M.setMensaje(JDBC.call.getString(4));
+
+        return M;
     }
 
-    public void EliminarTipoVenta(Long Id) throws SQLException {
+    public Mensaje EliminarTipoVenta(Long Id) throws SQLException {
 
         JDBC.init();
 
@@ -111,8 +123,13 @@ public class TipoVentaService {
 
         JDBC.call.execute();
 
+        M.setNumero(JDBC.call.getInt(2));
+        M.setMensaje(JDBC.call.getString(3));
+
         JDBC.call.close();
         JDBC.close();
+
+        return M;
     }
 
 }

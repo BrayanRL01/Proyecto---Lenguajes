@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.aplicacion.negocio.controller.JDBCconnection;
 import com.aplicacion.negocio.entity.Marcas;
+import com.aplicacion.negocio.entity.Mensaje;
 
 import oracle.jdbc.OracleTypes;
 
@@ -16,6 +17,8 @@ import oracle.jdbc.OracleTypes;
 public class MarcasService {
 
     JDBCconnection JDBC = new JDBCconnection();
+
+    Mensaje N = new Mensaje();
 
     public List<Marcas> ObtenerMarcas() throws SQLException {
         List<Marcas> ArrayMarcas = new ArrayList<>();
@@ -68,7 +71,8 @@ public class MarcasService {
         return M;
     }
 
-    public void InsertarMarcas(Marcas M) throws SQLException {
+    public Mensaje InsertarMarcas(Marcas M) throws SQLException {
+        N = new Mensaje();
 
         JDBC.init();
 
@@ -80,11 +84,18 @@ public class MarcasService {
 
         JDBC.call.execute();
 
+        N.setNumero(JDBC.call.getInt(2));
+        N.setMensaje(JDBC.call.getString(3));
+
         JDBC.call.close();
         JDBC.close();
+
+        return N;
     }
 
-    public void ModificarMarca(Marcas M) throws SQLException {
+    public Mensaje ModificarMarca(Marcas M) throws SQLException {
+        N = new Mensaje();
+
         JDBC.init();
 
         JDBC.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_MARCA (?,?,?,?); END;");
@@ -92,14 +103,19 @@ public class MarcasService {
         JDBC.call.setLong(1, M.getId_Marca());
         JDBC.call.setString(2, M.getNombre_Marca());
         JDBC.call.registerOutParameter(3, OracleTypes.NUMBER);
-        JDBC.call.registerOutParameter(4, OracleTypes.VARCHAR); 
+        JDBC.call.registerOutParameter(4, OracleTypes.VARCHAR);
 
         JDBC.call.execute();
 
+        N.setNumero(JDBC.call.getInt(3));
+        N.setMensaje(JDBC.call.getString(4));
+
+        return N;
+
     }
 
-    public void EliminarMarca(Long Id_Marca) throws SQLException {
-
+    public Mensaje EliminarMarca(Long Id_Marca) throws SQLException {
+        N = new Mensaje();
         JDBC.init();
 
         JDBC.prepareCall("BEGIN NEGOCIO.SP_ELIMINAR_MARCA (?,?,?); END;");
@@ -110,10 +126,13 @@ public class MarcasService {
 
         JDBC.call.execute();
 
-        // String Mensaje = (String) JDBC.call.getObject(3);
+        N.setNumero(JDBC.call.getInt(2));
+        N.setMensaje(JDBC.call.getString(3));
 
         JDBC.call.close();
         JDBC.close();
+
+        return N;
     }
 
 }

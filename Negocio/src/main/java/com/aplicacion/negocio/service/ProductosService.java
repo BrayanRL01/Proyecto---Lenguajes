@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.aplicacion.negocio.controller.JDBCconnection;
+import com.aplicacion.negocio.entity.Mensaje;
 import com.aplicacion.negocio.entity.Productos;
 
 import oracle.jdbc.OracleTypes;
@@ -16,6 +17,8 @@ import oracle.jdbc.OracleTypes;
 public class ProductosService {
 
     JDBCconnection DB = new JDBCconnection();
+
+    Mensaje M = new Mensaje();
 
     public List<Productos> ObtenerProductos() throws SQLException {
 
@@ -37,8 +40,8 @@ public class ProductosService {
             Productos P = new Productos(
                     RS.getLong(1),
                     RS.getString(2),
-                    RS.getLong(3),
-                    RS.getLong(4),
+                    RS.getString(3),
+                    RS.getString(4),
                     RS.getString(5),
                     RS.getString(6),
                     RS.getLong(7),
@@ -47,7 +50,7 @@ public class ProductosService {
             LP.add(P);
         }
 
-        System.out.println(N);
+        //System.out.println(N);
 
         RS.close();
         DB.call.close();
@@ -72,19 +75,25 @@ public class ProductosService {
         ResultSet RS = (ResultSet) DB.call.getObject(2);
 
         while (RS.next()) {
-            P = new Productos(RS.getLong(1), RS.getString(2),
-                    RS.getLong(3), RS.getLong(4), RS.getString(5),
-                    RS.getString(6), RS.getLong(7),
-                    RS.getString(8), RS.getLong(9));
+            P = new Productos(
+                    RS.getLong(1),
+                    RS.getString(2),
+                    RS.getLong(3), 
+                    RS.getLong(4), 
+                    RS.getString(5),
+                    RS.getString(6), 
+                    RS.getLong(7),
+                    RS.getString(8), 
+                    RS.getLong(9));
         }
-
+        System.out.println("Producto: "+P.getId_Producto());
         DB.call.close();
         DB.close();
 
         return P;
     }    
 
-    public void InsertarProducto(Productos P) throws SQLException {
+    public Mensaje InsertarProducto(Productos P) throws SQLException {
         DB.init();
 
         DB.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_PRODUCTO (?,?,?,?,?,?,?,?,?,?); END;");
@@ -102,15 +111,16 @@ public class ProductosService {
 
         DB.call.execute();
 
-        String Mensaje = (String) DB.call.getObject(10);
-
-        System.out.println(Mensaje);
+       M.setNumero(DB.call.getInt(9));
+       M.setMensaje(DB.call.getString(10));
 
         DB.call.close();
         DB.close();
+
+        return M;
     }
 
-    public void ModificarProducto(Productos P) throws SQLException {
+    public Mensaje ModificarProducto(Productos P) throws SQLException {
         DB.init();
 
         DB.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_PRODUCTO(?,?,?,?,?,?,?,?,?,?,?); END;");
@@ -128,9 +138,14 @@ public class ProductosService {
         DB.call.registerOutParameter(11, OracleTypes.VARCHAR);
 
         DB.call.execute();
+
+        M.setNumero(DB.call.getInt(10));
+        M.setMensaje(DB.call.getString(11));
+
+        return M;
     }
 
-    public void EliminarProducto(Long Id) throws SQLException {
+    public Mensaje EliminarProducto(Long Id) throws SQLException {
 
         DB.init();
 
@@ -142,7 +157,12 @@ public class ProductosService {
 
         DB.call.execute();
 
+        M.setNumero(DB.call.getInt(2));
+        M.setMensaje(DB.call.getString(3));
+
         DB.call.close();
         DB.close();
+
+        return M;
     }
 }

@@ -28,8 +28,7 @@
 
 <<<<<<<< HEAD:Negocio/src/main/resources/templates/modificartventa.html
 <body>
-    <!-- Pasamos el objeto de tipo persona 
-        -->
+
     <form th:object="${Venta}" th:action="@{/EditarTVenta}" method="POST">
 
         <input type="hidden" th:field="*{Venta_Id}">
@@ -46,8 +45,8 @@
                         <form class="">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control rounded-3" id="floatingInput"
-                                    th:field="*{Nombre}" placeholder="Nombre de la marca">
-                                <label for="floatingInput">Nombre del Tipo de Venta</label>
+                                    th:field="*{Nombre}" placeholder="Nombre de tipo de venta">
+                                <label for="floatingInput">Nombre del tipo de venta</label>
                             </div>
                             <button class="w-100 mb-2 btn btn-lg rounded-3 btn-success" type="submit"
                                 th:text="${boton}"></button>

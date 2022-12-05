@@ -1,6 +1,5 @@
 package com.aplicacion.negocio.service;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.aplicacion.negocio.controller.JDBCconnection;
 import com.aplicacion.negocio.entity.Categorias;
+import com.aplicacion.negocio.entity.Mensaje;
 
 import oracle.jdbc.internal.OracleTypes;
 
@@ -17,6 +17,8 @@ import oracle.jdbc.internal.OracleTypes;
 public class CategoriasService {
 
     JDBCconnection JDBC = new JDBCconnection();
+
+    Mensaje M = new Mensaje();
 
     public List<Categorias> ObtenerCategorias() throws SQLException {
 
@@ -50,7 +52,9 @@ public class CategoriasService {
     }
 
     public List<Categorias> ObtenerSubCategorias() throws SQLException {
+
         Categorias C;
+
         List<Categorias> LC = new ArrayList<>();
 
         JDBC.init();
@@ -68,7 +72,7 @@ public class CategoriasService {
             C = new Categorias(
                     RS.getLong(1),
                     RS.getString(2),
-                    RS.getLong(3));
+                    RS.getString(3));
             LC.add(C);
         }
         // Close all the resources
@@ -101,7 +105,9 @@ public class CategoriasService {
         return C;
     }
 
-    public void InsertarCategorias(Categorias C) throws SQLException {
+    public Mensaje InsertarCategorias(Categorias C) throws SQLException {
+        M = new Mensaje();
+
         JDBC.init();
 
         JDBC.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_CATEGORIA (?,?,?); END;");
@@ -112,11 +118,18 @@ public class CategoriasService {
 
         JDBC.call.execute();
 
+        M.setNumero(JDBC.call.getInt(2));
+        M.setMensaje(JDBC.call.getString(3));
+
         JDBC.call.close();
         JDBC.close();
+
+        return M;
     }
 
-    public void InsertarSubCategorias(Categorias C) throws SQLException {
+    public Mensaje InsertarSubCategorias(Categorias C) throws SQLException {
+        M = new Mensaje();
+
         JDBC.init();
 
         JDBC.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_SUBCATEGORIA (?,?,?,?); END;");
@@ -128,11 +141,18 @@ public class CategoriasService {
 
         JDBC.call.execute();
 
+        M.setNumero(JDBC.call.getInt(3));
+        M.setMensaje(JDBC.call.getString(4));
+
         JDBC.call.close();
         JDBC.close();
+
+        return M;
     }
 
-    public void ModificarPrincipales(Categorias C) throws SQLException {
+    public Mensaje ModificarPrincipales(Categorias C) throws SQLException {
+        M = new Mensaje();
+
         JDBC.init();
 
         JDBC.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_PRINCIPALES(?,?,?,?); END;");
@@ -143,9 +163,16 @@ public class CategoriasService {
         JDBC.call.registerOutParameter(4, OracleTypes.VARCHAR);
 
         JDBC.call.execute();
+
+        M.setNumero(JDBC.call.getInt(3));
+        M.setMensaje(JDBC.call.getString(4));
+
+        return M;
     }
 
-    public void ModificarCategoria(Categorias C) throws SQLException {
+    public Mensaje ModificarCategoria(Categorias C) throws SQLException {
+        M = new Mensaje();
+
         JDBC.init();
 
         JDBC.prepareCall("BEGIN NEGOCIO.SP_MODIFICAR_CATEGORIA(?,?,?,?,?); END;");
@@ -158,13 +185,15 @@ public class CategoriasService {
 
         JDBC.call.execute();
 
-        BigDecimal N = (BigDecimal) JDBC.call.getObject(4);
-        String Mensaje = (String) JDBC.call.getObject(5);
-        System.out.println(N + Mensaje);
+        M.setNumero(JDBC.call.getInt(4));
+        M.setMensaje(JDBC.call.getString(5));
+
+        return M;
 
     }
 
-    public void EliminarCategoria(Long ID) throws SQLException {
+    public Mensaje EliminarCategoria(Long ID) throws SQLException {
+        M = new Mensaje();
 
         JDBC.init();
 
@@ -176,15 +205,13 @@ public class CategoriasService {
 
         JDBC.call.execute();
 
-        BigDecimal N = (BigDecimal) JDBC.call.getObject(2);
-        String M = (String) JDBC.call.getObject(3);
-
-        if (N.intValue() == 1) {
-            System.out.println(N + ": " + M);
-        }
+        M.setNumero(JDBC.call.getInt(2));
+        M.setMensaje(JDBC.call.getString(3));
 
         JDBC.call.close();
         JDBC.close();
+
+        return M;
 
     }
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.aplicacion.negocio.entity.Mensaje;
 import com.aplicacion.negocio.entity.Roles;
 import com.aplicacion.negocio.service.RolesService;
 
@@ -20,6 +21,8 @@ public class RolesController {
 
     @Autowired
     RolesService RS;
+
+    Mensaje M;
 
     @GetMapping("/listaroles")
     public String Index(Model M) throws SQLException {
@@ -38,9 +41,15 @@ public class RolesController {
 
     @PostMapping("/GuardarRol")
     public String GuardarRol(@ModelAttribute Roles R, RedirectAttributes flash) throws SQLException {
-        RS.InsertarRoles(R);
-        flash.addFlashAttribute("mensaje", "Rol creado con éxito.");
-        return "redirect:/listaroles";
+        M = RS.InsertarRoles(R);
+        if (M.getNumero() == 0) {
+            flash.addFlashAttribute("mensaje", "Rol creado con éxito.");
+            return "redirect:/listaroles";
+        } else {
+            flash.addFlashAttribute("error", "Hubo un error: " + M.getMensaje());
+            return "redirect:/listaroles";
+        }
+
     }
 
     @GetMapping("/ModificarRol/{Rol_Id}")
@@ -55,16 +64,26 @@ public class RolesController {
 
     @PostMapping("/EditarRol")
     public String EditarRol(@ModelAttribute Roles R, RedirectAttributes flash) throws SQLException {
-        RS.ModificarRol(R);
-        flash.addFlashAttribute("mensaje", "Rol actualizado con éxito.");
-        return "redirect:/listaroles";
+        M = RS.ModificarRol(R);
+        if (M.getNumero() == 0) {
+            flash.addFlashAttribute("mensaje", "Rol actualizado con éxito.");
+            return "redirect:/listaroles";
+        } else {
+            flash.addFlashAttribute("error", "Hubo un error: " + M.getMensaje());
+            return "redirect:/listaroles";
+        }
     }
 
     @GetMapping("/EliminarRol/{Rol_Id}")
     public String EliminarRol(@PathVariable("Rol_Id") Long Rol_Id, RedirectAttributes flash)
             throws SQLException {
-        RS.EliminarRol(Rol_Id);
-        flash.addFlashAttribute("mensaje", "Rol eliminado con éxito.");
-        return "redirect:/listaroles";
+        M = RS.EliminarRol(Rol_Id);
+        if (M.getNumero() == 0) {
+            flash.addFlashAttribute("mensaje", "Rol eliminado con éxito.");
+            return "redirect:/listaroles";
+        } else {
+            flash.addFlashAttribute("error", "Hubo un error: " + M.getMensaje());
+            return "redirect:/listaroles";
+        }
     }
 }

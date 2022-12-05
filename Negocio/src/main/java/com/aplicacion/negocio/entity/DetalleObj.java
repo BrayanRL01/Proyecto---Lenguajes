@@ -5,6 +5,7 @@
 package com.aplicacion.negocio.entity;
 
 
+import java.math.BigDecimal;
 import java.sql.SQLData;
 import java.sql.SQLException;
 import java.sql.SQLInput;
@@ -17,13 +18,13 @@ import java.sql.SQLOutput;
 public class DetalleObj implements SQLData{
     
     private String sql_type; 
-    private int productoID;
+    private Long productoID;
     private int cantidad;
-    private Double precio;
+    private BigDecimal precio;
     private Double IVA;
     
     //String sql_type, Long productoID, Long cantidad, Float precio, Float IVA
-    public DetalleObj(String sql_type, int productoID, int cantidad, Double precio, Double IVA) {
+    public DetalleObj(String sql_type, Long productoID, int cantidad, BigDecimal precio, Double IVA) {
         this.sql_type = sql_type;
         this.productoID = productoID;
         this.cantidad = cantidad;
@@ -31,11 +32,11 @@ public class DetalleObj implements SQLData{
         this.IVA = IVA;
     }
 
-    public int getProductoID() {
+    public Long getProductoID() {
         return productoID;
     }
 
-    public void setProductoID(int productoID) {
+    public void setProductoID(Long productoID) {
         this.productoID = productoID;
     }
 
@@ -47,11 +48,11 @@ public class DetalleObj implements SQLData{
         this.cantidad = cantidad;
     }
 
-    public Double getPrecio() {
+    public BigDecimal getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Double precio) {
+    public void setPrecio(BigDecimal precio) {
         this.precio = precio;
     }
 
@@ -72,18 +73,18 @@ public class DetalleObj implements SQLData{
     throws SQLException
   {
     sql_type = typeName;
-    productoID = stream.readInt();
+    productoID = stream.readLong();
     cantidad = stream.readInt();
-    precio=  stream.readDouble();
+    precio=  stream.readBigDecimal();
     IVA=     stream.readDouble();
   }
  
   public void writeSQL(SQLOutput stream)
     throws SQLException
   { 
-     stream.writeInt(productoID);
-     stream.writeInt(cantidad);
-     stream.writeDouble(precio);
+     stream.writeLong(productoID);
+     stream.writeLong(cantidad);
+     stream.writeBigDecimal(precio);
      stream.writeDouble(IVA);
   }
 }

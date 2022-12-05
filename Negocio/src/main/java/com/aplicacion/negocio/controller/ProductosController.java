@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aplicacion.negocio.entity.Categorias;
 import com.aplicacion.negocio.entity.Marcas;
+import com.aplicacion.negocio.entity.Mensaje;
 import com.aplicacion.negocio.entity.Productos;
 import com.aplicacion.negocio.service.CategoriasService;
 import com.aplicacion.negocio.service.MarcasService;
@@ -28,6 +30,8 @@ public class ProductosController {
 
     @Autowired
     MarcasService MS;
+
+    Mensaje M;
 
     @GetMapping("/listaproductos")
     public String Index(Model M) throws SQLException {
@@ -52,9 +56,16 @@ public class ProductosController {
     }
 
     @PostMapping("/GuardarProducto")
-    public String GuardarProducto(@ModelAttribute Productos P) throws SQLException {
-        PS.InsertarProducto(P);
-        return "redirect:/listaproductos";
+    public String GuardarProducto(@ModelAttribute Productos P, RedirectAttributes N) throws SQLException {
+        M = PS.InsertarProducto(P);
+        if (M.getNumero() == 0) {
+            N.addFlashAttribute("mensaje", "Se agregó un producto con éxito.");
+            return "redirect:/listaproductos";
+        } else {
+            N.addFlashAttribute("error", "Hubo un error: " + M.getMensaje());
+            return "redirect:/listaproductos";
+        }
+
     }
 
     @GetMapping("/ModificarProducto/{Id_Producto}")
@@ -73,17 +84,28 @@ public class ProductosController {
     }
 
     @PostMapping("/EditarProducto")
-    public String EditarProducto(@ModelAttribute Productos P) throws SQLException {
-        PS.ModificarProducto(P);
-        return "redirect:/listaproductos";
+    public String EditarProducto(@ModelAttribute Productos P, RedirectAttributes N) throws SQLException {
+        M = PS.ModificarProducto(P);
+        if (M.getNumero() == 0) {
+            N.addFlashAttribute("mensaje", "Se editó un producto con éxito.");
+            return "redirect:/listaproductos";
+        } else {
+            N.addFlashAttribute("error", "Hubo un error: " + M.getMensaje());
+            return "redirect:/listaproductos";
+        }
     }
 
     @GetMapping("/EliminarProducto/{Id_Producto}")
-    public String EliminarMarca(@PathVariable("Id_Producto") Long Id_Marca) throws SQLException {
-        PS.EliminarProducto(Id_Marca);
-        return "redirect:/listaproductos";
+    public String EliminarProducto(@PathVariable("Id_Producto") Long Id_Producto, RedirectAttributes N)
+            throws SQLException {
+        M = PS.EliminarProducto(Id_Producto);
+        if (M.getNumero() == 0) {
+            N.addFlashAttribute("mensaje", "Se eliminó un producto con éxito.");
+            return "redirect:/listaproductos";
+        } else {
+            N.addFlashAttribute("error", "Hubo un error: " + M.getMensaje());
+            return "redirect:/listaproductos";
+        }
     }
-
-
 
 }

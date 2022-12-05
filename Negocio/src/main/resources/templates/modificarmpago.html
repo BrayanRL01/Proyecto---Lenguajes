@@ -28,8 +28,7 @@
 
 <<<<<<<< HEAD:Negocio/src/main/resources/templates/modificarmpago.html
 <body>
-    <!-- Pasamos el objeto de tipo persona 
-        -->
+
     <form th:object="${Pago}" th:action="@{/EditarMPago}" method="POST">
 
         <input type="hidden" th:field="*{Medio_Id}">

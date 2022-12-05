@@ -2,82 +2,183 @@
 
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+              integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
         <title>Detalles de factura</title>
         <link rel="stylesheet" href="/css/home.css"/>
         <link rel="stylesheet" href="/css/formularios.css"/>
         <link rel="stylesheet" href="/css/detallesFactura.css"/>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+        <style>
+            .centro {
+                margin: auto;
+                padding: 10px;
+                display: inline;
+            }
+        </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
+
         <header th:replace="plantilla/plantilla::barra-navegacion"></header>
+
 
         <div class="container-formulario">
             <h1>Estás creando los detalles de una factura</h1>
-            <div class="formulario">
-                <div class="container-tabla-productos">
-                    <h2>Productos para agregar</h2>
-                    <table id="tabla">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID de Producto</th>
-<!--                                <th scope="col">Codigo del producto</th>-->
-<!--                                <th scope="col">ID de Categoria</th>
-                                <th scope="col">ID de Marca</th>-->
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Detalle</th>
-                                <th scope="col">Precio</th>
-                                <th scope="col">Tamano</th>
-                                <th scope="col">Añadir</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <th:block th:each="tipo:${productos}">
-                            <tr>
-                                <td th:text="${tipo.getId_Producto}"></td>
-<!--                                <td th:text="${tipo.getCodigo}"></td>
-                                <td th:text="${tipo.getId_Categoria}"></td>
-                                <td th:text="${tipo.getId_Marca}"></td>-->
-                                <td th:text="${tipo.getNombre}"></td>
-                                <td th:text="${tipo.getDetalle}"></td>
-                                <td th:text="${tipo.getPrecio}"></td>
-                                <td th:text="${tipo.getTamano}"></td>
-                                <td>
-                                    <form th:action="@{/nuevosDetalles}" method="GET">
-                                        <input type="hidden" th:value="${tipo.getId_Producto}" th:name="Id_Producto">
-                                        <button type="submit">Añadir</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        </th:block>
-                        </tbody>
-                    </table>
+
+
+            <div class="centro" id="alert">
+                <div th:if="${success} != null">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="oi oi-check"></i>
+                        <span>
+                            <strong th:text="${success}"></strong> 
+                        </span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"> </button>
+                    </div>
                 </div>
-                <div class="container-detalle">
-                    <h2>Detalles para factura</h2>
-                    <table id="tabla" >
-                        <thead>
-                            <tr> <!-- table row = fila -->
-                                <th scope="col">Producto </th>
-                                <th scope="col">Precio </th>
-                                <th scope="col">Cantidad </th>
-                                <th scope="col">Tamaño </th>
-                                <th scope="col">Total </th>
-                                <th scope="col">Eliminar </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="dorden:${cart}">
-                                <td th:text="${dorden.getProducto}"></td>
-                                <td th:text="${dorden.getPrecio}"></td>
-                                <td th:text="${dorden.getCantidad}"></td>
-                                <td th:text="${dorden.getTamano}"></td>
-                                <td th:text="${dorden.getSubtotal}"></td>
-<!--                                <td style="text-decoration: none"><a th:href="@{/delete/detalles/{nombre_producto} (nombre_producto=${dorden.PRODUCTO})}">Eliminar</a></td>-->
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+
+                <div th:if="${error} != null">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="oi oi-check"></i>
+                        <span>
+                            <strong th:text="${error}"></strong>
+                        </span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"> </button>
+                    </div>
+                </div>           
+
             </div>
+            <!-- meter lo de encabezado --> 
+            <form th:action="@{/facturaN}">
+                <div class="formulario">
+
+                    <!-- Tabla Productos --> 
+                    <div class="container-tabla-productos">
+                        <div>
+                            <h2>Productos para agregar</h2>
+                        </div>
+
+                        <table id="tabla">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Detalle</th>
+                                    <th scope="col">Precio</th>
+                                    <th scope="col">Tamano</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Añadir</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="tipo:${productos}">
+                                <tr>
+                                    <td th:text="${tipo.getNombre}"></td>
+                                    <td th:text="${tipo.getDetalle}"></td>
+                                    <td th:text="${tipo.getPrecio}"></td>
+                                    <td th:text="${tipo.getTamano}"></td>
+                                    <td th:text="${tipo.getCantidad}"></td>
+                                    <td><a th:href="@{/nuevosDetalles/{id}/{num}(id=${tipo.getId_Producto},num=2)}">Anadir</a> </td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Encabezado y Detalles --> 
+                    <div class="container-detalle">
+                        <!-- Encabezado--> 
+                        <div class="container-formulario-encabezado">
+                            <div class="row">
+                                <div class="col-md">
+                                    <label for="floatingInputGrid">Vendedor</label>
+                                    <input class="form-control" id="floatingInputGrid" placeholder="Admin" value=1>
+                                </div>
+                                <div class="col-md">
+                                    <label for="floatingInputGrid">Costo de Envio</label>
+                                    <input class="form-control" id="floatingInputGrid" placeholder=5000 value=5000>
+                                </div>
+                            </div>
+                            <div style ="height:25px"> </div>
+                            <div class="row">
+                                <div class="col-md">
+                                    <label for="exampleFormControlSelect2">Cliente</label>
+                                    <select multiple class="form-control" id="exampleFormControlSelect2">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
+                                </div>
+                                <div class="col-md">
+                                    <label for="exampleFormControlSelect2">Tipo de Venta</label>
+                                    <select multiple class="form-control" id="exampleFormControlSelect2">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Detalles --> 
+                        <div>
+                            <h2>Detalles para factura</h2>
+                            <table id="tabla" >
+                                <thead>
+                                    <tr> <!-- table row = fila -->
+                                        <!--     <th scope="col">ProductoID </th> -->
+                                        <th scope="col">Nombre </th>
+                                        <th scope="col">Precio </th>
+                                        <th scope="col">Cantidad </th>
+                                        <th scope="col">Tamaño </th>
+                                        <th scope="col">Total </th>
+                                        <th scope="col">IVA </th>
+                                        <th scope="col">Eliminar </th>
+                                        <th scope="col">+/- </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="dorden:${cart}">
+                                        <!-- <td th:text="${dorden.getProductID}"></td> -->
+                                        <td th:text="${dorden.getProducto}"></td>
+                                        <td th:text="${dorden.getPrecio}"></td>
+                                        <td th:text="${dorden.getCantidad}"></td>
+                                        <td th:text="${dorden.getTamano}"></td>
+                                        <td th:text="${dorden.getSubtotal}"></td>
+                                        <td>IVA</td>
+                                        <td>
+                                            <!-- th:href="@{/edit_rest/{id_restaurante} (id_restaurante=${user.getId_restaurante})}"
+                                                <a th:href="@{/borrarDetalle/{id}(id=${dorden.getProductID})}">Borrar</a>-->
+                                            <a th:href="@{/borrarDetalle/{id}(id=${dorden.getProductID})}">Borrar</a>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-success" type="submit">Generar Registro</button>
+                        </div>
+                    </div>
+
+                </div>
         </div>
+
+        <script type="text/javascript">
+            setTimeout(function () {
+
+                // Closing the alert
+                $('#alert').alert('close');
+            }, 5000);
+        </script>
+
     </body>
 </html>
