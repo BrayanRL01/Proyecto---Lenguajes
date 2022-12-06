@@ -8,6 +8,7 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/home.css" />
     <link rel="stylesheet" href="/css/tablas.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <title>Tabla subcategorías</title>
 </head>
 
@@ -16,25 +17,27 @@
 
     <div class="container-tabla">
         <h1 th:replace="plantilla/plantilla :: titulo-tabla"></h1>
-        <div class="centro" th:if="${success} != null">
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="oi oi-check"></i>
-                <span>
-                    <strong th:text="${success}"></strong>
-                </span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                </button>
+        <div class="centro" id="alert">
+            <div th:if="${success} != null">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="oi oi-check"></i>
+                    <span>
+                        <strong th:text="${success}"></strong>
+                    </span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    </button>
+                </div>
             </div>
-        </div>
 
-        <div class="centro" th:if="${error} != null">
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="oi oi-check"></i>
-                <span>
-                    <strong th:text="${error}"></strong>
-                </span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                </button>
+            <div class="centro" th:if="${error} != null">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="oi oi-check"></i>
+                    <span>
+                        <strong th:text="${error}"></strong>
+                    </span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    </button>
+                </div>
             </div>
         </div>
         <table id="tabla">
@@ -70,6 +73,12 @@
         <form class="form-inline my-2 my-lg-0" form-method="post" th:action="@{/nuevasubcategoria}">
             <button class="btn-agregar" type="submit">Agregar una subcategoría a la tabla</button>
         </form>
+    </div>
+    <script type="text/javascript">
+        setTimeout(function () {
+            $('#alert').alert('Close');
+        }, 1000);
+    </script>
 </body>
 
 </html>
