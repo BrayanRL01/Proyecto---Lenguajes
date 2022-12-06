@@ -169,7 +169,7 @@ public class FacturasService {
         for (int i = 0; i < listaDetalles.size(); i++) {
             listaDetalles.get(i).getProductID();
             
-            detallesFactura[i] = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA",listaDetalles.get(i).getProductID(), listaDetalles.get(i).getCantidad().intValue() ,  listaDetalles.get(i).getPrecio(), listaDetalles.get(i).getIVA());
+            detallesFactura[i] = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA",listaDetalles.get(i).getProductID(), listaDetalles.get(i).getCantidad().intValue() ,  listaDetalles.get(i).getPrecio(), 1L);
         }
 
         newMap.put("NEGOCIO.OBJ_DETALLE_FACTURA", Class.forName("com.aplicacion.negocio.entity.DetalleObj"));
