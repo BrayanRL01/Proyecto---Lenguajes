@@ -11,6 +11,7 @@ import com.aplicacion.negocio.entity.Detalles_Factura;
 import com.aplicacion.negocio.entity.FacturaResultado;
 import com.aplicacion.negocio.entity.FacturaVista;
 import com.aplicacion.negocio.entity.FacturasConDetalles;
+import com.aplicacion.negocio.entity.Mensaje;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Service;
 public class FacturasService {
 
     JDBCconnection jdbc = new JDBCconnection();
+    Mensaje M = new Mensaje();
 
     public List<FacturaVista> obtenerFacturasSinDetalle() throws SQLException {
         // crear lista que el metodo va devolver
@@ -46,8 +48,11 @@ public class FacturasService {
         jdbc.call.registerOutParameter(3, OracleTypes.VARCHAR);
         // se ejecuta el query
         jdbc.call.execute();
+        //int rset = jdbc.call.getInt(2);
+        //System.out.println("Resultadoooooo: "+rset);
         // rset guarda el resultado del llamado
         ResultSet rset = (ResultSet) jdbc.call.getObject(1);
+        
         // como ver el nombre de las columnas
 
         //ResultSetMetaData rsmd = rset.getMetaData();
@@ -91,7 +96,7 @@ public class FacturasService {
         jdbc.init();
 
         // Prepare a PL/SQL call
-        jdbc.prepareCall("BEGIN NEGOCIO.SP_OBTENER_FACTURA_CON_DETALLES (?,?,?,?,?,?,?,?,?,?,?); END;");
+        jdbc.prepareCall("BEGIN NEGOCIO.SP_OBTENER_FACTURA_CON_DETALLES (?,?,?,?,?,?,?,?,?,?,?,?); END;");
 
         // se le indica la posicion del parametro y el tipo
         jdbc.call.setLong(1, id_factura); //id factura
@@ -105,14 +110,9 @@ public class FacturasService {
         jdbc.call.registerOutParameter(9, OracleTypes.TIMESTAMP); //fecha 
         jdbc.call.registerOutParameter(10, OracleTypes.REF_CURSOR); //detalles
         jdbc.call.registerOutParameter(11, OracleTypes.NUMBER); //resultado
+        jdbc.call.registerOutParameter(12, OracleTypes.VARCHAR);
 
-        jdbc.call.registerOutParameter(10, OracleTypes.REF_CURSOR);
-
-        /*
-        java.util.Map map = jdbc.getConn().getTypeMap();
-        map.put("OBJ_DETALLE_FACTURA",Class.forName("FacturaObj"));
-        map.put("OBJ_DETALLES_FACTURA",Class.forName("FacturaObj"));
-         */
+   
         // se ejecuta el query
         jdbc.call.execute();
         // rset guarda el resultado del llamado
@@ -126,7 +126,6 @@ public class FacturasService {
         String fecha = (String) jdbc.call.getString(9);
         ResultSet detalles = (ResultSet) jdbc.call.getObject(10);
         Long resultado = (Long) jdbc.call.getLong(11);
-        System.out.println("Resultado de SP_OBTENER_FACTURA_CON_DETALLES: " + resultado);
 
         while (detalles.next()) {
             DetalleVista detalle = new DetalleVista(
@@ -138,6 +137,7 @@ public class FacturasService {
                     detalles.getLong(6)
             );
             listaDetalles.add(detalle);
+            System.out.println("DETALLEEEEEEEEEE: "+detalle.getProducto());
         }
         factura.setId_factura(id);
         factura.setVendedor(vendedor);
@@ -156,7 +156,7 @@ public class FacturasService {
         return factura;
     }
 
-    public FacturaResultado crearFactura(int idVendedor ,int id_cliente, long totalEntrega, List<Detalles_Factura> listaDetalles) throws SQLException, ClassNotFoundException {
+    public Mensaje crearFactura(Long idVendedor ,Long id_cliente, Long idTipoPago ,Long totalEntrega, Long idMedioPago, List<Detalles_Factura> listaDetalles) throws SQLException, ClassNotFoundException {
         //Obtiene el tamano de la lista
         int numDetalles = listaDetalles.size();
 
@@ -204,13 +204,14 @@ public class FacturasService {
         // se ejecuta el query
         
         jdbc.call.execute();
-        int Resultado = (int) jdbc.call.getInt(7);
-        String Mensaje = (String) jdbc.call.getString(8);
-        System.out.println("Codigo Resultado: " +  Resultado + " " +  Mensaje); 
+        M.setNumero(jdbc.call.getInt(7));
+        M.setMensaje(jdbc.call.getString(8));
+        
+        System.out.println("Codigo Resultado: " +  jdbc.call.getInt(7) + " " +  jdbc.call.getString(8)); 
         jdbc.call.close();
         jdbc.close();
 
-        return new FacturaResultado (Resultado, Mensaje);
+        return M;
     
     } 
 }

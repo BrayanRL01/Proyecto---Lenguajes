@@ -20,11 +20,11 @@ public class DetalleObj implements SQLData{
     private String sql_type; 
     private Long productoID;
     private int cantidad;
-    private BigDecimal precio;
-    private Double IVA;
+    private Long precio;
+    private Long IVA;
     
     //String sql_type, Long productoID, Long cantidad, Float precio, Float IVA
-    public DetalleObj(String sql_type, Long productoID, int cantidad, BigDecimal precio, Double IVA) {
+    public DetalleObj(String sql_type, Long productoID, int cantidad, Long precio, Long IVA) {
         this.sql_type = sql_type;
         this.productoID = productoID;
         this.cantidad = cantidad;
@@ -48,19 +48,19 @@ public class DetalleObj implements SQLData{
         this.cantidad = cantidad;
     }
 
-    public BigDecimal getPrecio() {
+    public Long getPrecio() {
         return precio;
     }
 
-    public void setPrecio(BigDecimal precio) {
+    public void setPrecio(Long precio) {
         this.precio = precio;
     }
 
-    public Double getIVA() {
+    public Long getIVA() {
         return IVA;
     }
 
-    public void setIVA(Double IVA) {
+    public void setIVA(Long IVA) {
         this.IVA = IVA;
     }
 
@@ -75,8 +75,8 @@ public class DetalleObj implements SQLData{
     sql_type = typeName;
     productoID = stream.readLong();
     cantidad = stream.readInt();
-    precio=  stream.readBigDecimal();
-    IVA=     stream.readDouble();
+    precio=  stream.readLong();
+    IVA=     stream.readLong();
   }
  
   public void writeSQL(SQLOutput stream)
@@ -84,7 +84,7 @@ public class DetalleObj implements SQLData{
   { 
      stream.writeLong(productoID);
      stream.writeLong(cantidad);
-     stream.writeBigDecimal(precio);
-     stream.writeDouble(IVA);
+     stream.writeLong(precio);
+     stream.writeLong(IVA);
   }
 }

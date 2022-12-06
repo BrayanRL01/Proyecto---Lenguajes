@@ -15,7 +15,6 @@ import java.util.List;
 public class FacturasConDetalles implements Serializable{
 
     private Long id_factura;
-    
     private String vendedor;
     private String cliente;
     private String tipoVenta;
