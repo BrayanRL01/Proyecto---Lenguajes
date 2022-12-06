@@ -874,13 +874,13 @@ WHERE ID_USUARIO = IN_ID_USUARIO;
 RESULTADO :=0;
 EXCEPTION
 WHEN OTHERS THEN
-    MENSAJE := 'No se pudo modificar al persona ya que la nueva cedula esta siendo utilizado por otra en el sitema';
+    MENSAJE := 'No se pudo modificar al usuario ya que hay datos que están siendo usados por otro usuario en el sistema.';
     RESULTADO := 1;
 END;
 / 
 
 --Este procedimiento inserta un nuevo usuario
-create or replace PROCEDURE SP_INSERTAR_USUARIO (NOMBRE_USUARIO IN VARCHAR2, NOMBRE IN VARCHAR2, IN_PRIMER_APELLIDO IN VARCHAR2, IN_SEGUNDO_APELLIDO IN VARCHAR2, 
+CREATE OR REPLACE PROCEDURE SP_INSERTAR_USUARIO (NOMBRE_USUARIO IN VARCHAR2, NOMBRE IN VARCHAR2, IN_PRIMER_APELLIDO IN VARCHAR2, IN_SEGUNDO_APELLIDO IN VARCHAR2, 
 IN_EMAIL IN VARCHAR2, IN_CONTRASENA IN VARCHAR2, IN_TELEFONO IN VARCHAR2, IN_ROLE_ID IN NUMBER, IN_ESTADO_ID IN NUMBER, RESULTADO OUT NUMBER, MENSAJE OUT VARCHAR2) AS
 BEGIN
 RESULTADO:= 0;
@@ -889,7 +889,7 @@ VALUES (NOMBRE_USUARIO, NOMBRE, IN_PRIMER_APELLIDO, IN_SEGUNDO_APELLIDO, IN_EMAI
 EXCEPTION
 WHEN dup_val_on_index THEN
 RESULTADO:= 1;
-MENSAJE := 'No se pudo agregar el usuario ya que el nombre de usuario ingresado ya se encuentra en uso en el sistema';
+MENSAJE := 'No se pudo agregar el usuario ya que el nombre de usuario ingresado ya se encuentra en uso en el sistema.';
 END;
 /
 

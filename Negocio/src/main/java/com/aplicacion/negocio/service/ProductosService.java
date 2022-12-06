@@ -85,7 +85,6 @@ public class ProductosService {
                     RS.getLong(9));
         }
         
-        System.out.println("Producto: " + P.getId_Producto());
         DB.call.close();
         DB.close();
 
