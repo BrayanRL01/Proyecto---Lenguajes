@@ -41,7 +41,7 @@
                     
                     <td>
                         <!-- th:href="@{/editTpersona/{id_restaurante} (id_restaurante=${user.getId_restaurante})}"-->
-                        <a>Ver detalle</a>
+                        <a th:href="@{/verFactura/{id} (id=${factura.getId_factura})}">Ver detalle</a>
                     </td>
                     <td>
                         <!-- th:href="@{/deleteTpersona/{id_restaurante} (id_restaurante=${user.getId_restaurante})}"-->

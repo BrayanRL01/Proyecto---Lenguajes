@@ -27,7 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -134,9 +133,9 @@ public class FacturasController {
     public String listaFacturas(Model M) throws SQLException {
         List<FacturaVista> variable = factService.obtenerFacturasSinDetalle();
         if (variable.isEmpty()) {
-            M.addAttribute("lista", variable);
             return "redirect:/personaLista";
         } else {
+            M.addAttribute("lista", variable);
             return "Tmplt_listarFacturas";
         }
     }
@@ -144,16 +143,19 @@ public class FacturasController {
     @GetMapping("/verFactura/{id}")
     public String listarDetalles(Model M, @PathVariable("id") long id_factura) throws SQLException, ClassNotFoundException {
         FacturasConDetalles FacturasConDetalles = factService.obtenerFactconDetalles(id_factura);
+        //System.out.println("DETALLEEEEEEEEEE: "+FacturasConDetalles.toString());
         M.addAttribute("factura", FacturasConDetalles);
         M.addAttribute("detalles", FacturasConDetalles.getListaDetalles());
         return "Tmplt_viewFactYDetalles";
     }
 
-    @GetMapping("/facturaN")
-    public String CrearFactura(Model model) throws SQLException, ClassNotFoundException {
+    @GetMapping("/facturaN") // idVendedor=2&idCliente=2&tipoVenta=1&medioPago=3&totalEntrega=456465
+    public String CrearFactura(@RequestParam("idVendedor") Long idVendedor,@RequestParam("idCliente") Long idCliente,
+                                @RequestParam("tipoVenta") Long tipoVenta,@RequestParam("totalEntrega") Long totalEntrega,
+                                @RequestParam("medioPago") Long medioPago, Model model) throws SQLException, ClassNotFoundException {
 
         model.addAttribute("titulo", "Crear Factura");
-        factService.crearFactura(1, 1, 1, 1, 1, listaDetalles);
+        factService.crearFactura(idVendedor, idCliente, tipoVenta,  totalEntrega,medioPago, listaDetalles);
         return "Tmplt_listarFacturas";
     }
 
@@ -257,7 +259,7 @@ public class FacturasController {
 
         //Obtener el producto en cuestión
         Productos producto = PS.ObtenerProductosPorID(id);
-
+        System.out.println("PRECIOOOOOOOOOOOO: "+producto.getPrecio());
         //Configuración de las variables del detalle
         detalleFacturas.setProducto(producto.getNombre());
         detalleFacturas.setProductID(producto.getId_Producto());
@@ -265,7 +267,7 @@ public class FacturasController {
         detalleFacturas.setPrecio(producto.getPrecio());
         detalleFacturas.setIVA((long) 0.13);
         detalleFacturas.setTotalSinIva(producto.getPrecio() * detalleFacturas.getCantidad());
-        detalleFacturas.setSubtotal(detalleFacturas.getTotalSinIva() * detalleFacturas.getIVA());
+        detalleFacturas.setSubtotal(detalleFacturas.getTotalSinIva() + (detalleFacturas.getTotalSinIva() * detalleFacturas.getIVA()));
         detalleFacturas.setTamano(producto.getTamano());
 
         //Validar que el producto no se añada 2 veces
@@ -314,7 +316,6 @@ public class FacturasController {
         model.addAttribute("titulo", "Detalles de factura");
         model.addAttribute("productos", listaProductos);
         model.addAttribute("cart", listaDetalles);
-        listaPersonas = personaService.obtenerPersonas();
         model.addAttribute("clientes",listaPersonas);
         model.addAttribute("deChill",new String());
         //venta y medio de pago
@@ -335,20 +336,22 @@ public class FacturasController {
         //model.addAttribute("orden", factura);
         listaPersonas = personaService.obtenerPersonas();
         model.addAttribute("clientes",listaPersonas);
-
+        model.addAttribute("facturaOBJ", new FacturaObj());
+        model.addAttribute("idRapido",new String());
+        //model.addAttribute("cantRapido",new Long(0L));
+        
+        //model.addAttribute("idCliente",new Long(0L));
+        
+        ListaTVentas = tVentaService.ObtenerVentas();
+        model.addAttribute("tipoVenta",ListaTVentas);
+        //model.addAttribute("tVenta",new Long(0L));
+        
+        ListaMedios = mPagoService.ObtenerMPagos();
+        model.addAttribute("mediosPago",ListaMedios);
+        //model.addAttribute("mPago",new Long(0L));
+        
+        model.addAttribute("tEntrega",new Long(0L));
         return "Tmplt_Factura";
-    }
-    
-    @GetMapping("/mostrarDetalles")
-    public String mostrarDetalles(Model model, @ModelAttribute FacturaObj fact) throws SQLException {
-        
-        model.addAttribute("vendedor",fact.getIdVendedor());
-        model.addAttribute("cliente",fact.getIdCliente());
-        model.addAttribute("tipoVenta",fact.getTipoVenta());
-        model.addAttribute("medioPago",fact.getMedioPago());
-        model.addAttribute("totalEntrega",fact.getTotalEntrega());
-        
-        return "mostrarDetalles";
     }
     
     
@@ -361,11 +364,12 @@ public class FacturasController {
         model.addAttribute("productos", listaProductos);
         //Son las variables globales
         model.addAttribute("cart", listaDetalles);
+        listaPersonas = personaService.obtenerPersonas();
+        model.addAttribute("clientes",listaPersonas);
+        
         model.addAttribute("idRapido",new String());
         model.addAttribute("cantRapido",new Long(0L));
         
-        listaPersonas = personaService.obtenerPersonas();
-        model.addAttribute("clientes",listaPersonas);
         model.addAttribute("idCliente",new Long(0L));
         
         ListaTVentas = tVentaService.ObtenerVentas();
@@ -377,7 +381,7 @@ public class FacturasController {
         model.addAttribute("mPago",new Long(0L));
         
         model.addAttribute("tEntrega",new Long(0L));
-        
+        //tEntrega, mPago, tVenta, idCliente, 
         model.addAttribute("facturaOBJ", new FacturaObj());
         
         //model.addAttribute("orden", factura);
