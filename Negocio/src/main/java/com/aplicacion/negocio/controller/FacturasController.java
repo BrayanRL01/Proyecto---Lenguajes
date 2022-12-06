@@ -68,8 +68,22 @@ public class FacturasController {
                 }
             }
         }
-        System.out.println("Resultado del rebajo en el inventario:" + resultado );
         return resultado;
+    }
+
+    public boolean rebajarInv2(Long idProducto, Long cantidad) {
+        boolean resultado = false; 
+        for (Productos producto : listaProductos) {
+            if (Objects.equals(producto.getId_Producto(), idProducto)) {
+                if (producto.getCantidad() >= cantidad) {
+                    producto.setCantidad(producto.getCantidad() - cantidad);
+                    resultado = true; 
+                } else {
+                    resultado = false;
+                }
+            }
+        }
+        return resultado; 
     }
 
     public void devuelveInv(Long id, Long cant) {
@@ -84,7 +98,9 @@ public class FacturasController {
     public void borraDetalle(Long id, List<Detalles_Factura> list) {
         for (Detalles_Factura detalle : list) {
             if (Objects.equals(detalle.getProductID(), id)) {
-                devuelveInv(id, detalle.getCantidad());
+                if(detalle.getCantidad()>0){
+                    devuelveInv(id, detalle.getCantidad());
+                }
                 listaDetalles.remove(detalle);
                 break;
             }
@@ -118,6 +134,95 @@ public class FacturasController {
         return "Tmplt_listarFacturas";
     }
 
+    @GetMapping("/agregaRapido")
+    public String agregarRapido(@RequestParam("ProductID") Long idProducto, @RequestParam("Cantidad") Long cantidad, RedirectAttributes redirAttrs, Model model) throws SQLException {
+
+        //Objeto de los detalles de la factura
+        Detalles_Factura detalleFacturas = new Detalles_Factura();
+
+        //Obtener el producto en cuestión
+        Productos producto = PS.ObtenerProductosPorID(idProducto);
+
+        //Configuración de las variables del detalle
+        detalleFacturas.setProducto(producto.getNombre());
+        detalleFacturas.setProductID(producto.getId_Producto());
+        detalleFacturas.setCantidad(cantidad + detalleFacturas.getCantidad());
+        detalleFacturas.setPrecio(producto.getPrecio());
+        detalleFacturas.setTotalSinIva(producto.getPrecio() * detalleFacturas.getCantidad());
+        detalleFacturas.setSubtotal(detalleFacturas.getTotalSinIva() * (long) 1.13);
+        detalleFacturas.setTamano(producto.getTamano());
+
+        //Validar que el producto no se añada 2 veces
+        //Long id_producto_actual = producto.getId_Producto();
+        boolean ingresado = false; //listaDetalles.stream().anyMatch(p -> p.getProducto().equals(producto.getNombre()));
+
+        for (int i = 0; i < listaDetalles.size(); i++) {
+            if (listaDetalles.get(i).getProductID().equals(producto.getId_Producto())) {
+                ingresado = true;
+                break;
+            } else {
+                ingresado = false;
+            }
+        }
+        if (!ingresado) {
+            //Si no se ha ingresado se añade la fila o registro a la lista global
+            if (rebajarInv2(idProducto,cantidad)) {
+                System.out.println("Se agrego producto");
+                listaDetalles.add(detalleFacturas);
+            } else {
+                redirAttrs.addFlashAttribute("error", "Sin cantidad del producto");
+            }
+
+        } else if (ingresado) {
+            //Si ya se ha ingresado se cambian los parámetros/campos de ese registro
+            //Se busca el registro a cambiar mediante el for
+            for (Detalles_Factura detalle : listaDetalles) {
+                if (detalle.getProductID().equals(idProducto)) {
+                    if(rebajarInv(idProducto)){
+                    detalle.setCantidad(detalle.getCantidad() + 1);
+                    detalle.setTotalSinIva(detalle.getPrecio() * detalle.getCantidad());
+                    detalle.setSubtotal(detalle.getTotalSinIva() * (long) 1.13);
+                    }
+                    else {
+                    redirAttrs.addFlashAttribute("error", "Sin cantidad del producto2");
+                }
+                } 
+            }
+        }
+        model.addAttribute("titulo", "Detalles de factura");
+        model.addAttribute("productos", listaProductos);
+        model.addAttribute("cart", listaDetalles);
+
+        return "redirect:/getDetalles";
+    }
+    
+    @GetMapping("/masUno/{id}")
+    public String masUno(@PathVariable("id") Long id, Model model, RedirectAttributes redirAttrs){
+        for (Detalles_Factura detalle : listaDetalles) {
+                if (detalle.getProductID().equals(id)) {
+                    if(rebajarInv(id)){
+                        detalle.setCantidad(detalle.getCantidad()+1);
+                    }
+                }
+        }
+        return "redirect:/getDetalles";
+    }
+    @GetMapping("/menosUno/{id}")
+    public String menosUno(@PathVariable("id") Long id, Model model, RedirectAttributes redirAttrs){
+        for (Detalles_Factura detalle : listaDetalles) {
+                if (detalle.getProductID().equals(id)) {
+                    detalle.setCantidad(detalle.getCantidad()-1);
+                    devuelveInv(id,1L);
+                    if(detalle.getCantidad()==0){
+                        borraDetalle(id, listaDetalles);
+                        break;
+                    }   
+                }
+        }
+        return "redirect:/getDetalles";
+    }
+    
+    
     @GetMapping("/nuevosDetalles/{id}/{num}")
     public String creaFactura(@PathVariable("id") Long id, @PathVariable("num") Long num, Model model, RedirectAttributes redirAttrs) throws SQLException, ClassNotFoundException {
 
@@ -162,19 +267,20 @@ public class FacturasController {
             } else {
                 redirAttrs.addFlashAttribute("error", "Sin cantidad del producto");
             }
-            
         } else if (ingresado) {
             //Si ya se ha ingresado se cambian los parámetros/campos de ese registro
             //Se busca el registro a cambiar mediante el for
             for (Detalles_Factura detalle : listaDetalles) {
-
-                if (detalle.getProductID().equals(producto.getId_Producto()) && rebajarInv(id)) {
+                if (detalle.getProductID().equals(id)) {
+                    if(rebajarInv(id)){
                     detalle.setCantidad(detalle.getCantidad() + 1);
-                    detalle.setTotalSinIva(detalle.getPrecio().multiply(BigDecimal.valueOf(detalle.getCantidad())));
-                    detalle.setSubtotal(detalle.getTotalSinIva().add(detalle.getTotalSinIva().multiply(BigDecimal.valueOf((long) 1.13))));
-                } else {
+                    detalle.setTotalSinIva(detalle.getPrecio() * detalle.getCantidad());
+                    detalle.setSubtotal(detalle.getTotalSinIva() + (detalle.getTotalSinIva() * detalle.getIVA()));
+                    }
+                    else {
                     redirAttrs.addFlashAttribute("error", "Sin cantidad del producto");
                 }
+                } 
             }
         }
 
@@ -210,6 +316,8 @@ public class FacturasController {
         model.addAttribute("productos", listaProductos);
         //Son las variables globales
         model.addAttribute("cart", listaDetalles);
+        model.addAttribute("idRapido",new String());
+        model.addAttribute("cantRapido",new Long(0L));
         //model.addAttribute("orden", factura);
 
         return "Tmplt_Factura";
