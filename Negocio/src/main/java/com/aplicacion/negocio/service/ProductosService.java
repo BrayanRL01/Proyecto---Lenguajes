@@ -27,6 +27,7 @@ public class ProductosService {
         DB.init();
 
         DB.prepareCall("BEGIN NEGOCIO.SP_OBTENER_PRODUCTOS(?,?,?); END;");
+
         DB.call.registerOutParameter(1, OracleTypes.REF_CURSOR);
         DB.call.registerOutParameter(2, OracleTypes.NUMBER);
         DB.call.registerOutParameter(3, OracleTypes.VARCHAR);
@@ -34,7 +35,6 @@ public class ProductosService {
         DB.call.execute();
 
         ResultSet RS = (ResultSet) DB.call.getObject(1);
-        String N = (String) DB.call.getObject(3);
 
         while (RS.next()) {
             Productos P = new Productos(
@@ -49,8 +49,6 @@ public class ProductosService {
                     RS.getLong(9));
             LP.add(P);
         }
-
-        //System.out.println(N);
 
         RS.close();
         DB.call.close();
@@ -78,20 +76,21 @@ public class ProductosService {
             P = new Productos(
                     RS.getLong(1),
                     RS.getString(2),
-                    RS.getLong(3), 
-                    RS.getLong(4), 
+                    RS.getLong(3),
+                    RS.getLong(4),
                     RS.getString(5),
-                    RS.getString(6), 
+                    RS.getString(6),
                     RS.getLong(7),
-                    RS.getString(8), 
+                    RS.getString(8),
                     RS.getLong(9));
         }
-        System.out.println("Producto: "+P.getId_Producto());
+        
+        System.out.println("Producto: " + P.getId_Producto());
         DB.call.close();
         DB.close();
 
         return P;
-    }    
+    }
 
     public Mensaje InsertarProducto(Productos P) throws SQLException {
         DB.init();
@@ -111,8 +110,8 @@ public class ProductosService {
 
         DB.call.execute();
 
-       M.setNumero(DB.call.getInt(9));
-       M.setMensaje(DB.call.getString(10));
+        M.setNumero(DB.call.getInt(9));
+        M.setMensaje(DB.call.getString(10));
 
         DB.call.close();
         DB.close();
