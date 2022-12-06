@@ -5,15 +5,20 @@
 package com.aplicacion.negocio.controller;
 
 import com.aplicacion.negocio.entity.Detalles_Factura;
+import com.aplicacion.negocio.entity.FacturaObj;
 import com.aplicacion.negocio.entity.FacturaVista;
 import com.aplicacion.negocio.entity.FacturasConDetalles;
+import com.aplicacion.negocio.entity.MediosPago;
 import com.aplicacion.negocio.entity.Mensaje;
 import com.aplicacion.negocio.entity.Personas;
 import com.aplicacion.negocio.entity.Productos;
+import com.aplicacion.negocio.entity.TiposVenta;
 import com.aplicacion.negocio.service.Detalles_FacturaService;
 import com.aplicacion.negocio.service.FacturasService;
+import com.aplicacion.negocio.service.MediosPagoService;
 import com.aplicacion.negocio.service.PersonaService;
 import com.aplicacion.negocio.service.ProductosService;
+import com.aplicacion.negocio.service.TipoVentaService;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -44,6 +50,12 @@ public class FacturasController {
 
     @Autowired
     ProductosService PS;
+    
+    @Autowired
+    TipoVentaService tVentaService;
+    
+    @Autowired
+    MediosPagoService mPagoService;
 
     //Para almacenar los detalles de la orden
     List<Detalles_Factura> listaDetalles = new ArrayList<>();
@@ -53,6 +65,11 @@ public class FacturasController {
     Mensaje msj = new Mensaje();
     
     List<Personas> listaPersonas =new ArrayList<>();
+    
+    List<TiposVenta> ListaTVentas = new ArrayList<>();
+    
+    List<MediosPago> ListaMedios = new ArrayList<>();
+    
 
     //Almacena los datos de la orden
     //FacturaVista factura = new FacturaVista();
@@ -298,7 +315,9 @@ public class FacturasController {
         listaPersonas = personaService.obtenerPersonas();
         model.addAttribute("clientes",listaPersonas);
         model.addAttribute("deChill",new String());
-
+        //venta y medio de pago
+        
+        
         System.out.println(producto.getNombre() + " " + ingresado);
 
         return "redirect:/getDetalles";
@@ -317,9 +336,23 @@ public class FacturasController {
 
         return "Tmplt_Factura";
     }
+    
+    @GetMapping("/mostrarDetalles")
+    public String mostrarDetalles(Model model, @ModelAttribute FacturaObj fact) throws SQLException {
+        
+        model.addAttribute("vendedor",fact.getIdVendedor());
+        model.addAttribute("cliente",fact.getIdCliente());
+        model.addAttribute("tipoVenta",fact.getTipoVenta());
+        model.addAttribute("medioPago",fact.getMedioPago());
+        model.addAttribute("totalEntrega",fact.getTotalEntrega());
+        
+        return "mostrarDetalles";
+    }
+    
+    
 
     @GetMapping("/nuevaFact")
-    public String nuevaFact(Model model) throws SQLException {
+    public String mostrarDetalles(Model model) throws SQLException {
         regenerarProductos();
         listaDetalles = new ArrayList<>();
         
@@ -328,11 +361,25 @@ public class FacturasController {
         model.addAttribute("cart", listaDetalles);
         model.addAttribute("idRapido",new String());
         model.addAttribute("cantRapido",new Long(0L));
+        
         listaPersonas = personaService.obtenerPersonas();
         model.addAttribute("clientes",listaPersonas);
-        model.addAttribute("deChill",new String());
+        model.addAttribute("idCliente",new Long(0L));
+        
+        ListaTVentas = tVentaService.ObtenerVentas();
+        model.addAttribute("tipoVenta",ListaTVentas);
+        model.addAttribute("tVenta",new Long(0L));
+        
+        ListaMedios = mPagoService.ObtenerMPagos();
+        model.addAttribute("mediosPago",ListaMedios);
+        model.addAttribute("mPago",new Long(0L));
+        
+        model.addAttribute("tEntrega",new Long(0L));
+        
+        model.addAttribute("facturaOBJ", new FacturaObj());
+        
         //model.addAttribute("orden", factura);
-
+        model.addAttribute("deChill",new String());
         return "Tmplt_Factura";
     }
 
