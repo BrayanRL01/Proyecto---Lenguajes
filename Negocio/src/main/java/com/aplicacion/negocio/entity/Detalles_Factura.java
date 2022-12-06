@@ -24,10 +24,10 @@ public class Detalles_Factura {
     private Long FacturaID;
     private String producto;
     private Long cantidad;
-    private BigDecimal precio;
-    private BigDecimal totalSinIva;
-    private Double IVA;
-    private BigDecimal subtotal;
+    private Long precio;
+    private Long totalSinIva;
+    private Long IVA;
+    private Long subtotal;
     private String tamano;
 
     public Detalles_Factura() {
@@ -74,35 +74,35 @@ public class Detalles_Factura {
         this.cantidad = cantidad;
     }
 
-    public BigDecimal getPrecio() {
+    public Long getPrecio() {
         return precio;
     }
 
-    public void setPrecio(BigDecimal precio) {
+    public void setPrecio(Long precio) {
         this.precio = precio;
     }
 
-    public BigDecimal getTotalSinIva() {
+    public Long getTotalSinIva() {
         return totalSinIva;
     }
 
-    public void setTotalSinIva(BigDecimal totalSinIva) {
+    public void setTotalSinIva(Long totalSinIva) {
         this.totalSinIva = totalSinIva;
     }
 
-    public Double getIVA() {
+    public Long  getIVA() {
         return IVA;
     }
 
-    public void setIVA(Double IVA) {
+    public void setIVA(Long  IVA) {
         this.IVA = IVA;
     }
 
-    public BigDecimal getSubtotal() {
+    public Long getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(BigDecimal subtotal) {
+    public void setSubtotal(Long subtotal) {
         this.subtotal = subtotal;
     }
 
@@ -114,7 +114,7 @@ public class Detalles_Factura {
         this.tamano = tamano;
     }
 
-    public Detalles_Factura(Long IDDetalle, Long FacturaID, String producto, Long cantidad, BigDecimal precio, BigDecimal totalSinIva, Double IVA, BigDecimal subtotal, String tamano) {
+    public Detalles_Factura(Long IDDetalle, Long FacturaID, String producto, Long cantidad, Long precio, Long totalSinIva, Long  IVA, Long subtotal, String tamano) {
         this.IDDetalle = IDDetalle;
         this.FacturaID = FacturaID;
         this.producto = producto;

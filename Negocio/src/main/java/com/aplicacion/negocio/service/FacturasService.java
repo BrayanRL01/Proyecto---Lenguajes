@@ -11,6 +11,7 @@ import com.aplicacion.negocio.entity.Detalles_Factura;
 import com.aplicacion.negocio.entity.FacturaResultado;
 import com.aplicacion.negocio.entity.FacturaVista;
 import com.aplicacion.negocio.entity.FacturasConDetalles;
+import com.aplicacion.negocio.entity.Mensaje;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Service;
 public class FacturasService {
 
     JDBCconnection jdbc = new JDBCconnection();
+    Mensaje M = new Mensaje();
 
     public List<FacturaVista> obtenerFacturasSinDetalle() throws SQLException {
         // crear lista que el metodo va devolver
@@ -156,7 +158,7 @@ public class FacturasService {
         return factura;
     }
 
-    public FacturaResultado crearFactura(int idVendedor ,int id_cliente, long totalEntrega, List<Detalles_Factura> listaDetalles) throws SQLException, ClassNotFoundException {
+    public Mensaje crearFactura(int idVendedor ,int id_cliente, int idTipoPago ,int idMedioPago, long totalEntrega, List<Detalles_Factura> listaDetalles) throws SQLException, ClassNotFoundException {
         //Obtiene el tamano de la lista
         int numDetalles = listaDetalles.size();
 
@@ -204,13 +206,14 @@ public class FacturasService {
         // se ejecuta el query
         
         jdbc.call.execute();
-        int Resultado = (int) jdbc.call.getInt(7);
-        String Mensaje = (String) jdbc.call.getString(8);
-        System.out.println("Codigo Resultado: " +  Resultado + " " +  Mensaje); 
+        M.setNumero(jdbc.call.getInt(7));
+        M.setMensaje(jdbc.call.getString(8));
+        
+        System.out.println("Codigo Resultado: " +  jdbc.call.getInt(7) + " " +  jdbc.call.getString(8)); 
         jdbc.call.close();
         jdbc.close();
 
-        return new FacturaResultado (Resultado, Mensaje);
+        return M;
     
     } 
 }

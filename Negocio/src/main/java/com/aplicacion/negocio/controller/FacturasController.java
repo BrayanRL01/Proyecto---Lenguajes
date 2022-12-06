@@ -130,7 +130,7 @@ public class FacturasController {
     public String CrearFactura(Model model) throws SQLException, ClassNotFoundException {
 
         model.addAttribute("titulo", "Crear Factura");
-        factService.crearFactura(1, 1, 1, listaDetalles);
+        factService.crearFactura(1, 1, 1, 1, 1, listaDetalles);
         return "Tmplt_listarFacturas";
     }
 
@@ -239,10 +239,10 @@ public class FacturasController {
         detalleFacturas.setProducto(producto.getNombre());
         detalleFacturas.setProductID(producto.getId_Producto());
         detalleFacturas.setCantidad(cantidad + 1);
-        detalleFacturas.setPrecio(BigDecimal.valueOf(producto.getPrecio()));
-        detalleFacturas.setIVA(0.13);
-        detalleFacturas.setTotalSinIva(BigDecimal.valueOf(producto.getPrecio() * detalleFacturas.getCantidad()));
-        detalleFacturas.setSubtotal(detalleFacturas.getTotalSinIva().multiply(BigDecimal.valueOf(detalleFacturas.getIVA())));
+        detalleFacturas.setPrecio(producto.getPrecio());
+        detalleFacturas.setIVA((long) 0.13);
+        detalleFacturas.setTotalSinIva(producto.getPrecio() * detalleFacturas.getCantidad());
+        detalleFacturas.setSubtotal(detalleFacturas.getTotalSinIva() * detalleFacturas.getIVA());
         detalleFacturas.setTamano(producto.getTamano());
 
         //Validar que el producto no se añada 2 veces
