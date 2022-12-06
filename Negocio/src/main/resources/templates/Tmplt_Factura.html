@@ -25,6 +25,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
+
         <header th:replace="plantilla/plantilla::barra-navegacion"></header>
 
 
@@ -55,6 +56,7 @@
 
             </div>
             <!-- meter lo de encabezado --> 
+            <form th:action="@{/facturaN}">
             <div class="formulario">
 
                 <div class="container-tabla-productos">
@@ -91,9 +93,6 @@
                 </div>
                 <form th:object="${facturaOBJ}" th:action="@{/mostrarDetalles}" method="POST">
                 <div class="container-detalle">
-
-
-
                     <h2>Detalles para factura</h2>
 
                     <form class="">

@@ -4,6 +4,7 @@
  */
 package com.aplicacion.negocio.entity;
 
+import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +21,6 @@ public class Detalles_Factura {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long IDDetalle;
     private Long productID;
-    
     private Long FacturaID;
     private String producto;
     private Long cantidad;
@@ -90,11 +90,11 @@ public class Detalles_Factura {
         this.totalSinIva = totalSinIva;
     }
 
-    public Long getIVA() {
+    public Long  getIVA() {
         return IVA;
     }
 
-    public void setIVA(Long IVA) {
+    public void setIVA(Long  IVA) {
         this.IVA = IVA;
     }
 
@@ -114,7 +114,7 @@ public class Detalles_Factura {
         this.tamano = tamano;
     }
 
-    public Detalles_Factura(Long IDDetalle, Long FacturaID, String producto, Long cantidad, Long precio, Long totalSinIva, Long IVA, Long subtotal, String tamano) {
+    public Detalles_Factura(Long IDDetalle, Long FacturaID, String producto, Long cantidad, Long precio, Long totalSinIva, Long  IVA, Long subtotal, String tamano) {
         this.IDDetalle = IDDetalle;
         this.FacturaID = FacturaID;
         this.producto = producto;

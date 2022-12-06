@@ -7,8 +7,11 @@ package com.aplicacion.negocio.service;
 import com.aplicacion.negocio.controller.JDBCconnection;
 import com.aplicacion.negocio.entity.DetalleObj;
 import com.aplicacion.negocio.entity.DetalleVista;
+import com.aplicacion.negocio.entity.Detalles_Factura;
+import com.aplicacion.negocio.entity.FacturaResultado;
 import com.aplicacion.negocio.entity.FacturaVista;
 import com.aplicacion.negocio.entity.FacturasConDetalles;
+import com.aplicacion.negocio.entity.Mensaje;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ import org.springframework.stereotype.Service;
 public class FacturasService {
 
     JDBCconnection jdbc = new JDBCconnection();
+    Mensaje M = new Mensaje();
 
     public List<FacturaVista> obtenerFacturasSinDetalle() throws SQLException {
         // crear lista que el metodo va devolver
@@ -154,21 +158,24 @@ public class FacturasService {
         return factura;
     }
 
-    public void crearFactura() throws SQLException, ClassNotFoundException {
-        int numDetalles = 2;
-        jdbc.init();
-        Hashtable newMap = new Hashtable();
-        newMap.put("NEGOCIO.OBJ_DETALLE_FACTURA", Class.forName("com.aplicacion.negocio.entity.DetalleObj"));
-        jdbc.getConn().setTypeMap(newMap);
-       
-  
-        //data[i++] = detalle
+    public Mensaje crearFactura(int idVendedor ,int id_cliente, int idTipoPago ,int idMedioPago, long totalEntrega, List<Detalles_Factura> listaDetalles) throws SQLException, ClassNotFoundException {
+        //Obtiene el tamano de la lista
+        int numDetalles = listaDetalles.size();
+
         //Se crea el Array        
         DetalleObj[] detallesFactura = new DetalleObj[numDetalles] ;
+        jdbc.init();
+        Hashtable newMap = new Hashtable();
         
         //Se instancian los objetos
-        detallesFactura[0] = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA", 1, 2, 4000.0, 0.3);
-        detallesFactura[1] = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA", 3, 3, 6000.0, 0.3);
+        for (int i = 0; i < listaDetalles.size(); i++) {
+            listaDetalles.get(i).getProductID();
+            
+            detallesFactura[i] = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA",listaDetalles.get(i).getProductID(), listaDetalles.get(i).getCantidad().intValue() ,  listaDetalles.get(i).getPrecio(), listaDetalles.get(i).getIVA());
+        }
+
+        newMap.put("NEGOCIO.OBJ_DETALLE_FACTURA", Class.forName("com.aplicacion.negocio.entity.DetalleObj"));
+        jdbc.getConn().setTypeMap(newMap);
         
         //Se define el ARRAY apartir de la lista
         ArrayDescriptor des = ArrayDescriptor.createDescriptor("NEGOCIO.OBJ_DETALLES_FACTURA", jdbc.getConn());
@@ -199,11 +206,15 @@ public class FacturasService {
         // se ejecuta el query
         
         jdbc.call.execute();
-        int Resultado = (int) jdbc.call.getInt(7);
-        String Mensaje = (String) jdbc.call.getString(8);
-        System.out.println("Codigo Resultado: " +  Resultado + " " +  Mensaje); 
+        M.setNumero(jdbc.call.getInt(7));
+        M.setMensaje(jdbc.call.getString(8));
+        
+        System.out.println("Codigo Resultado: " +  jdbc.call.getInt(7) + " " +  jdbc.call.getString(8)); 
         jdbc.call.close();
         jdbc.close();
+
+        return M;
+    
     } 
 }
 /*

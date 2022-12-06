@@ -91,7 +91,6 @@ public class FacturasController {
                 }
             }
         }
-
         return resultado;
     }
 
@@ -154,7 +153,7 @@ public class FacturasController {
     public String CrearFactura(Model model) throws SQLException, ClassNotFoundException {
 
         model.addAttribute("titulo", "Crear Factura");
-        factService.crearFactura();
+        factService.crearFactura(1, 1, 1, 1, 1, listaDetalles);
         return "Tmplt_listarFacturas";
     }
 
@@ -264,8 +263,9 @@ public class FacturasController {
         detalleFacturas.setProductID(producto.getId_Producto());
         detalleFacturas.setCantidad(cantidad + 1);
         detalleFacturas.setPrecio(producto.getPrecio());
+        detalleFacturas.setIVA((long) 0.13);
         detalleFacturas.setTotalSinIva(producto.getPrecio() * detalleFacturas.getCantidad());
-        detalleFacturas.setSubtotal(detalleFacturas.getTotalSinIva() * (long) 1.13);
+        detalleFacturas.setSubtotal(detalleFacturas.getTotalSinIva() * detalleFacturas.getIVA());
         detalleFacturas.setTamano(producto.getTamano());
 
         //Validar que el producto no se añada 2 veces
@@ -280,10 +280,12 @@ public class FacturasController {
                 ingresado = false;
             }
         }
+        System.out.println("Ingresado: " + ingresado);
         if (!ingresado) {
             //Si no se ha ingresado se añade la fila o registro a la lista global
+            
             if (rebajarInv(id)) {
-
+                System.out.println("Se agrego producto");
                 listaDetalles.add(detalleFacturas);
             } else {
                 redirAttrs.addFlashAttribute("error", "Sin cantidad del producto");
@@ -296,7 +298,7 @@ public class FacturasController {
                     if(rebajarInv(id)){
                     detalle.setCantidad(detalle.getCantidad() + 1);
                     detalle.setTotalSinIva(detalle.getPrecio() * detalle.getCantidad());
-                    detalle.setSubtotal(detalle.getTotalSinIva() * (long) 1.13);
+                    detalle.setSubtotal(detalle.getTotalSinIva() + (detalle.getTotalSinIva() * detalle.getIVA()));
                     }
                     else {
                     redirAttrs.addFlashAttribute("error", "Sin cantidad del producto");

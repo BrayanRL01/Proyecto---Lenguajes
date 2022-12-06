@@ -16,6 +16,11 @@
     text-align: center;
 }
 
+.container-formulario-encabezado{
+    align-items:   left;
+    text-align: left;
+    height: 15%;
+}
 table{
     background-color: white;
     margin-top: 0;
