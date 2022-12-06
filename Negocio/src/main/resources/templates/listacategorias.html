@@ -17,29 +17,28 @@
 
     <div class="container-tabla">
         <h1 th:replace="plantilla/plantilla :: titulo-tabla"></h1>
-        <div class="centro" id="alert">
-            <div th:if="${success} != null">
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="oi oi-check"></i>
-                    <span>
-                        <strong th:text="${success}"></strong>
-                    </span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                    </button>
-                </div>
-            </div>
-
-            <div class="centro" th:if="${error} != null">
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="oi oi-check"></i>
-                    <span>
-                        <strong th:text="${error}"></strong>
-                    </span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                    </button>
-                </div>
+        <div class="centro" th:if="${success} != null">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="oi oi-check"></i>
+                <span>
+                    <strong th:text="${success}"></strong>
+                </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
             </div>
         </div>
+
+        <div class="centro" th:if="${error} != null">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="oi oi-check"></i>
+                <span>
+                    <strong th:text="${error}"></strong>
+                </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
+            </div>
+        </div>
+        
         <table id="tabla">
             <thead>
                 <tr>
