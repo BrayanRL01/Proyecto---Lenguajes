@@ -69,7 +69,7 @@ public class ProductosController {
     }
 
     @GetMapping("/ModificarProducto/{Id_Producto}")
-    public String ModificarCategoria(@PathVariable("Id_Producto") Long id_Producto, Model M) throws SQLException {
+    public String ModificarProducto(@PathVariable("Id_Producto") Long id_Producto, Model M) throws SQLException {
         Productos Producto = PS.ObtenerProductosPorID(id_Producto);
         List<Marcas> ListaMarcas = MS.ObtenerMarcas();
         List<Categorias> ListaCategorias = CS.ObtenerSubCategorias();

@@ -13,77 +13,52 @@
 
 <body>
 
-
-
-
-
-
-
-
-
-
-
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <label> Vendedor </label>
-                <label th:text="${factura.getVendedor}"></label>
-            </div>
-            <div class="col">
-                <label> Cliente: </label>
-                <label th:text="${factura.getCliente}"></label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <label> Medio Pago </label>
-                <label th:text="${factura.getMedioPago}"></label>
-            </div>
-            <div class="col">
-                <label> fechaHoraVenta </label>
-                <label th:text="${factura.getFechaHoraVenta}"></label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <label> Tipo Venta </label>
-                <label th:text="${factura.getTipoVenta}"></label>
-            </div>
-            <div class="col">
-                <label> totalEntrega </label>
-                <label th:text="${factura.getTotalEntrega}"></label>
-            </div>
-            <div class="col">
-                <label> total </label>
-                <label th:text="${factura.getTotal}"></label>
-            </div>
-        </div>
-    </div>
-
-
-
-
     <table class="table table-dark table-striped" id="tabla">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">ID</th>
-                <th scope="col">FacturaID</th>
-                <th scope="col">Producto</th>
-                <th scope="col">Tamano</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Cantidad</th> 
+                <th scope="col">Venderdor</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Tipo Venta</th>
+                <th scope="col">Total Entrega</th>
+                <th scope="col">Total</th>
+                <th scope="col">Medio Pago</th>
+                <th scope="col">Fecha</th>
+                
+                
             </tr>
         </thead>
         <tbody>
-        <th:block th:each="detalle : ${detalles}"> <!-- lista es el valor que se envia desde el controller, user es lo que se usa para iterar -->
+        <th:block th:each="factura : ${lista}"> <!-- lista es el valor que se envia desde el controller, user es lo que se usa para iterar -->
             <tr>
-                <td th:text="${detalle.getIDDetalle}"></td>
-                <td th:text="${detalle.getFacturaID}"></td>
-                <td th:text="${detalle.getProducto}"></td>
-                <td th:text="${detalle.getTamano}"></td>
-                <td th:text="${detalle.getPrecio}"></td>
-                <td th:text="${detalle.getCantidad}"></td>
-            </tr>      
+                <td th:text="${factura.getId_factura}"></td>
+                <td th:text="${factura.getVendedor}"></td>
+                <td th:text="${factura.getCliente}"></td>
+                <td th:text="${factura.getTipoVenta}"></td>
+                <td th:text="${factura.getTotalEntrega}"></td>
+                <td th:text="${factura.getTotal}"></td>
+                <td th:text="${factura.getMedioPago}"></td>
+                <td th:text="${factura.getFechaHoraVenta}"></td>
+            </tr>
+            
+            <td colspan="5"><h3>JUST FOR TESTING</h3></td>
+            
+            <th:block th:each="detalle : ${detalles}"> <!-- lista es el valor que se envia desde el controller, user es lo que se usa para iterar -->
+            <tr>
+                <td th:text="${user.getId_persona}"></td>
+                <td th:text="${user.getCedula}"></td>
+                <td th:text="${user.getNombre}"></td>
+                <td th:text="${user.getPrimerAp}"></td>
+                <td th:text="${user.getSegundoAp}"></td>
+                <td th:text="${user.getDireccion}"></td>
+                <td th:text="${user.getEmail}"></td>
+                <td th:text="${user.getTelefono}"></td>
+                <td th:text="${user.getTipoPersonaId}"></td>
+                <td th:text="${user.getTipoPersonaDesc}"></td>
+            </tr>
+        </th:block>
+            
+            
         </th:block>
     </tbody>
 </table>

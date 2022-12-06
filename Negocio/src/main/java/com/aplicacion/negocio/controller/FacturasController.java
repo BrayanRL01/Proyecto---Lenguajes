@@ -5,20 +5,14 @@
 package com.aplicacion.negocio.controller;
 
 import com.aplicacion.negocio.entity.Detalles_Factura;
-import com.aplicacion.negocio.entity.FacturaObj;
 import com.aplicacion.negocio.entity.FacturaVista;
 import com.aplicacion.negocio.entity.FacturasConDetalles;
-import com.aplicacion.negocio.entity.MediosPago;
 import com.aplicacion.negocio.entity.Mensaje;
-import com.aplicacion.negocio.entity.Personas;
 import com.aplicacion.negocio.entity.Productos;
-import com.aplicacion.negocio.entity.TiposVenta;
 import com.aplicacion.negocio.service.Detalles_FacturaService;
 import com.aplicacion.negocio.service.FacturasService;
-import com.aplicacion.negocio.service.MediosPagoService;
-import com.aplicacion.negocio.service.PersonaService;
 import com.aplicacion.negocio.service.ProductosService;
-import com.aplicacion.negocio.service.TipoVentaService;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,18 +37,9 @@ public class FacturasController {
 
     @Autowired
     Detalles_FacturaService detallesService;
-    
-    @Autowired
-    PersonaService personaService;
 
     @Autowired
     ProductosService PS;
-    
-    @Autowired
-    TipoVentaService tVentaService;
-    
-    @Autowired
-    MediosPagoService mPagoService;
 
     //Para almacenar los detalles de la orden
     List<Detalles_Factura> listaDetalles = new ArrayList<>();
@@ -62,13 +47,6 @@ public class FacturasController {
     List<Productos> listaProductos = new ArrayList<>();
 
     Mensaje msj = new Mensaje();
-    
-    List<Personas> listaPersonas =new ArrayList<>();
-    
-    List<TiposVenta> ListaTVentas = new ArrayList<>();
-    
-    List<MediosPago> ListaMedios = new ArrayList<>();
-    
 
     //Almacena los datos de la orden
     //FacturaVista factura = new FacturaVista();
@@ -133,9 +111,9 @@ public class FacturasController {
     public String listaFacturas(Model M) throws SQLException {
         List<FacturaVista> variable = factService.obtenerFacturasSinDetalle();
         if (variable.isEmpty()) {
+            M.addAttribute("lista", variable);
             return "redirect:/personaLista";
         } else {
-            M.addAttribute("lista", variable);
             return "Tmplt_listarFacturas";
         }
     }
@@ -143,19 +121,16 @@ public class FacturasController {
     @GetMapping("/verFactura/{id}")
     public String listarDetalles(Model M, @PathVariable("id") long id_factura) throws SQLException, ClassNotFoundException {
         FacturasConDetalles FacturasConDetalles = factService.obtenerFactconDetalles(id_factura);
-        //System.out.println("DETALLEEEEEEEEEE: "+FacturasConDetalles.toString());
         M.addAttribute("factura", FacturasConDetalles);
         M.addAttribute("detalles", FacturasConDetalles.getListaDetalles());
         return "Tmplt_viewFactYDetalles";
     }
 
-    @GetMapping("/facturaN") // idVendedor=2&idCliente=2&tipoVenta=1&medioPago=3&totalEntrega=456465
-    public String CrearFactura(@RequestParam("idVendedor") Long idVendedor,@RequestParam("idCliente") Long idCliente,
-                                @RequestParam("tipoVenta") Long tipoVenta,@RequestParam("totalEntrega") Long totalEntrega,
-                                @RequestParam("medioPago") Long medioPago, Model model) throws SQLException, ClassNotFoundException {
+    @GetMapping("/facturaN")
+    public String CrearFactura(Model model) throws SQLException, ClassNotFoundException {
 
         model.addAttribute("titulo", "Crear Factura");
-        factService.crearFactura(idVendedor, idCliente, tipoVenta,  totalEntrega,medioPago, listaDetalles);
+        factService.crearFactura(1, 1, 1, 1, 1, listaDetalles);
         return "Tmplt_listarFacturas";
     }
 
@@ -259,7 +234,7 @@ public class FacturasController {
 
         //Obtener el producto en cuestión
         Productos producto = PS.ObtenerProductosPorID(id);
-        System.out.println("PRECIOOOOOOOOOOOO: "+producto.getPrecio());
+
         //Configuración de las variables del detalle
         detalleFacturas.setProducto(producto.getNombre());
         detalleFacturas.setProductID(producto.getId_Producto());
@@ -267,7 +242,7 @@ public class FacturasController {
         detalleFacturas.setPrecio(producto.getPrecio());
         detalleFacturas.setIVA((long) 0.13);
         detalleFacturas.setTotalSinIva(producto.getPrecio() * detalleFacturas.getCantidad());
-        detalleFacturas.setSubtotal(detalleFacturas.getTotalSinIva() + (detalleFacturas.getTotalSinIva() * detalleFacturas.getIVA()));
+        detalleFacturas.setSubtotal(detalleFacturas.getTotalSinIva() * detalleFacturas.getIVA());
         detalleFacturas.setTamano(producto.getTamano());
 
         //Validar que el producto no se añada 2 veces
@@ -316,12 +291,8 @@ public class FacturasController {
         model.addAttribute("titulo", "Detalles de factura");
         model.addAttribute("productos", listaProductos);
         model.addAttribute("cart", listaDetalles);
-        model.addAttribute("clientes",listaPersonas);
-        model.addAttribute("deChill",new String());
-        //venta y medio de pago
-        
-        
-        System.out.println(producto.getNombre() + " " + ingresado);
+
+        System.out.println(producto.getNombre());
 
         return "redirect:/getDetalles";
     }
@@ -334,58 +305,21 @@ public class FacturasController {
         //Son las variables globales
         model.addAttribute("cart", listaDetalles);
         //model.addAttribute("orden", factura);
-        listaPersonas = personaService.obtenerPersonas();
-        model.addAttribute("clientes",listaPersonas);
-        model.addAttribute("facturaOBJ", new FacturaObj());
-        model.addAttribute("idRapido",new String());
-        //model.addAttribute("cantRapido",new Long(0L));
-        
-        //model.addAttribute("idCliente",new Long(0L));
-        
-        ListaTVentas = tVentaService.ObtenerVentas();
-        model.addAttribute("tipoVenta",ListaTVentas);
-        //model.addAttribute("tVenta",new Long(0L));
-        
-        ListaMedios = mPagoService.ObtenerMPagos();
-        model.addAttribute("mediosPago",ListaMedios);
-        //model.addAttribute("mPago",new Long(0L));
-        
-        model.addAttribute("tEntrega",new Long(0L));
+
         return "Tmplt_Factura";
     }
-    
-    
 
     @GetMapping("/nuevaFact")
-    public String mostrarDetalles(Model model) throws SQLException {
+    public String nuevaFact(Model model) throws SQLException {
         regenerarProductos();
         listaDetalles = new ArrayList<>();
-        
         model.addAttribute("productos", listaProductos);
         //Son las variables globales
         model.addAttribute("cart", listaDetalles);
-        listaPersonas = personaService.obtenerPersonas();
-        model.addAttribute("clientes",listaPersonas);
-        
         model.addAttribute("idRapido",new String());
         model.addAttribute("cantRapido",new Long(0L));
-        
-        model.addAttribute("idCliente",new Long(0L));
-        
-        ListaTVentas = tVentaService.ObtenerVentas();
-        model.addAttribute("tipoVenta",ListaTVentas);
-        model.addAttribute("tVenta",new Long(0L));
-        
-        ListaMedios = mPagoService.ObtenerMPagos();
-        model.addAttribute("mediosPago",ListaMedios);
-        model.addAttribute("mPago",new Long(0L));
-        
-        model.addAttribute("tEntrega",new Long(0L));
-        //tEntrega, mPago, tVenta, idCliente, 
-        model.addAttribute("facturaOBJ", new FacturaObj());
-        
         //model.addAttribute("orden", factura);
-        model.addAttribute("deChill",new String());
+
         return "Tmplt_Factura";
     }
 

@@ -56,28 +56,17 @@
 
             </div>
             <!-- meter lo de encabezado --> 
-                <form th:object="${facturaOBJ}" th:action="@{/facturaN}">
+            <form th:action="@{/facturaN}">
             <div class="formulario">
-
+                
                 <div class="container-tabla-productos">
                     <div>
                         <h2>Productos para agregar</h2>
-
-                    </div>
-
-
-                     <div class="row">
-                        <div class="form-group">
-                            <input type="text" name="ProductID" placeholder="ProductID"/>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" name="Cantidad" placeholder="Cantidad"/>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary mb-2">Submit</button>
-                        </div>    
+                        
                     </div>
                     
+                     <form method="GET" th:action="@{/agregaRapido}">
+                        </form>
                     <table id="tabla">
                         <thead>
                             <tr>
@@ -103,11 +92,9 @@
                         </tbody>
                     </table>
                 </div>
-                
                 <div class="container-detalle">
                     <h2>Detalles para factura</h2>
 
-                    
                     <table id="tabla" >
                         <thead>
                             <tr> <!-- table row = fila -->
@@ -144,51 +131,8 @@
                             </tr>
                         </tbody>
                     </table>
-                    
-                    <form class="">
-                        <label>Vendedor</label>
-                        <div class="form-row mb-3">
-                            <select th:field="*{idVendedor}" class="form-control form-control-sm col-md-6" id="idCliente">
-                                <option th:each="x:${clientes}" 
-                                        th:value="${x.getId_persona}"
-                                        th:text="${x.getNombre} + ' ' + ${x.getPrimerAp}"/>
-
-                            </select>
-                        </div>
-                        <label>Cliente</label>
-                        <div class="form-row mb-3">
-                            <select th:field="*{idCliente}" class="form-control form-control-sm col-md-6" id="idCliente">
-                                <option th:each="x:${clientes}" 
-                                        th:value="${x.getId_persona}"
-                                        th:text="${x.getNombre} + ' ' + ${x.getPrimerAp}"/>
-                            </select>
-                        </div>
-                        <label>Tipo de venta</label>
-                        <div class="form-row mb-3">
-                            <select th:field="*{tipoVenta}" class="form-control form-control-sm col-md-6" id="tVenta">
-                                <option th:each="x:${tipoVenta}" 
-                                        th:value="${x.getVenta_Id}"
-                                        th:text="${x.getNombre}"/>
-                            </select>
-                        </div>
-                        <label>Medio de pago</label>
-                        <div class="form-row mb-3">
-                            <select th:field="*{medioPago}" class="form-control form-control-sm col-md-6" id="mPago">
-                                <option th:each="x:${mediosPago}" 
-                                        th:value="${x.getMedio_Id}"
-                                        th:text="${x.getNombre}"/>
-                            </select>
-                        </div>
-                        <div class="form-row mb-3">
-                            <label>Total de entrega</label>
-                            <input type="text" name="totalEntrega" placeholder="Total de entrega"/>
-                        </div>
-                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-success" type="submit">Continuar</button>
-                    </form>
-                    
+                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-success" type="submit">Continuar</button>
                 </div>
-                </form>
-            </div>
         </div>
 
         <script type="text/javascript">
@@ -202,63 +146,17 @@
     </body>
 </html>
 <!-- 
-esto es para el encabezado de la factura
-                    <form class="">
-                        <label>Vendedor</label>
-                        <div class="form-row mb-3">
-                            <select th:field="*{deChill}" class="form-control form-control-sm col-md-6" id="tipoPersonaId">
-                                <option th:each="x:${clientes}" 
-                                        th:value="${x.getId_persona}"
-                                        th:text="${x.getNombre} + ' ' + ${x.getPrimerAp}"/>
 
-                            </select>
+                        <div class="row">
+                                <div class="form-group">
+                                    <input type="text" name="ProductID" placeholder="ProductID"/>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="Cantidad" placeholder="Cantidad"/>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                                </div>    
                         </div>
-                        <label>Cliente</label>
-                        <div class="form-row mb-3">
-                            <select th:field="*{deChill}" class="form-control form-control-sm col-md-6" id="tipoPersonaId">
-                                <option th:each="x:${clientes}" 
-                                        th:value="${x.getId_persona}"
-                                        th:text="${x.getNombre} + ' ' + ${x.getPrimerAp}"/>
-                            </select>
-                        </div>
-                        <label>Tipo de venta</label>
-                        <div class="form-row mb-3">
-                            <select th:field="*{deChill}" class="form-control form-control-sm col-md-6" id="tipoPersonaId">
-                                <option th:each="x:${tipoVenta}" 
-                                        th:value="${x.getVenta_Id}"
-                                        th:text="${x.getNombre}"/>
-                            </select>
-                        </div>
-                        <label>Tipo de venta</label>
-                        <div class="form-row mb-3">
-                            <select th:field="*{deChill}" class="form-control form-control-sm col-md-6" id="tipoPersonaId">
-                                <option th:each="x:${mediosPago}" 
-                                        th:value="${x.getMedio_Id}"
-                                        th:text="${x.getNombre}"/>
-                            </select>
-                        </div>
-                        <div class="form-row mb-3">
-                            <label>Total de entrega</label>
-                            <input type="text" name="deChill" placeholder="Total de entrega"/>
-                        </div>
-                    </form>
 
-
-esto es para agregar rapido
-
-                    
-                    <form method="GET" th:action="@{/agregaRapido}">
-
-                     <div class="row">
-                        <div class="form-group">
-                            <input type="text" name="ProductID" placeholder="ProductID"/>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" name="Cantidad" placeholder="Cantidad"/>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary mb-2">Submit</button>
-                        </div>    
-                    </div>
-                    </form>
 -->
