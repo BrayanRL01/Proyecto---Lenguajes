@@ -27,15 +27,18 @@ public class RolesController {
     @GetMapping("/listaroles")
     public String Index(Model M) throws SQLException {
         List<Roles> ListaRoles = RS.ObtenerRoles();
+        M.addAttribute("titulo", "Roles");
         M.addAttribute("Roles", ListaRoles);
         return "listaroles";
     }
 
     @GetMapping("/nuevorol")
     public String CrearRol(Model M) throws SQLException {
-        M.addAttribute("titulo", "Crear Rol");
+        M.addAttribute("accion", "añadiendo");
+        M.addAttribute("prefijo", "a");
+        M.addAttribute("titulo", "Roles");
         M.addAttribute("Rol", new Roles());
-        M.addAttribute("boton", "Crear");
+        M.addAttribute("boton", "Añadir");
         return "nuevorol";
     }
 
@@ -56,7 +59,9 @@ public class RolesController {
     public String ModificarRol(@PathVariable("Rol_Id") Long Rol_Id, Model M)
             throws SQLException {
         Roles R = RS.ObtenerRolPorID(Rol_Id);
-        M.addAttribute("titulo", "Editar Rol");
+        M.addAttribute("accion", "editando");
+        M.addAttribute("prefijo", "de");
+        M.addAttribute("titulo", "Roles");
         M.addAttribute("Rol", R);
         M.addAttribute("boton", "Actualizar");
         return "modificarrol";

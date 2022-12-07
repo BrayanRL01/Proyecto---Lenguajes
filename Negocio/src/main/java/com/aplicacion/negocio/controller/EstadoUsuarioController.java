@@ -27,15 +27,18 @@ public class EstadoUsuarioController {
     @GetMapping("/listaestados")
     public String Index(Model M) throws SQLException {
         List<EstadoUsuario> ListaEstados = EUS.ObtenerEstados();
+        M.addAttribute("titulo", "Estados");
         M.addAttribute("Estados", ListaEstados);
         return "listaestados";
     }
 
     @GetMapping("/nuevoestado")
     public String CrearEstado(Model M) throws SQLException {
-        M.addAttribute("titulo", "Crear Estado");
+        M.addAttribute("accion", "añadiendo");
+        M.addAttribute("prefijo", "a");
+        M.addAttribute("titulo", "Estados");
         M.addAttribute("Estados", new EstadoUsuario());
-        M.addAttribute("boton", "Crear");
+        M.addAttribute("boton", "Añadir");
         return "nuevoestado";
     }
 
@@ -55,7 +58,9 @@ public class EstadoUsuarioController {
     public String ModificarrEstado(@PathVariable("Estado_Usuario_Id") Long Estado_Usuario_Id, Model M)
             throws SQLException {
         EstadoUsuario EU = EUS.ObtenerEstadoPorID(Estado_Usuario_Id);
-        M.addAttribute("titulo", "Editar Estado");
+        M.addAttribute("accion", "editando");
+        M.addAttribute("prefijo", "de");
+        M.addAttribute("titulo", "Estados");
         M.addAttribute("Estado", EU);
         M.addAttribute("boton", "Actualizar");
         return "modificarestado";
