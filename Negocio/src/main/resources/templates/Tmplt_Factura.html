@@ -56,7 +56,6 @@
 
             </div>
             <!-- meter lo de encabezado --> 
-                <form th:object="${facturaOBJ}" th:action="@{/facturaN}">
             <div class="formulario">
 
                 <div class="container-tabla-productos">
@@ -65,7 +64,21 @@
 
                     </div>
 
-                    
+                    <div class="row">
+                    <form th:action="@{/agregaRapido}">
+                    <div class="row">
+                        <div class="form-group">
+                            <input type="text" name="ProductID" placeholder="ProductID"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="Cantidad" placeholder="Cantidad"/>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                        </div>    
+                    </div>
+                </form>
+                        
                     <table id="tabla">
                         <thead>
                             <tr>
@@ -95,7 +108,7 @@
                 <div class="container-detalle">
                     <h2>Detalles para factura</h2>
 
-                    
+                    <form th:object="${facturaOBJ}" th:action="@{/facturaN}">
                     <table id="tabla" >
                         <thead>
                             <tr> <!-- table row = fila -->
@@ -132,14 +145,12 @@
                             </tr>
                         </tbody>
                     </table>
-                    
-                    <form class="">
                         <label>Vendedor</label>
                         <div class="form-row mb-3">
                             <select th:field="*{idVendedor}" class="form-control form-control-sm col-md-6" id="idCliente">
-                                <option th:each="x:${clientes}" 
-                                        th:value="${x.getId_persona}"
-                                        th:text="${x.getNombre} + ' ' + ${x.getPrimerAp}"/>
+                                <option th:each="x:${listaUsuarios}" 
+                                        th:value="${x.getUsuario_Id}"
+                                        th:text="${x.getNombre} + ' ' + ${x.getPrimer_Apellido}"/>
 
                             </select>
                         </div>
@@ -168,14 +179,12 @@
                             </select>
                         </div>
                         <div class="form-row mb-3">
-                            <label>Total de entrega</label>
+                            <label>Valor de entrega</label>
                             <input type="text" name="totalEntrega" placeholder="Total de entrega"/>
                         </div>
                         <button class="w-100 mb-2 btn btn-lg rounded-3 btn-success" type="submit">Continuar</button>
                     </form>
-                    
                 </div>
-                </form>
             </div>
         </div>
 

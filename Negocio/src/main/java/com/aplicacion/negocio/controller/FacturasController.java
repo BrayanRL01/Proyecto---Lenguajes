@@ -156,7 +156,7 @@ public class FacturasController {
 
         model.addAttribute("titulo", "Crear Factura");
         factService.crearFactura(idVendedor, idCliente, tipoVenta,  totalEntrega,medioPago, listaDetalles);
-        return "Tmplt_listarFacturas";
+        return "redirect:/listaFacturas";
     }
 
     @GetMapping("/agregaRapido")

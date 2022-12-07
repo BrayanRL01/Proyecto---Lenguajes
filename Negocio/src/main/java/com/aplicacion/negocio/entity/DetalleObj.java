@@ -19,12 +19,12 @@ public class DetalleObj implements SQLData{
     
     private String sql_type; 
     private Long productoID;
-    private int cantidad;
+    private Long cantidad;
     private Long precio;
     private Long IVA;
     
     //String sql_type, Long productoID, Long cantidad, Float precio, Float IVA
-    public DetalleObj(String sql_type, Long productoID, int cantidad, Long precio, Long IVA) {
+    public DetalleObj(String sql_type, Long productoID, Long cantidad, Long precio, Long IVA) {
         this.sql_type = sql_type;
         this.productoID = productoID;
         this.cantidad = cantidad;
@@ -40,11 +40,11 @@ public class DetalleObj implements SQLData{
         this.productoID = productoID;
     }
 
-    public int getCantidad() {
+    public Long getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
+    public void setCantidad(Long cantidad) {
         this.cantidad = cantidad;
     }
 
@@ -74,7 +74,7 @@ public class DetalleObj implements SQLData{
   {
     sql_type = typeName;
     productoID = stream.readLong();
-    cantidad = stream.readInt();
+    cantidad = stream.readLong();
     precio=  stream.readLong();
     IVA=     stream.readLong();
   }

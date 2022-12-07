@@ -169,7 +169,8 @@ public class FacturasService {
         for (int i = 0; i < listaDetalles.size(); i++) {
             listaDetalles.get(i).getProductID();
             
-            detallesFactura[i] = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA",listaDetalles.get(i).getProductID(), listaDetalles.get(i).getCantidad().intValue() ,  listaDetalles.get(i).getPrecio(), listaDetalles.get(i).getIVA());
+            detallesFactura[i] = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA",listaDetalles.get(i).getProductID(), listaDetalles.get(i).getCantidad(),  listaDetalles.get(i).getPrecio(), 1L);
+
         }
 
         newMap.put("NEGOCIO.OBJ_DETALLE_FACTURA", Class.forName("com.aplicacion.negocio.entity.DetalleObj"));
@@ -183,11 +184,11 @@ public class FacturasService {
         jdbc.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_FACTURA(?,?,?,?,?,?,?,?); END;");
         
         // se le indica la posicion del parametro y el tipo
-        jdbc.call.setInt(1, 1);
-        jdbc.call.setInt(2, 3);
-        jdbc.call.setInt(3, 1);
-        jdbc.call.setInt(4, 1);
-        jdbc.call.setInt(5, 1);
+        jdbc.call.setLong(1, idVendedor);
+        jdbc.call.setLong(2, id_cliente);
+        jdbc.call.setLong(3, idTipoPago);
+        jdbc.call.setLong(4, totalEntrega);
+        jdbc.call.setLong(5, idMedioPago);
         jdbc.call.setArray(6, array_a_enviar);
         jdbc.call.registerOutParameter(7, OracleTypes.NUMBER);
         jdbc.call.registerOutParameter(8, OracleTypes.VARCHAR);
