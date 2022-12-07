@@ -13,12 +13,14 @@ import com.aplicacion.negocio.entity.Mensaje;
 import com.aplicacion.negocio.entity.Personas;
 import com.aplicacion.negocio.entity.Productos;
 import com.aplicacion.negocio.entity.TiposVenta;
+import com.aplicacion.negocio.entity.Usuarios;
 import com.aplicacion.negocio.service.Detalles_FacturaService;
 import com.aplicacion.negocio.service.FacturasService;
 import com.aplicacion.negocio.service.MediosPagoService;
 import com.aplicacion.negocio.service.PersonaService;
 import com.aplicacion.negocio.service.ProductosService;
 import com.aplicacion.negocio.service.TipoVentaService;
+import com.aplicacion.negocio.service.UsuariosService;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +57,9 @@ public class FacturasController {
     
     @Autowired
     MediosPagoService mPagoService;
+    
+    @Autowired
+    UsuariosService usuarioService;
 
     //Para almacenar los detalles de la orden
     List<Detalles_Factura> listaDetalles = new ArrayList<>();
@@ -69,6 +74,7 @@ public class FacturasController {
     
     List<MediosPago> ListaMedios = new ArrayList<>();
     
+    List<Usuarios> listaUsuarios = new ArrayList<>();
 
     //Almacena los datos de la orden
     //FacturaVista factura = new FacturaVista();
@@ -350,6 +356,9 @@ public class FacturasController {
         model.addAttribute("mediosPago",ListaMedios);
         //model.addAttribute("mPago",new Long(0L));
         
+        listaUsuarios = usuarioService.ObtenerUsuarios();
+        model.addAttribute("usuarios",listaUsuarios);
+        
         model.addAttribute("tEntrega",new Long(0L));
         return "Tmplt_Factura";
     }
@@ -384,6 +393,8 @@ public class FacturasController {
         //tEntrega, mPago, tVenta, idCliente, 
         model.addAttribute("facturaOBJ", new FacturaObj());
         
+        listaUsuarios = usuarioService.ObtenerUsuarios();
+        model.addAttribute("usuarios",listaUsuarios);
         //model.addAttribute("orden", factura);
         model.addAttribute("deChill",new String());
         return "Tmplt_Factura";

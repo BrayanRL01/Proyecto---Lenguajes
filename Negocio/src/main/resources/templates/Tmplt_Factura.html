@@ -148,7 +148,7 @@
                         <label>Vendedor</label>
                         <div class="form-row mb-3">
                             <select th:field="*{idVendedor}" class="form-control form-control-sm col-md-6" id="idCliente">
-                                <option th:each="x:${listaUsuarios}" 
+                                <option th:each="x:${usuarios}" 
                                         th:value="${x.getUsuario_Id}"
                                         th:text="${x.getNombre} + ' ' + ${x.getPrimer_Apellido}"/>
 
