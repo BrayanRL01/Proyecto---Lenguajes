@@ -147,9 +147,9 @@
                         <label>Vendedor</label>
                         <div class="form-row mb-3">
                             <select th:field="*{idVendedor}" class="form-control form-control-sm col-md-6" id="idCliente">
-                                <option th:each="x:${clientes}" 
-                                        th:value="${x.getId_persona}"
-                                        th:text="${x.getNombre} + ' ' + ${x.getPrimerAp}"/>
+                                <option th:each="x:${listaUsuarios}" 
+                                        th:value="${x.getUsuario_Id}"
+                                        th:text="${x.getNombre} + ' ' + ${x.getPrimer_Apellido}"/>
 
                             </select>
                         </div>
@@ -179,7 +179,7 @@
                         </div>
                         <div class="form-row mb-3">
                             <label>Total de entrega</label>
-                            <input type="text" name="totalEntrega" placeholder="Total de entrega"/>
+                            <input type="text" name="totalEntrega" placeholder="Valor de entrega"/>
                         </div>
                         <button class="w-100 mb-2 btn btn-lg rounded-3 btn-success" type="submit">Continuar</button>
                     </form>

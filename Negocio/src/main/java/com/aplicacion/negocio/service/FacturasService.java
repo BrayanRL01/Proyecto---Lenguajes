@@ -180,14 +180,16 @@ public class FacturasService {
         ARRAY array_a_enviar = new ARRAY(des,  jdbc.getConn(), detallesFactura );       
         
         // Prepare a PL/SQL call
+        // IN_ID_VENDEDOR, IN_ID_CLIENTE, IN_TIPO_VENTA_ID, IN_TOTAL_ENTREGA, IN_MEDIO_PAGO_ID, IN_OBJ_DETALLES_FACTURA IN OBJ_DETALLES_FACTURA, RESULTADO OUT NUMBER, MENSAJE OUT VARCHAR2) AS
+
         jdbc.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_FACTURA(?,?,?,?,?,?,?,?); END;");
         
         // se le indica la posicion del parametro y el tipo
-        jdbc.call.setInt(1, 1);
-        jdbc.call.setInt(2, 3);
-        jdbc.call.setInt(3, 1);
-        jdbc.call.setInt(4, 1);
-        jdbc.call.setInt(5, 1);
+        jdbc.call.setLong(1, idVendedor);
+        jdbc.call.setLong(2, id_cliente);
+        jdbc.call.setLong(3, idTipoPago);
+        jdbc.call.setLong(4, totalEntrega);
+        jdbc.call.setLong(5, idMedioPago);
         jdbc.call.setArray(6, array_a_enviar);
         jdbc.call.registerOutParameter(7, OracleTypes.NUMBER);
         jdbc.call.registerOutParameter(8, OracleTypes.VARCHAR);

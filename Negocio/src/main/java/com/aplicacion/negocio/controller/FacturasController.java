@@ -55,6 +55,9 @@ public class FacturasController {
     
     @Autowired
     MediosPagoService mPagoService;
+    /*
+    @Autowired
+    UsuarioService usuarioService;*/
 
     //Para almacenar los detalles de la orden
     List<Detalles_Factura> listaDetalles = new ArrayList<>();
@@ -69,6 +72,7 @@ public class FacturasController {
     
     List<MediosPago> ListaMedios = new ArrayList<>();
     
+    //List<Usuarios> listaUsuarios= new ArrayList<>();
 
     //Almacena los datos de la orden
     //FacturaVista factura = new FacturaVista();
@@ -387,7 +391,10 @@ public class FacturasController {
         //model.addAttribute("orden", factura);
         model.addAttribute("deChill",new String());
         
-        
+        /*
+        listaUsuarios = usuarioService.ObtenerUsuarios();
+        model.addAttribute("listaUsuarios",listaUsuarios);
+        */
         
         return "Tmplt_Factura";
     }
