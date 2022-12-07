@@ -24,22 +24,22 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 public class PersonasController {
-    
+
     @Autowired
     PersonaService personaService;
 
     @Autowired
     TipoPersonasService tpService;
-    
+
     Mensaje msj = new Mensaje();
-    
+
     @GetMapping("/")
-    public String home(){
+    public String home() {
         return "home";
     }
-    
+
     @GetMapping("/home")
-    public String home2(){
+    public String home2() {
         return "home";
     }
 
@@ -70,31 +70,30 @@ public class PersonasController {
     // postMapping
     @PostMapping("/savePersona")
     public String GuardarUsuario(@ModelAttribute Personas usuarios, RedirectAttributes redirAttrs) throws SQLException {
-        msj= personaService.savePersonas(usuarios);
-        if(msj.getNumero() == 1){//falla
-            redirAttrs.addFlashAttribute("error", "Error: "+msj.getMensaje());
+        msj = personaService.savePersonas(usuarios);
+        if (msj.getNumero() == 1) {// falla
+            redirAttrs.addFlashAttribute("error", "Error: " + msj.getMensaje());
             return "redirect:/personaLista";
-        }
-        else {
+        } else {
             redirAttrs.addFlashAttribute("success", "Nueva persona guardada correctamente");
-            return "redirect:/personaLista"; //1
+            return "redirect:/personaLista"; // 1
         }
-            
+
     }
-    
+
     @PostMapping("/actualizaPersona")
-    public String actualizarPersona(@ModelAttribute Personas usuarios, RedirectAttributes redirAttrs) throws SQLException {
+    public String actualizarPersona(@ModelAttribute Personas usuarios, RedirectAttributes redirAttrs)
+            throws SQLException {
         msj = personaService.actualizarPersona(usuarios);
-        if(msj.getNumero()==1){ //falla
-            redirAttrs.addFlashAttribute("error", "Error: "+msj.getMensaje());
+        if (msj.getNumero() == 1) { // falla
+            redirAttrs.addFlashAttribute("error", "Error: " + msj.getMensaje());
+            return "redirect:/personaLista";
+        } else {
+            redirAttrs.addFlashAttribute("success", "Se edito Persona con ID: " + usuarios.getId_persona());
             return "redirect:/personaLista";
         }
-        else{
-            redirAttrs.addFlashAttribute("success", "Se edito Persona con ID: "+usuarios.getId_persona());
-            return "redirect:/personaLista";
-        }
-    }   
-    
+    }
+
     @GetMapping("/editUsuario/{id}")
     public String editarPersona(@PathVariable("id") long id_persona, Model model) throws SQLException {
         Personas usuarios = personaService.getPersonaPorID(id_persona);
@@ -109,14 +108,14 @@ public class PersonasController {
     }
 
     @GetMapping("/deleteusuario/{id}")
-    public String eliminarUsuario(@PathVariable("id") long id_usuario, RedirectAttributes redirAttrs) throws SQLException {
+    public String eliminarUsuario(@PathVariable("id") long id_usuario, RedirectAttributes redirAttrs)
+            throws SQLException {
         msj = personaService.eliminarPersona(id_usuario);
-        if(msj.getNumero()==1){ //falla
-            redirAttrs.addFlashAttribute("error", "Error: "+msj.getMensaje());
+        if (msj.getNumero() == 1) { // falla
+            redirAttrs.addFlashAttribute("error", "Error: " + msj.getMensaje());
             return "redirect:/personaLista";
-        }
-        else{
-            redirAttrs.addFlashAttribute("success", "Se elimino Persona con ID: "+id_usuario);
+        } else {
+            redirAttrs.addFlashAttribute("success", "Se elimino Persona con ID: " + id_usuario);
             return "redirect:/personaLista";
         }
     }

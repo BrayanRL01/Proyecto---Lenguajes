@@ -67,8 +67,8 @@ public class PersonaService {
     }
 
     public Mensaje savePersonas(Personas per) throws SQLException {
-        jdbc.init();
         msj = new Mensaje();
+        jdbc.init();
 
         // Prepare a PL/SQL call
         jdbc.prepareCall("BEGIN NEGOCIO.PKG_PERSONAS.SP_INSERTAR_PERSONA (?,?,?,?,?,?,?,?,?,?); END;");
