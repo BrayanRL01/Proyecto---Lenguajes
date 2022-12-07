@@ -71,7 +71,7 @@ public class PersonaService {
         msj = new Mensaje();
 
         // Prepare a PL/SQL call
-        jdbc.prepareCall("BEGIN NEGOCIO.SP_INSERTAR_PERSONA (?,?,?,?,?,?,?,?,?,?); END;");
+        jdbc.prepareCall("BEGIN NEGOCIO.PKG_PERSONAS.SP_INSERTAR_PERSONA (?,?,?,?,?,?,?,?,?,?); END;");
 
         jdbc.call.setLong(1, per.getCedula());
         jdbc.call.setString(2, per.getNombre());
