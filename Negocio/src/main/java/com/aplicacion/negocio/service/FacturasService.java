@@ -169,7 +169,7 @@ public class FacturasService {
         for (int i = 0; i < listaDetalles.size(); i++) {
             listaDetalles.get(i).getProductID();
             
-            detallesFactura[i] = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA",listaDetalles.get(i).getProductID(), listaDetalles.get(i).getCantidad(),  listaDetalles.get(i).getPrecio(), 1L);
+            detallesFactura[i] = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA",listaDetalles.get(i).getProductID(), listaDetalles.get(i).getCantidad(),  listaDetalles.get(i).getPrecio(), (long) 0.13);
 
         }
 

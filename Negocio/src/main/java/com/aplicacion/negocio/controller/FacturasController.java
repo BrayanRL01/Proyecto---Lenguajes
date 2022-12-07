@@ -161,7 +161,7 @@ public class FacturasController {
                                 @RequestParam("medioPago") Long medioPago, Model model) throws SQLException, ClassNotFoundException {
 
         model.addAttribute("titulo", "Crear Factura");
-        factService.crearFactura(idVendedor, idCliente, tipoVenta,  totalEntrega,medioPago, listaDetalles);
+        factService.crearFactura(idVendedor, idCliente, tipoVenta,  totalEntrega, medioPago, listaDetalles);
         return "redirect:/listaFacturas";
     }
 
@@ -273,7 +273,7 @@ public class FacturasController {
         detalleFacturas.setPrecio(producto.getPrecio());
         detalleFacturas.setIVA((long) 0.13);
         detalleFacturas.setTotalSinIva(producto.getPrecio() * detalleFacturas.getCantidad());
-        detalleFacturas.setSubtotal(detalleFacturas.getTotalSinIva() + (detalleFacturas.getTotalSinIva() * detalleFacturas.getIVA()));
+        detalleFacturas.setSubtotal(detalleFacturas.getTotalSinIva() + (detalleFacturas.getTotalSinIva() * 1));
         detalleFacturas.setTamano(producto.getTamano());
 
         //Validar que el producto no se añada 2 veces
