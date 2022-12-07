@@ -216,6 +216,33 @@ public class FacturasService {
         return M;
     
     } 
+
+    public Mensaje borrarFactura(Long idFactua) throws SQLException{
+        Mensaje msj = new Mensaje();
+        jdbc.init();
+
+        // Prepare a PL/SQL call
+        //IN_ID_FACTURA IN NUMBER , RESULTADO OUT NUMBER,  MENSAJE OUT VARCHAR2
+        jdbc.prepareCall("BEGIN NEGOCIO.SP_ELIMINAR_FACTURA (?,?,?); END;");
+
+        // se le indica la posicion del parametro y el tipo
+        jdbc.call.setLong(1, idFactua); //id factura
+        jdbc.call.registerOutParameter(2, OracleTypes.NUMBER); //resultado
+        jdbc.call.registerOutParameter(3, OracleTypes.VARCHAR); //mensaje
+
+   
+        // se ejecuta el query
+        jdbc.call.execute();
+        msj.setNumero(jdbc.call.getInt(2));
+        msj.setMensaje(jdbc.call.getString(3));
+        
+
+        // Close all the resources
+
+        jdbc.call.close();
+        jdbc.close();
+        return msj;
+    }
 }
 /*
 
