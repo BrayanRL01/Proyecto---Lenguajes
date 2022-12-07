@@ -14,11 +14,11 @@
 <body>
     <header th:replace="plantilla/plantilla::barra-navegacion"></header>
     <div class="centro" id="alert">
-        <div th:if="${success} != null">
+        <div th:if="${mensaje} != null">
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <i class="oi oi-check"></i>
                 <span>
-                    <strong th:text="${success}"></strong>
+                    <strong th:text="${mensaje}"></strong>
                 </span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                 </button>

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Crear Tipo Persona</title>
+    <title>Modificar Tipo Persona</title>
     <link rel="stylesheet" href="/css/home.css" />
     <link rel="stylesheet" href="/css/formularios.css" />
 </head>
@@ -11,7 +11,7 @@
     <header th:replace="plantilla/plantilla::barra-navegacion"></header>
 
     <div class="container-formulario">
-        <h1>Estás creando un nuevo Tipo de Persona</h1>
+        <h1>Estás modificando un Tipo de Persona</h1>
         <!-- th:replace="plantilla/plantilla::titulo-formulario" -->
         <div class="formulario">
             <form th:object="${usuarios}" th:action="@{/actualizaTPersona}" method="POST">
