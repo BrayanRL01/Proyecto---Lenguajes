@@ -21,6 +21,7 @@ import com.aplicacion.negocio.service.PersonaService;
 import com.aplicacion.negocio.service.ProductosService;
 import com.aplicacion.negocio.service.TipoVentaService;
 import com.aplicacion.negocio.service.UsuariosService;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -157,7 +158,7 @@ public class FacturasController {
 
     @GetMapping("/facturaN") // idVendedor=2&idCliente=2&tipoVenta=1&medioPago=3&totalEntrega=456465
     public String CrearFactura(@RequestParam("idVendedor") Long idVendedor,@RequestParam("idCliente") Long idCliente,
-                                @RequestParam("tipoVenta") Long tipoVenta,@RequestParam("totalEntrega") Long totalEntrega,
+                                @RequestParam("tipoVenta") Long tipoVenta,@RequestParam("totalEntrega") BigDecimal totalEntrega,
                                 @RequestParam("medioPago") Long medioPago, Model model) throws SQLException, ClassNotFoundException {
 
         model.addAttribute("titulo", "Crear Factura");
@@ -178,9 +179,9 @@ public class FacturasController {
         detalleFacturas.setProducto(producto.getNombre());
         detalleFacturas.setProductID(producto.getId_Producto());
         detalleFacturas.setCantidad(cantidad + detalleFacturas.getCantidad());
-        detalleFacturas.setPrecio(producto.getPrecio());
-        detalleFacturas.setTotalSinIva(producto.getPrecio() * detalleFacturas.getCantidad());
-        detalleFacturas.setSubtotal(detalleFacturas.getTotalSinIva() * (long) 1.13);
+        detalleFacturas.setPrecio(BigDecimal.valueOf(producto.getPrecio()));
+        detalleFacturas.setTotalSinIva(BigDecimal.valueOf(producto.getPrecio()).multiply(BigDecimal.valueOf(detalleFacturas.getCantidad())));
+        detalleFacturas.setSubtotal(detalleFacturas.getTotalSinIva().add(detalleFacturas.getTotalSinIva().multiply(BigDecimal.valueOf(0.13))));
         detalleFacturas.setTamano(producto.getTamano());
 
         //Validar que el producto no se añada 2 veces
@@ -211,8 +212,8 @@ public class FacturasController {
                 if (detalle.getProductID().equals(idProducto)) {
                     if(rebajarInv(idProducto)){
                     detalle.setCantidad(detalle.getCantidad() + 1);
-                    detalle.setTotalSinIva(detalle.getPrecio() * detalle.getCantidad());
-                    detalle.setSubtotal(detalle.getTotalSinIva() * (long) 1.13);
+                    detalle.setTotalSinIva(BigDecimal.valueOf(producto.getPrecio()).multiply(BigDecimal.valueOf(detalleFacturas.getCantidad())));
+                    detalle.setSubtotal(detalleFacturas.getTotalSinIva().add(detalleFacturas.getTotalSinIva().multiply(BigDecimal.valueOf(0.13))));
                     }
                     else {
                     redirAttrs.addFlashAttribute("error", "Sin cantidad del producto2");
@@ -270,10 +271,10 @@ public class FacturasController {
         detalleFacturas.setProducto(producto.getNombre());
         detalleFacturas.setProductID(producto.getId_Producto());
         detalleFacturas.setCantidad(cantidad + 1);
-        detalleFacturas.setPrecio(producto.getPrecio());
-        detalleFacturas.setIVA((long) 0.13);
-        detalleFacturas.setTotalSinIva(producto.getPrecio() * detalleFacturas.getCantidad());
-        detalleFacturas.setSubtotal(detalleFacturas.getTotalSinIva() + (detalleFacturas.getTotalSinIva() * 1));
+        detalleFacturas.setPrecio(BigDecimal.valueOf(producto.getPrecio()));
+        detalleFacturas.setIVA(BigDecimal.valueOf(0.13));
+        detalleFacturas.setTotalSinIva(BigDecimal.valueOf(producto.getPrecio()).multiply(BigDecimal.valueOf(detalleFacturas.getCantidad())));
+        detalleFacturas.setSubtotal(detalleFacturas.getTotalSinIva().add(detalleFacturas.getTotalSinIva().multiply(BigDecimal.valueOf(0.13))));
         detalleFacturas.setTamano(producto.getTamano());
 
         //Validar que el producto no se añada 2 veces
@@ -305,8 +306,8 @@ public class FacturasController {
                 if (detalle.getProductID().equals(id)) {
                     if(rebajarInv(id)){
                     detalle.setCantidad(detalle.getCantidad() + 1);
-                    detalle.setTotalSinIva(detalle.getPrecio() * detalle.getCantidad());
-                    detalle.setSubtotal(detalle.getTotalSinIva() + (detalle.getTotalSinIva() * detalle.getIVA()));
+                    detalle.setTotalSinIva(BigDecimal.valueOf(producto.getPrecio()).multiply(BigDecimal.valueOf(detalleFacturas.getCantidad())));
+                    detalle.setSubtotal(detalleFacturas.getTotalSinIva().add(detalleFacturas.getTotalSinIva().multiply(BigDecimal.valueOf(0.13))));
                     }
                     else {
                     redirAttrs.addFlashAttribute("error", "Sin cantidad del producto");

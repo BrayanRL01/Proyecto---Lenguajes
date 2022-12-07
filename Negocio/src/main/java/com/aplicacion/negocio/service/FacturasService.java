@@ -12,6 +12,7 @@ import com.aplicacion.negocio.entity.FacturaResultado;
 import com.aplicacion.negocio.entity.FacturaVista;
 import com.aplicacion.negocio.entity.FacturasConDetalles;
 import com.aplicacion.negocio.entity.Mensaje;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -156,7 +157,7 @@ public class FacturasService {
         return factura;
     }
 
-    public Mensaje crearFactura(Long idVendedor ,Long id_cliente, Long idTipoPago ,Long totalEntrega, Long idMedioPago, List<Detalles_Factura> listaDetalles) throws SQLException, ClassNotFoundException {
+    public Mensaje crearFactura(Long idVendedor ,Long id_cliente, Long idTipoPago ,BigDecimal totalEntrega, Long idMedioPago, List<Detalles_Factura> listaDetalles) throws SQLException, ClassNotFoundException {
         //Obtiene el tamano de la lista
         int numDetalles = listaDetalles.size();
 
@@ -169,7 +170,7 @@ public class FacturasService {
         for (int i = 0; i < listaDetalles.size(); i++) {
             listaDetalles.get(i).getProductID();
             
-            detallesFactura[i] = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA",listaDetalles.get(i).getProductID(), listaDetalles.get(i).getCantidad(),  listaDetalles.get(i).getPrecio(), (long) 0.13);
+            detallesFactura[i] = new DetalleObj("NEGOCIO.OBJ_DETALLE_FACTURA",listaDetalles.get(i).getProductID(), listaDetalles.get(i).getCantidad(),  listaDetalles.get(i).getPrecio(), BigDecimal.valueOf(0.13));
 
         }
 
@@ -187,7 +188,7 @@ public class FacturasService {
         jdbc.call.setLong(1, idVendedor);
         jdbc.call.setLong(2, id_cliente);
         jdbc.call.setLong(3, idTipoPago);
-        jdbc.call.setLong(4, totalEntrega);
+        jdbc.call.setBigDecimal(4, totalEntrega);
         jdbc.call.setLong(5, idMedioPago);
         jdbc.call.setArray(6, array_a_enviar);
         jdbc.call.registerOutParameter(7, OracleTypes.NUMBER);

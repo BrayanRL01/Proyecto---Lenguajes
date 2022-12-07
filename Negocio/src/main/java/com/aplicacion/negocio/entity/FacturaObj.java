@@ -4,6 +4,7 @@
  */
 package com.aplicacion.negocio.entity;
 
+import java.math.BigDecimal;
 import java.sql.SQLData;
 import java.sql.SQLException;
 import java.sql.SQLInput;
@@ -24,9 +25,9 @@ public class FacturaObj implements SQLData {
     private Long idCliente;
     private Long tipoVenta;
     private Long medioPago;
-    private Long totalEntrega;
+    private BigDecimal totalEntrega;
 
-    public FacturaObj(String sql_type, ArrayList<DetalleObj> objdetalleobjeto, Long idVendedor, Long idCliente, Long tipoVenta, Long medioPago, Long totalEntrega) {
+    public FacturaObj(String sql_type, ArrayList<DetalleObj> objdetalleobjeto, Long idVendedor, Long idCliente, Long tipoVenta, Long medioPago, BigDecimal totalEntrega) {
         this.sql_type = sql_type;
         this.objdetalleobjeto = objdetalleobjeto;
         this.idVendedor = idVendedor;
@@ -105,11 +106,11 @@ public class FacturaObj implements SQLData {
         this.medioPago = medioPago;
     }
 
-    public Long getTotalEntrega() {
+    public BigDecimal getTotalEntrega() {
         return totalEntrega;
     }
 
-    public void setTotalEntrega(Long totalEntrega) {
+    public void setTotalEntrega(BigDecimal totalEntrega) {
         this.totalEntrega = totalEntrega;
     }
     

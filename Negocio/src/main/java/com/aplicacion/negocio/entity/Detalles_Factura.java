@@ -24,10 +24,10 @@ public class Detalles_Factura {
     private Long FacturaID;
     private String producto;
     private Long cantidad;
-    private Long precio;
-    private Long totalSinIva;
-    private Long IVA;
-    private Long subtotal;
+    private BigDecimal precio;
+    private BigDecimal totalSinIva;
+    private BigDecimal IVA;
+    private BigDecimal subtotal;
     private String tamano;
 
     public Detalles_Factura() {
@@ -74,35 +74,35 @@ public class Detalles_Factura {
         this.cantidad = cantidad;
     }
 
-    public Long getPrecio() {
+    public BigDecimal getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Long precio) {
+    public void setPrecio(BigDecimal precio) {
         this.precio = precio;
     }
 
-    public Long getTotalSinIva() {
+    public BigDecimal getTotalSinIva() {
         return totalSinIva;
     }
 
-    public void setTotalSinIva(Long totalSinIva) {
+    public void setTotalSinIva(BigDecimal totalSinIva) {
         this.totalSinIva = totalSinIva;
     }
 
-    public Long  getIVA() {
+    public BigDecimal  getIVA() {
         return IVA;
     }
 
-    public void setIVA(Long  IVA) {
+    public void setIVA(BigDecimal  IVA) {
         this.IVA = IVA;
     }
 
-    public Long getSubtotal() {
+    public BigDecimal getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(Long subtotal) {
+    public void setSubtotal(BigDecimal subtotal) {
         this.subtotal = subtotal;
     }
 
@@ -114,7 +114,7 @@ public class Detalles_Factura {
         this.tamano = tamano;
     }
 
-    public Detalles_Factura(Long IDDetalle, Long FacturaID, String producto, Long cantidad, Long precio, Long totalSinIva, Long  IVA, Long subtotal, String tamano) {
+    public Detalles_Factura(Long IDDetalle, Long FacturaID, String producto, Long cantidad, BigDecimal precio, BigDecimal totalSinIva, BigDecimal  IVA, BigDecimal subtotal, String tamano) {
         this.IDDetalle = IDDetalle;
         this.FacturaID = FacturaID;
         this.producto = producto;
