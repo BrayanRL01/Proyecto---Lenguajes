@@ -410,5 +410,16 @@ public class FacturasController {
         //model.addAttribute("orden", factura);
         return "Tmplt_Factura";
     }
+    
+    @GetMapping("/borrarFactura/{id}")
+    public String borrarFactura(@PathVariable("id") Long id, Model model) throws SQLException {
+        //List<Productos> listaProductos = PS.ObtenerProductos();
+        
+        factService.borrarFactura(id);
+        
+        //model.addAttribute("orden", factura);
+        return "redirect:/listaFacturas";
+    }
+    
 
 }
