@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="/css/home.css"/>
+        
     </head>
     <body>
         <header th:fragment="barra-navegacion">
@@ -51,9 +52,37 @@
             
         </header>
         
-        <h1 th:fragment="titulo-tabla" th:text=" 'Estás viendo la tabla: ' + ${titulo}"></h1>
+        <h1 th:fragment="titulo-tabla" th:text=" 'Estás viendo la tabla: ' + ${titulo}"></h1> <!-- título tablas -->
         
-        <h1 th:fragment="titulo-formulario" th:text=" 'Estás ' + ${accion} + ' un elemento ' + ${prefijo} + ' la tabla: ' + ${titulo}"></h1>
+        <h1 th:fragment="titulo-formulario" th:text=" 'Estás ' + ${accion} + ' un elemento ' + ${prefijo} + ' la tabla: ' + ${titulo}"></h1> <!-- título formularios -->
+        
+        <div th:fragment="container-mensaje-exito" class="centro" th:if="${success} != null">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="oi oi-check"></i>
+                <span>
+                    <strong th:text="${success}"></strong>
+                </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
+                         stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+        </div> <!-- div container de mensaje de éxito -->
+
+        <div th:fragment="container-mensaje-error" class="centro" th:if="${error} != null">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="oi oi-check"></i>
+                <span>
+                    <strong th:text="${error}"></strong>
+                </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
+                         stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+        </div> <!-- div container de mensaje de error -->
         
     </body>
 </html>

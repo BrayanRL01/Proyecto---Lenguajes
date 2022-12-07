@@ -1,0 +1,82 @@
+.container-formulario{
+    min-width: 60%;
+}
+
+.cabecera{
+    font-size: 19px;
+    width: 90%;
+    height: 180px;
+    border-bottom: 1px solid #009a87;
+    display: flex;
+    align-content: space-around;
+    flex-flow: column wrap;
+    margin-top: 10px;
+    margin-bottom: 50px;
+    padding-bottom: 20px;
+}
+
+.cabecera .col {
+    margin-bottom: 20px;
+}
+
+.cabecera .indicador{
+    font-weight: bold;
+}
+
+
+table{
+    background-color: white;
+    margin-top: 0;
+    width: 70%;
+    text-align: center;
+    border-collapse: collapse;
+    font-size: 18px;
+    border: 1px solid #009a87;
+    cursor: default;
+    margin-bottom: 40px;
+}
+
+th{
+    border-top: 2px solid #009a87;
+    border-bottom: 2px solid #009a87;
+    padding: 10px;
+    background-color: antiquewhite;
+}
+
+td{
+    border-bottom: 1px solid #009a87;
+    padding: 10px;
+}
+
+td a {
+    color: #009a87;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+td a {
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    transition: background-size .3s;
+}
+
+.container-total{
+    width: 70%;
+    display: flex;
+    justify-content: end;
+}
+
+.total{
+    font-size: 22px;
+    border-radius: 5px;
+    background-color: #009a87;
+    padding: 10px;
+    color: white;
+}
+
+.total .indicador{
+    font-weight: bold;
+}

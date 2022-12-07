@@ -2,10 +2,10 @@
 
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
-
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" 
-              integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <!--        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+        
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+                      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">-->
 
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" 
@@ -15,13 +15,13 @@
         <link rel="stylesheet" href="/css/formularios.css"/>
         <link rel="stylesheet" href="/css/detallesFactura.css"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
-        <style>
-            .centro {
-                margin: auto;
-                padding: 10px;
-                display: inline;
-            }
-        </style>
+        <!--        <style>
+                    .centro {
+                        margin: auto;
+                        padding: 10px;
+                        display: inline;
+                    }
+                </style>-->
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
@@ -33,173 +33,181 @@
             <h1>Estás creando los detalles de una factura</h1>
 
 
-            <div class="centro" id="alert">
-                <div th:if="${success} != null">
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <i class="oi oi-check"></i>
-                        <span>
-                            <strong th:text="${success}"></strong> 
-                        </span>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"> </button>
-                    </div>
-                </div>
+            <div th:replace="plantilla/plantilla :: container-mensaje-exito"></div>
 
-                <div th:if="${error} != null">
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <i class="oi oi-check"></i>
-                        <span>
-                            <strong th:text="${error}"></strong>
-                        </span>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"> </button>
-                    </div>
-                </div>           
+            <div th:replace="plantilla/plantilla :: container-mensaje-error"></div>
 
-            </div>
+            <!--            <div class="centro" id="alert">
+                            <div th:if="${success} != null">
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="oi oi-check"></i>
+                                    <span>
+                                        <strong th:text="${success}"></strong> 
+                                    </span>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"> </button>
+                                </div>
+                            </div>
+            
+                            <div th:if="${error} != null">
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="oi oi-check"></i>
+                                    <span>
+                                        <strong th:text="${error}"></strong>
+                                    </span>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"> </button>
+                                </div>
+                            </div>           
+
+        </div>-->
             <!-- meter lo de encabezado --> 
-                <form th:object="${facturaOBJ}" th:action="@{/facturaN}">
-            <div class="formulario">
+            <form th:object="${facturaOBJ}" th:action="@{/facturaN}">
+                <div class="formulario">
 
-                <div class="container-tabla-productos">
-                    <div>
-                        <h2>Productos para agregar</h2>
+                    <div class="container-tabla-productos">
+                        <div>
+                            <h2>Productos para agregar</h2>
 
+                        </div>
+
+
+                        <div class="row">
+                            <div class="form-group">
+                                <input type="text" name="ProductID" placeholder="ProductID"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="Cantidad" placeholder="Cantidad"/>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn-agregar">Añadir</button>
+                            </div>    
+                        </div>
+
+                        <table id="tabla">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Detalle</th>
+                                    <th scope="col">Precio</th>
+                                    <th scope="col">Tamano</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Añadir</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="tipo:${productos}">
+                                <tr>
+                                    <td th:text="${tipo.getNombre}"></td>
+                                    <td th:text="${tipo.getDetalle}"></td>
+                                    <td th:text="${tipo.getPrecio}"></td>
+                                    <td th:text="${tipo.getTamano}"></td>
+                                    <td th:text="${tipo.getCantidad}"></td>
+                                    <td><a th:href="@{/nuevosDetalles/{id}/{num}(id=${tipo.getId_Producto},num=2)}">Añadir</a> </td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
                     </div>
 
+                    <div class="container-detalle">
+                        <h2>Detalles para factura</h2>
 
-                     <div class="row">
-                        <div class="form-group">
-                            <input type="text" name="ProductID" placeholder="ProductID"/>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" name="Cantidad" placeholder="Cantidad"/>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary mb-2">Submit</button>
-                        </div>    
+
+                        <table id="tabla" >
+                            <thead>
+                                <tr> <!-- table row = fila -->
+                                    <!--     <th scope="col">ProductoID </th> -->
+                                    <th scope="col">Nombre </th>
+                                    <th scope="col">Precio </th>
+                                    <th scope="col">Cantidad </th>
+                                    <th scope="col">Tamaño </th>
+                                    <th scope="col">Total </th>
+                                    <th scope="col">IVA </th>
+                                    <th scope="col">Eliminar </th>
+                                    <th scope="col">+/- </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="dorden:${cart}">
+                                    <!-- <td th:text="${dorden.getProductID}"></td> -->
+                                    <td th:text="${dorden.getProducto}"></td>
+                                    <td th:text="${dorden.getPrecio}"></td>
+                                    <td th:text="${dorden.getCantidad}"></td>
+                                    <td th:text="${dorden.getTamano}"></td>
+                                    <td th:text="${dorden.getSubtotal}"></td>
+                                    <td>IVA</td>
+                                    <td>
+                                        <!-- th:href="@{/edit_rest/{id_restaurante} (id_restaurante=${user.getId_restaurante})}"
+                                            <a th:href="@{/borrarDetalle/{id}(id=${dorden.getProductID})}">Borrar</a>-->
+                                        <a th:href="@{/borrarDetalle/{id}(id=${dorden.getProductID})}">Borrar</a>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{/masUno/{id}(id=${dorden.getProductID})}">   ++   </a>
+                                        <a th:href="@{/menosUno/{id}(id=${dorden.getProductID})}">   --   </a>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <form class="">
+                            <div class="container-forms">
+                                <div class="form-row mb-3">
+                                    <label>Vendedor</label>
+                                    <select th:field="*{idVendedor}" class="desplegable form-control form-control-sm col-md-6" id="idCliente">
+                                        <option th:each="x:${clientes}" 
+                                                th:value="${x.getId_persona}"
+                                                th:text="${x.getNombre} + ' ' + ${x.getPrimerAp}"/>
+
+                                    </select>
+                                </div>
+
+                                <div class="form-row mb-3">
+                                    <label>Cliente</label>
+                                    <select th:field="*{idCliente}" class="desplegable form-control form-control-sm col-md-6" id="idCliente">
+                                        <option th:each="x:${clientes}" 
+                                                th:value="${x.getId_persona}"
+                                                th:text="${x.getNombre} + ' ' + ${x.getPrimerAp}"/>
+                                    </select>
+                                </div>
+
+                                <div class="form-row mb-3">
+                                    <label>Tipo de venta</label>
+                                    <select th:field="*{tipoVenta}" class="desplegable form-control form-control-sm col-md-6" id="tVenta">
+                                        <option th:each="x:${tipoVenta}" 
+                                                th:value="${x.getVenta_Id}"
+                                                th:text="${x.getNombre}"/>
+                                    </select>
+                                </div>
+                                <div class="form-row mb-3">
+                                    <label>Medio de pago</label>
+                                    <select th:field="*{medioPago}" class="desplegable form-control form-control-sm col-md-6" id="mPago">
+                                        <option th:each="x:${mediosPago}" 
+                                                th:value="${x.getMedio_Id}"
+                                                th:text="${x.getNombre}"/>
+                                    </select>
+                                </div>
+                                <div class="form-row mb-3">
+                                    <label>Total de entrega</label>
+                                    <input type="text" name="totalEntrega" placeholder="Total de entrega"/>
+                                </div>
+                            </div>
+                            <button class="btn-agregar w-100 mb-2 btn btn-lg rounded-3 btn-success" type="submit">Continuar</button>
+                        </form>
                     </div>
-                    
-                    <table id="tabla">
-                        <thead>
-                            <tr>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Detalle</th>
-                                <th scope="col">Precio</th>
-                                <th scope="col">Tamano</th>
-                                <th scope="col">Cantidad</th>
-                                <th scope="col">Añadir</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <th:block th:each="tipo:${productos}">
-                            <tr>
-                                <td th:text="${tipo.getNombre}"></td>
-                                <td th:text="${tipo.getDetalle}"></td>
-                                <td th:text="${tipo.getPrecio}"></td>
-                                <td th:text="${tipo.getTamano}"></td>
-                                <td th:text="${tipo.getCantidad}"></td>
-                                <td><a th:href="@{/nuevosDetalles/{id}/{num}(id=${tipo.getId_Producto},num=2)}">Anadir</a> </td>
-                            </tr>
-                        </th:block>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div class="container-detalle">
-                    <h2>Detalles para factura</h2>
 
-                    
-                    <table id="tabla" >
-                        <thead>
-                            <tr> <!-- table row = fila -->
-                                <!--     <th scope="col">ProductoID </th> -->
-                                <th scope="col">Nombre </th>
-                                <th scope="col">Precio </th>
-                                <th scope="col">Cantidad </th>
-                                <th scope="col">Tamaño </th>
-                                <th scope="col">Total </th>
-                                <th scope="col">IVA </th>
-                                <th scope="col">Eliminar </th>
-                                <th scope="col">+/- </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="dorden:${cart}">
-                                <!-- <td th:text="${dorden.getProductID}"></td> -->
-                                <td th:text="${dorden.getProducto}"></td>
-                                <td th:text="${dorden.getPrecio}"></td>
-                                <td th:text="${dorden.getCantidad}"></td>
-                                <td th:text="${dorden.getTamano}"></td>
-                                <td th:text="${dorden.getSubtotal}"></td>
-                                <td>IVA</td>
-                                <td>
-                                    <!-- th:href="@{/edit_rest/{id_restaurante} (id_restaurante=${user.getId_restaurante})}"
-                                        <a th:href="@{/borrarDetalle/{id}(id=${dorden.getProductID})}">Borrar</a>-->
-                                    <a th:href="@{/borrarDetalle/{id}(id=${dorden.getProductID})}">Borrar</a>
-                                </td>
-                                <td>
-                                    <a th:href="@{/masUno/{id}(id=${dorden.getProductID})}">   ++   </a> 
-                                    <a th:href="@{/menosUno/{id}(id=${dorden.getProductID})}">   --   </a>
-                                </td>
-
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <form class="">
-                        <label>Vendedor</label>
-                        <div class="form-row mb-3">
-                            <select th:field="*{idVendedor}" class="form-control form-control-sm col-md-6" id="idCliente">
-                                <option th:each="x:${clientes}" 
-                                        th:value="${x.getId_persona}"
-                                        th:text="${x.getNombre} + ' ' + ${x.getPrimerAp}"/>
-
-                            </select>
-                        </div>
-                        <label>Cliente</label>
-                        <div class="form-row mb-3">
-                            <select th:field="*{idCliente}" class="form-control form-control-sm col-md-6" id="idCliente">
-                                <option th:each="x:${clientes}" 
-                                        th:value="${x.getId_persona}"
-                                        th:text="${x.getNombre} + ' ' + ${x.getPrimerAp}"/>
-                            </select>
-                        </div>
-                        <label>Tipo de venta</label>
-                        <div class="form-row mb-3">
-                            <select th:field="*{tipoVenta}" class="form-control form-control-sm col-md-6" id="tVenta">
-                                <option th:each="x:${tipoVenta}" 
-                                        th:value="${x.getVenta_Id}"
-                                        th:text="${x.getNombre}"/>
-                            </select>
-                        </div>
-                        <label>Medio de pago</label>
-                        <div class="form-row mb-3">
-                            <select th:field="*{medioPago}" class="form-control form-control-sm col-md-6" id="mPago">
-                                <option th:each="x:${mediosPago}" 
-                                        th:value="${x.getMedio_Id}"
-                                        th:text="${x.getNombre}"/>
-                            </select>
-                        </div>
-                        <div class="form-row mb-3">
-                            <label>Total de entrega</label>
-                            <input type="text" name="totalEntrega" placeholder="Total de entrega"/>
-                        </div>
-                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-success" type="submit">Continuar</button>
-                    </form>
-                    
-                </div>
-                </form>
-            </div>
+            </form>
         </div>
+    </div>
 
-        <script type="text/javascript">
-            setTimeout(function () {
+    <script type="text/javascript">
+        setTimeout(function () {
 
-                // Closing the alert
-                $('#alert').alert('close');
-            }, 5000);
-        </script>
+            // Closing the alert
+            $('#alert').alert('close');
+        }, 5000);
+    </script>
 
-    </body>
+</body>
 </html>
 <!-- 
 esto es para el encabezado de la factura

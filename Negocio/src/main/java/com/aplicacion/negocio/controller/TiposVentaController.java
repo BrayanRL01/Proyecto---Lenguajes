@@ -27,6 +27,7 @@ public class TiposVentaController {
     @GetMapping("/listatventas")
     public String Index(Model M) throws SQLException {
         List<TiposVenta> ListaVentas = TVS.ObtenerVentas();
+        M.addAttribute("titulo", "Tipos de venta");
         M.addAttribute("Ventas", ListaVentas);
         return "listatventas";
     }

@@ -29,7 +29,7 @@ h1{
     margin: 0 0 80px 0;
     text-align: center;
     width: 100%;
-    font-size: 40px;
+    font-size: 30px;
 }
 
 table{
@@ -108,4 +108,7 @@ tr:hover a{
     margin: auto;
     display: inline;
     padding: 10px;
+    margin-top: 30px;
+    margin-bottom: -20px;
+    border-radius: 5px;
 }

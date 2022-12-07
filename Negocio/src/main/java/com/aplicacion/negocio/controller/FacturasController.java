@@ -43,16 +43,16 @@ public class FacturasController {
 
     @Autowired
     Detalles_FacturaService detallesService;
-    
+
     @Autowired
     PersonaService personaService;
 
     @Autowired
     ProductosService PS;
-    
+
     @Autowired
     TipoVentaService tVentaService;
-    
+
     @Autowired
     MediosPagoService mPagoService;
 
@@ -62,13 +62,12 @@ public class FacturasController {
     List<Productos> listaProductos = new ArrayList<>();
 
     Mensaje msj = new Mensaje();
-    
-    List<Personas> listaPersonas =new ArrayList<>();
-    
+
+    List<Personas> listaPersonas = new ArrayList<>();
+
     List<TiposVenta> ListaTVentas = new ArrayList<>();
-    
+
     List<MediosPago> ListaMedios = new ArrayList<>();
-    
 
     //Almacena los datos de la orden
     //FacturaVista factura = new FacturaVista();
@@ -94,18 +93,18 @@ public class FacturasController {
     }
 
     public boolean rebajarInv2(Long idProducto, Long cantidad) {
-        boolean resultado = false; 
+        boolean resultado = false;
         for (Productos producto : listaProductos) {
             if (Objects.equals(producto.getId_Producto(), idProducto)) {
                 if (producto.getCantidad() >= cantidad) {
                     producto.setCantidad(producto.getCantidad() - cantidad);
-                    resultado = true; 
+                    resultado = true;
                 } else {
                     resultado = false;
                 }
             }
         }
-        return resultado; 
+        return resultado;
     }
 
     public void devuelveInv(Long id, Long cant) {
@@ -120,7 +119,7 @@ public class FacturasController {
     public void borraDetalle(Long id, List<Detalles_Factura> list) {
         for (Detalles_Factura detalle : list) {
             if (Objects.equals(detalle.getProductID(), id)) {
-                if(detalle.getCantidad()>0){
+                if (detalle.getCantidad() > 0) {
                     devuelveInv(id, detalle.getCantidad());
                 }
                 listaDetalles.remove(detalle);
@@ -135,6 +134,7 @@ public class FacturasController {
         if (variable.isEmpty()) {
             return "redirect:/personaLista";
         } else {
+            M.addAttribute("titulo", "Facturas");
             M.addAttribute("lista", variable);
             return "Tmplt_listarFacturas";
         }
@@ -150,12 +150,12 @@ public class FacturasController {
     }
 
     @GetMapping("/facturaN") // idVendedor=2&idCliente=2&tipoVenta=1&medioPago=3&totalEntrega=456465
-    public String CrearFactura(@RequestParam("idVendedor") Long idVendedor,@RequestParam("idCliente") Long idCliente,
-                                @RequestParam("tipoVenta") Long tipoVenta,@RequestParam("totalEntrega") Long totalEntrega,
-                                @RequestParam("medioPago") Long medioPago, Model model) throws SQLException, ClassNotFoundException {
+    public String CrearFactura(@RequestParam("idVendedor") Long idVendedor, @RequestParam("idCliente") Long idCliente,
+            @RequestParam("tipoVenta") Long tipoVenta, @RequestParam("totalEntrega") Long totalEntrega,
+            @RequestParam("medioPago") Long medioPago, Model model) throws SQLException, ClassNotFoundException {
 
         model.addAttribute("titulo", "Crear Factura");
-        factService.crearFactura(idVendedor, idCliente, tipoVenta,  totalEntrega,medioPago, listaDetalles);
+        factService.crearFactura(idVendedor, idCliente, tipoVenta, totalEntrega, medioPago, listaDetalles);
         return "Tmplt_listarFacturas";
     }
 
@@ -191,7 +191,7 @@ public class FacturasController {
         }
         if (!ingresado) {
             //Si no se ha ingresado se añade la fila o registro a la lista global
-            if (rebajarInv2(idProducto,cantidad)) {
+            if (rebajarInv2(idProducto, cantidad)) {
                 System.out.println("Se agrego producto");
                 listaDetalles.add(detalleFacturas);
             } else {
@@ -203,15 +203,14 @@ public class FacturasController {
             //Se busca el registro a cambiar mediante el for
             for (Detalles_Factura detalle : listaDetalles) {
                 if (detalle.getProductID().equals(idProducto)) {
-                    if(rebajarInv(idProducto)){
-                    detalle.setCantidad(detalle.getCantidad() + 1);
-                    detalle.setTotalSinIva(detalle.getPrecio() * detalle.getCantidad());
-                    detalle.setSubtotal(detalle.getTotalSinIva() * (long) 1.13);
+                    if (rebajarInv(idProducto)) {
+                        detalle.setCantidad(detalle.getCantidad() + 1);
+                        detalle.setTotalSinIva(detalle.getPrecio() * detalle.getCantidad());
+                        detalle.setSubtotal(detalle.getTotalSinIva() * (long) 1.13);
+                    } else {
+                        redirAttrs.addFlashAttribute("error", "Sin cantidad del producto2");
                     }
-                    else {
-                    redirAttrs.addFlashAttribute("error", "Sin cantidad del producto2");
                 }
-                } 
             }
         }
         model.addAttribute("titulo", "Detalles de factura");
@@ -220,34 +219,34 @@ public class FacturasController {
 
         return "redirect:/getDetalles";
     }
-    
+
     @GetMapping("/masUno/{id}")
-    public String masUno(@PathVariable("id") Long id, Model model, RedirectAttributes redirAttrs){
+    public String masUno(@PathVariable("id") Long id, Model model, RedirectAttributes redirAttrs) {
         for (Detalles_Factura detalle : listaDetalles) {
-                if (detalle.getProductID().equals(id)) {
-                    if(rebajarInv(id)){
-                        detalle.setCantidad(detalle.getCantidad()+1);
-                    }
+            if (detalle.getProductID().equals(id)) {
+                if (rebajarInv(id)) {
+                    detalle.setCantidad(detalle.getCantidad() + 1);
                 }
+            }
         }
         return "redirect:/getDetalles";
     }
+
     @GetMapping("/menosUno/{id}")
-    public String menosUno(@PathVariable("id") Long id, Model model, RedirectAttributes redirAttrs){
+    public String menosUno(@PathVariable("id") Long id, Model model, RedirectAttributes redirAttrs) {
         for (Detalles_Factura detalle : listaDetalles) {
-                if (detalle.getProductID().equals(id)) {
-                    detalle.setCantidad(detalle.getCantidad()-1);
-                    devuelveInv(id,1L);
-                    if(detalle.getCantidad()==0){
-                        borraDetalle(id, listaDetalles);
-                        break;
-                    }   
+            if (detalle.getProductID().equals(id)) {
+                detalle.setCantidad(detalle.getCantidad() - 1);
+                devuelveInv(id, 1L);
+                if (detalle.getCantidad() == 0) {
+                    borraDetalle(id, listaDetalles);
+                    break;
                 }
+            }
         }
         return "redirect:/getDetalles";
     }
-    
-    
+
     @GetMapping("/nuevosDetalles/{id}/{num}")
     public String creaFactura(@PathVariable("id") Long id, @PathVariable("num") Long num, Model model, RedirectAttributes redirAttrs) throws SQLException, ClassNotFoundException {
 
@@ -259,7 +258,7 @@ public class FacturasController {
 
         //Obtener el producto en cuestión
         Productos producto = PS.ObtenerProductosPorID(id);
-        System.out.println("PRECIOOOOOOOOOOOO: "+producto.getPrecio());
+        System.out.println("PRECIOOOOOOOOOOOO: " + producto.getPrecio());
         //Configuración de las variables del detalle
         detalleFacturas.setProducto(producto.getNombre());
         detalleFacturas.setProductID(producto.getId_Producto());
@@ -285,7 +284,7 @@ public class FacturasController {
         System.out.println("Ingresado: " + ingresado);
         if (!ingresado) {
             //Si no se ha ingresado se añade la fila o registro a la lista global
-            
+
             if (rebajarInv(id)) {
                 System.out.println("Se agrego producto");
                 listaDetalles.add(detalleFacturas);
@@ -297,15 +296,14 @@ public class FacturasController {
             //Se busca el registro a cambiar mediante el for
             for (Detalles_Factura detalle : listaDetalles) {
                 if (detalle.getProductID().equals(id)) {
-                    if(rebajarInv(id)){
-                    detalle.setCantidad(detalle.getCantidad() + 1);
-                    detalle.setTotalSinIva(detalle.getPrecio() * detalle.getCantidad());
-                    detalle.setSubtotal(detalle.getTotalSinIva() + (detalle.getTotalSinIva() * detalle.getIVA()));
+                    if (rebajarInv(id)) {
+                        detalle.setCantidad(detalle.getCantidad() + 1);
+                        detalle.setTotalSinIva(detalle.getPrecio() * detalle.getCantidad());
+                        detalle.setSubtotal(detalle.getTotalSinIva() + (detalle.getTotalSinIva() * detalle.getIVA()));
+                    } else {
+                        redirAttrs.addFlashAttribute("error", "Sin cantidad del producto");
                     }
-                    else {
-                    redirAttrs.addFlashAttribute("error", "Sin cantidad del producto");
                 }
-                } 
             }
         }
 
@@ -316,11 +314,10 @@ public class FacturasController {
         model.addAttribute("titulo", "Detalles de factura");
         model.addAttribute("productos", listaProductos);
         model.addAttribute("cart", listaDetalles);
-        model.addAttribute("clientes",listaPersonas);
-        model.addAttribute("deChill",new String());
+        model.addAttribute("clientes", listaPersonas);
+        model.addAttribute("deChill", new String());
         //venta y medio de pago
-        
-        
+
         System.out.println(producto.getNombre() + " " + ingresado);
 
         return "redirect:/getDetalles";
@@ -335,57 +332,54 @@ public class FacturasController {
         model.addAttribute("cart", listaDetalles);
         //model.addAttribute("orden", factura);
         listaPersonas = personaService.obtenerPersonas();
-        model.addAttribute("clientes",listaPersonas);
+        model.addAttribute("clientes", listaPersonas);
         model.addAttribute("facturaOBJ", new FacturaObj());
-        model.addAttribute("idRapido",new String());
+        model.addAttribute("idRapido", new String());
         //model.addAttribute("cantRapido",new Long(0L));
-        
+
         //model.addAttribute("idCliente",new Long(0L));
-        
         ListaTVentas = tVentaService.ObtenerVentas();
-        model.addAttribute("tipoVenta",ListaTVentas);
+        model.addAttribute("tipoVenta", ListaTVentas);
         //model.addAttribute("tVenta",new Long(0L));
-        
+
         ListaMedios = mPagoService.ObtenerMPagos();
-        model.addAttribute("mediosPago",ListaMedios);
+        model.addAttribute("mediosPago", ListaMedios);
         //model.addAttribute("mPago",new Long(0L));
-        
-        model.addAttribute("tEntrega",new Long(0L));
+
+        model.addAttribute("tEntrega", new Long(0L));
         return "Tmplt_Factura";
     }
-    
-    
 
     @GetMapping("/nuevaFact")
     public String mostrarDetalles(Model model) throws SQLException {
         regenerarProductos();
         listaDetalles = new ArrayList<>();
-        
+
         model.addAttribute("productos", listaProductos);
         //Son las variables globales
         model.addAttribute("cart", listaDetalles);
         listaPersonas = personaService.obtenerPersonas();
-        model.addAttribute("clientes",listaPersonas);
-        
-        model.addAttribute("idRapido",new String());
-        model.addAttribute("cantRapido",new Long(0L));
-        
-        model.addAttribute("idCliente",new Long(0L));
-        
+        model.addAttribute("clientes", listaPersonas);
+
+        model.addAttribute("idRapido", new String());
+        model.addAttribute("cantRapido", new Long(0L));
+
+        model.addAttribute("idCliente", new Long(0L));
+
         ListaTVentas = tVentaService.ObtenerVentas();
-        model.addAttribute("tipoVenta",ListaTVentas);
-        model.addAttribute("tVenta",new Long(0L));
-        
+        model.addAttribute("tipoVenta", ListaTVentas);
+        model.addAttribute("tVenta", new Long(0L));
+
         ListaMedios = mPagoService.ObtenerMPagos();
-        model.addAttribute("mediosPago",ListaMedios);
-        model.addAttribute("mPago",new Long(0L));
-        
-        model.addAttribute("tEntrega",new Long(0L));
+        model.addAttribute("mediosPago", ListaMedios);
+        model.addAttribute("mPago", new Long(0L));
+
+        model.addAttribute("tEntrega", new Long(0L));
         //tEntrega, mPago, tVenta, idCliente, 
         model.addAttribute("facturaOBJ", new FacturaObj());
-        
+
         //model.addAttribute("orden", factura);
-        model.addAttribute("deChill",new String());
+        model.addAttribute("deChill", new String());
         return "Tmplt_Factura";
     }
 
