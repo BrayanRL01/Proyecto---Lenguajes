@@ -18,6 +18,10 @@
 
         <div class="container-tabla">
             <h1 th:replace="plantilla/plantilla :: titulo-tabla"></h1>
+
+            <div th:replace="plantilla/plantilla :: container-mensaje-exito"></div>
+            <div th:replace="plantilla/plantilla :: container-mensaje-error"></div>
+
             <table id="tabla">
                 <thead>
                     <tr>
@@ -44,11 +48,6 @@
                 </th:block>
                 </tbody>
             </table>
-
-            <div th:replace="plantilla/plantilla :: container-mensaje-exito"></div>
-
-            <div th:replace="plantilla/plantilla :: container-mensaje-error"></div>
-
             <form class="form-inline my-2 my-lg-0" form-method="post" th:action="@{/nuevacategoria}">
                 <button class="btn-agregar" type="submit">Agregar una categoría a la tabla</button>
         </div>

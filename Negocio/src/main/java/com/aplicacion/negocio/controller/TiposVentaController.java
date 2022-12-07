@@ -34,9 +34,11 @@ public class TiposVentaController {
 
     @GetMapping("/nuevotventa")
     public String CrearEstado(Model M) throws SQLException {
-        M.addAttribute("titulo", "Crear Tipo de Venta");
+        M.addAttribute("accion", "añadiendo");
+        M.addAttribute("prefijo", "a");
+        M.addAttribute("titulo", "Tipos de venta");
         M.addAttribute("Venta", new TiposVenta());
-        M.addAttribute("boton", "Crear");
+        M.addAttribute("boton", "Añadir");
         return "nuevotventa";
     }
 
@@ -57,7 +59,9 @@ public class TiposVentaController {
     public String ModificarEstado(@PathVariable("Venta_Id") Long Venta_Id, Model M)
             throws SQLException {
         TiposVenta TV = TVS.ObtenerVentaPorID(Venta_Id);
-        M.addAttribute("titulo", "Editar Tipo de Venta");
+        M.addAttribute("accion", "editando");
+        M.addAttribute("prefijo", "de");
+        M.addAttribute("titulo", "Tipos de venta");
         M.addAttribute("Venta", TV);
         M.addAttribute("boton", "Actualizar");
         return "modificartventa";

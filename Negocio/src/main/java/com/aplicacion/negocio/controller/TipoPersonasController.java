@@ -25,6 +25,7 @@ public class TipoPersonasController {
     @GetMapping("/tpPersonaLista")
     public String Index(Model M) throws SQLException {
         List<Tipo_Personas> ListRol = tpService.obtenerTipoPersonas();
+        M.addAttribute("titulo", "Tipos de persona");
         M.addAttribute("lista", ListRol);
         return "Tmplt_tpLista";
     }
@@ -32,11 +33,13 @@ public class TipoPersonasController {
     // form para crear tipoPersona
     @GetMapping("/tpersonaN")
     public String CrearUsuario(Model model) throws SQLException {
-        model.addAttribute("titulo", "Crear Tipo Persona");
+        model.addAttribute("accion", "añadiendo");
+        model.addAttribute("prefijo", "a");
+        model.addAttribute("titulo", "Tipos de persona");
         model.addAttribute("usuarios", new Tipo_Personas());
         List<Tipo_Personas> ListRol = tpService.obtenerTipoPersonas();
         model.addAttribute("lista", ListRol);
-        model.addAttribute("boton", "Crear");
+        model.addAttribute("boton", "Añadir");
         return "crearTpersona";
     }
 
@@ -69,7 +72,9 @@ public class TipoPersonasController {
     @GetMapping("/editTpersona/{id}")
     public String editarTPersona(@PathVariable("id") long id_Tpersona, Model model) throws SQLException {
         Tipo_Personas usuarios = tpService.getTPersonaPorID(id_Tpersona);
-        model.addAttribute("titulo", "Editar Tipo Persona");
+        model.addAttribute("accion", "editando");
+        model.addAttribute("prefijo", "de");
+        model.addAttribute("titulo", "Tipos de persona");
         model.addAttribute("usuarios", usuarios);
         model.addAttribute("boton", "Actualizar");
         return "actualizaTpersona";

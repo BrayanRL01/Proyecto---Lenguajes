@@ -202,6 +202,8 @@ nav .opciones .opciones-sistema li{
     background-color: #ccffcc;
     padding: 10px;
     border-radius: 5px;
+    margin-top: -60px;
+    margin-bottom: 40px;
 }
 
 .alert button {

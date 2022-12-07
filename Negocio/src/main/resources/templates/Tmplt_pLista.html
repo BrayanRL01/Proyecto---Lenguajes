@@ -30,29 +30,12 @@
 
         <header th:replace="plantilla/plantilla::barra-navegacion"></header>
         <div class="container-tabla">
-            <!--            <div class="centro" id="alert">
-                            <div th:if="${success} != null">
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <i class="oi oi-check"></i>
-                                    <span>
-                                        <strong th:text="${success}"></strong> 
-                                    </span>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"> </button>
-                                </div>
-                            </div>
-            
-                            <div th:if="${error} != null">
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <i class="oi oi-check"></i>
-                                    <span>
-                                        <strong th:text="${error}"></strong>
-                                    </span>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"> </button>
-                                </div>
-                            </div>           
-            
-                        </div>-->
+
             <h1 th:replace="plantilla/plantilla :: titulo-tabla"></h1>
+
+            <div th:replace="plantilla/plantilla :: container-mensaje-exito"></div>
+            <div th:replace="plantilla/plantilla :: container-mensaje-error"></div>
+
             <table id="tabla"> <!--class="table table-dark table-striped" -->
                 <thead> <!-- class="thead-dark" -->
                     <tr>
@@ -95,11 +78,6 @@
                 </th:block>
                 </tbody>
             </table>
-
-            <div th:replace="plantilla/plantilla :: container-mensaje-exito"></div>
-
-            <div th:replace="plantilla/plantilla :: container-mensaje-error"></div>
-
             <form form-method="post" th:action="@{/personaN}"> <!-- class="form-inline my-2 my-lg-0"--> 
                 <button class="btn-agregar" type="submit">Agregar una persona a la tabla</button>
             </form>
