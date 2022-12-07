@@ -27,7 +27,7 @@ public class Personas implements Serializable {
     private String tipoPersonaDesc;
 
     public Personas(Long id_persona, Long cedula, String nombre, String primerAp, String segundoAp, String direccion,
-            String email, String telefono, Long personaID) {
+            String email, String telefono, Long tipoPersonaId) {
         this.id_persona = id_persona;
         this.cedula = cedula;
         this.nombre = nombre;
@@ -36,7 +36,7 @@ public class Personas implements Serializable {
         this.direccion = direccion;
         this.email = email;
         this.telefono = telefono;
-        this.tipoPersonaId = personaID;
+        this.tipoPersonaId = tipoPersonaId;
     }
 
     public Personas(Long id_persona, Long cedula, String nombre, String primerAp, String segundoAp, String direccion,

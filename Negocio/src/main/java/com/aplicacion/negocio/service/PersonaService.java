@@ -124,7 +124,7 @@ public class PersonaService {
                     rset.getString(6),
                     rset.getString(7),
                     rset.getString(8),
-                    rset.getLong(9));
+                    rset.getString(9));
         }
 
         jdbc.call.close();
