@@ -23,7 +23,7 @@ public class Personas implements Serializable {
     // ----------------Foreing key------------------
     // @ManyToOne
     // @JoinColumn(name = "tipo_persona_id")
-    private int tipoPersonaId;
+    private Long tipoPersonaId;
     private String tipoPersonaDesc;
 
     public Personas(Long id_persona, Long cedula, String nombre, String primerAp, String segundoAp, String direccion,
@@ -122,11 +122,11 @@ public class Personas implements Serializable {
         this.telefono = telefono;
     }
 
-    public int getTipoPersonaId() {
+    public Long getTipoPersonaId() {
         return tipoPersonaId;
     }
 
-    public void setTipoPersonaId(int tipoPersonaId) {
+    public void setTipoPersonaId(Long tipoPersonaId) {
         this.tipoPersonaId = tipoPersonaId;
     }
 

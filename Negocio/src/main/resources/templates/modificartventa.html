@@ -25,75 +25,38 @@
 
     <body>
         <header th:replace="plantilla/plantilla::barra-navegacion"></header>
+        <form th:object="${Venta}" th:action="@{/EditarTVenta}" method="POST">
 
-<<<<<<<< HEAD:Negocio/src/main/resources/templates/modificartventa.html
-<body>
+            <input type="hidden" th:field="*{Venta_Id}">
+            <div class="modal modal-signin d-block py-5" tabindex="-1" role="dialog" id="modalSignin"
+                 style="background-image: url(../images//home/hp01.jpg); margin-top: 90px; z-index: 1;">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content rounded-4 shadow" style="margin-top: 0%; background: black;">
+                        <div class="modal-header p-5 pb-4 border-bottom-0">
+                            <!-- <h5 class="modal-title">Modal title</h5> -->
+                            <h2 class="fw-bold mb-0" style="color: white;" th:text="${titulo}">Titulo</h2>
+                        </div>
 
-    <form th:object="${Venta}" th:action="@{/EditarTVenta}" method="POST">
-
-        <input type="hidden" th:field="*{Venta_Id}">
-        <div class="modal modal-signin d-block py-5" tabindex="-1" role="dialog" id="modalSignin"
-            style="background-image: url(../images//home/hp01.jpg); margin-top: 90px; z-index: 1;">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content rounded-4 shadow" style="margin-top: 0%; background: black;">
-                    <div class="modal-header p-5 pb-4 border-bottom-0">
-                        <!-- <h5 class="modal-title">Modal title</h5> -->
-                        <h2 class="fw-bold mb-0" style="color: white;" th:text="${titulo}">Titulo</h2>
-                    </div>
-
-                    <div class="modal-body p-5 pt-0">
-                        <form class="">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control rounded-3" id="floatingInput"
-                                    th:field="*{Nombre}" placeholder="Nombre de tipo de venta">
-                                <label for="floatingInput">Nombre del tipo de venta</label>
-                            </div>
-                            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-success" type="submit"
-                                th:text="${boton}"></button>
-                        </form>
+                        <div class="modal-body p-5 pt-0">
+                            <form class="">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control rounded-3" id="floatingInput"
+                                           th:field="*{Nombre}" placeholder="Nombre de tipo de venta">
+                                    <label for="floatingInput">Nombre del tipo de venta</label>
+                                </div>
+                                <div class="botones">
+                                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-success" type="submit"
+                                            th:text="${boton}"></button>
+                                    <a href="javascript: history.go(-1)">
+                                        <button type="button" class="btn-cancelar" name="btn-cancelar" />Volver atrás</button>
+                                    </a>
+                                </div>
+                            
+                        </div>
                     </div>
                 </div>
-========
-        <div class="container-formulario">
-            <h1 th:replace="plantilla/plantilla::titulo-formulario"></h1>
-            <div class="formulario">
-                <!-- Pasamos el objeto de tipo persona 
-                -->
-                <form th:object="${Categorias}" th:action="@{/GuardarCategoria}" method="POST">
-
-                    <input type="hidden" th:field="*{Id_Categoria}">
-                    <!--                    <div class="modal modal-signin d-block py-5" tabindex="-1" role="dialog" id="modalSignin"
-                                             style="background-image: url(../images//home/hp01.jpg); margin-top: 90px; z-index: 1;">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content rounded-4 shadow" style="margin-top: 0%; background: black;">
-                                                    <div class="modal-header p-5 pb-4 border-bottom-0">
-                                                         <h5 class="modal-title">Modal title</h5> 
-                                                        <h2 class="fw-bold mb-0" style="color: white;" th:text="${titulo}">Titulo</h2>
-                                                    </div>
-                    
-                                                    <div class="modal-body p-5 pt-0">
-                                                        <form class="">
-                                                            <div class="form-floating mb-3">-->
-                    <input type="text" class="form-control rounded-3" id="floatingInput"
-                           th:field="*{Nombre}" placeholder="Nombre de la categoría">
-                    <!--                                            <label for="floatingInput">Nombre de marca</label>
-                                                                <br>
-                                                            </div>
-                                                            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-success" type="submit"
-                                                                    th:text="${boton}"></button>-->
-                    <div class="botones">
-                        <button type="submit" class="btn-agregar" name="btn-agregar" th:text="${boton}"></button>
-                        <a href="javascript: history.go(-1)">
-                            <button type="button" class="btn-cancelar" name="btn-cancelar" />Volver atrás</button>
-                        </a>
-                    </div>
-                </form>
->>>>>>>> dev:Negocio/target/classes/templates/nuevacategoria.html
             </div>
-        </div>
-        <!--    </div>
-        </div>-->
-        <!--                </form>-->
+        </form>
     </body>
 
 </html>

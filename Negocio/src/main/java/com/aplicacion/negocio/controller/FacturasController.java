@@ -24,8 +24,10 @@ import com.aplicacion.negocio.service.UsuariosService;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -211,10 +213,10 @@ public class FacturasController {
             //Se busca el registro a cambiar mediante el for
             for (Detalles_Factura detalle : listaDetalles) {
                 if (detalle.getProductID().equals(idProducto)) {
-                    if(rebajarInv(idProducto)){
-                    detalle.setCantidad(detalle.getCantidad() + 1);
-                    detalle.setTotalSinIva(BigDecimal.valueOf(producto.getPrecio()).multiply(BigDecimal.valueOf(detalleFacturas.getCantidad())));
-                    detalle.setSubtotal(detalleFacturas.getTotalSinIva().add(detalleFacturas.getTotalSinIva().multiply(BigDecimal.valueOf(0.13))));
+                    if(rebajarInv2(idProducto, cantidad)){
+                    detalle.setCantidad(detalle.getCantidad() + cantidad);
+                    detalle.setTotalSinIva(detalle.getTotalSinIva().add(BigDecimal.valueOf(producto.getPrecio()).multiply(BigDecimal.valueOf(detalleFacturas.getCantidad()))));
+                    detalle.setSubtotal(detalle.getSubtotal().add(detalleFacturas.getTotalSinIva().add(detalleFacturas.getTotalSinIva().multiply(BigDecimal.valueOf(0.13)))));
                     }
                 }
             }
@@ -232,6 +234,8 @@ public class FacturasController {
             if (detalle.getProductID().equals(id)) {
                 if (rebajarInv(id)) {
                     detalle.setCantidad(detalle.getCantidad() + 1);
+                    detalle.setTotalSinIva(detalle.getTotalSinIva().add(detalle.getPrecio()));
+                    detalle.setSubtotal(detalle.getSubtotal().add(detalle.getPrecio().add(detalle.getPrecio().multiply(BigDecimal.valueOf(0.13)))));
                 }
             }
         }
@@ -243,6 +247,8 @@ public class FacturasController {
         for (Detalles_Factura detalle : listaDetalles) {
             if (detalle.getProductID().equals(id)) {
                 detalle.setCantidad(detalle.getCantidad() - 1);
+                detalle.setTotalSinIva(detalle.getTotalSinIva().subtract(detalle.getPrecio()));
+                detalle.setSubtotal(detalle.getSubtotal().subtract(detalle.getPrecio().add(detalle.getPrecio().multiply(BigDecimal.valueOf(0.13)))));
                 devuelveInv(id, 1L);
                 if (detalle.getCantidad() == 0) {
                     borraDetalle(id, listaDetalles);
@@ -304,9 +310,9 @@ public class FacturasController {
                 if (detalle.getProductID().equals(id)) {
 
                     if(rebajarInv(id)){
-                    detalle.setCantidad(detalle.getCantidad() + 1);
-                    detalle.setTotalSinIva(BigDecimal.valueOf(producto.getPrecio()).multiply(BigDecimal.valueOf(detalleFacturas.getCantidad())));
-                    detalle.setSubtotal(detalleFacturas.getTotalSinIva().add(detalleFacturas.getTotalSinIva().multiply(BigDecimal.valueOf(0.13))));
+                    detalle.setCantidad(detalle.getCantidad() + 1);   
+                    detalle.setTotalSinIva(detalle.getTotalSinIva().add(BigDecimal.valueOf(producto.getPrecio()).multiply(BigDecimal.valueOf(detalleFacturas.getCantidad()))));
+                    detalle.setSubtotal(detalle.getSubtotal().add(detalleFacturas.getTotalSinIva().add(detalleFacturas.getTotalSinIva().multiply(BigDecimal.valueOf(0.13)))));
                     } else {
                         redirAttrs.addFlashAttribute("error", "Sin cantidad del producto");
                     }
