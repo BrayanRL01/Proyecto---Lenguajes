@@ -56,6 +56,7 @@ public class PersonaService {
                     rset.getString(6),
                     rset.getString(7),
                     rset.getString(8),
+                    1,
                     rset.getString(9));
             contenedor.add(per);
         }
@@ -80,7 +81,7 @@ public class PersonaService {
         jdbc.call.setString(5, per.getDireccion());
         jdbc.call.setString(6, per.getEmail());
         jdbc.call.setString(7, per.getTelefono());
-        jdbc.call.setLong(8, per.getTipoPersonaId());
+        jdbc.call.setInt(8, per.getTipoPersonaId());
         jdbc.call.registerOutParameter(9, OracleTypes.NUMBER); // worked or not
         jdbc.call.registerOutParameter(10, OracleTypes.VARCHAR); // mensaje de error
 
@@ -148,7 +149,7 @@ public class PersonaService {
         jdbc.call.setString(6, per.getDireccion());
         jdbc.call.setString(7, per.getEmail());
         jdbc.call.setString(8, per.getTelefono());
-        jdbc.call.setLong(9, per.getTipoPersonaId());
+        jdbc.call.setInt(9, per.getTipoPersonaId());
         jdbc.call.registerOutParameter(10, OracleTypes.NUMBER);
         jdbc.call.registerOutParameter(11, OracleTypes.VARCHAR);
 
