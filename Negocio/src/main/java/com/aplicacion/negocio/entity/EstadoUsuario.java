@@ -5,14 +5,13 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "TAB_ESTADOS_USUARIO", schema = "NEGOCIO")
-public class EstadoUsuario implements Serializable{
+public class EstadoUsuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long Estado_Usuario_Id;
     private String Nombre;
-    
+
     public EstadoUsuario(Long estado_Usuario_Id, String nombre) {
         this.Estado_Usuario_Id = estado_Usuario_Id;
         this.Nombre = nombre;
@@ -37,7 +36,4 @@ public class EstadoUsuario implements Serializable{
         Nombre = nombre;
     }
 
-    
-
-    
 }
