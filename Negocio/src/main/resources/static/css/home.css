@@ -145,7 +145,7 @@ nav .opciones .opciones-sistema li{
 }
 
 .opciones-inventario{
-    left: 490px;
+    left: 270px;
     flex-flow: column nowrap;
     width: 150px;
 }
