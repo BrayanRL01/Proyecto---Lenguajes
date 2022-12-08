@@ -122,7 +122,7 @@ NOMBRE_USUARIO VARCHAR2(30)UNIQUE NOT NULL,
 NOMBRE VARCHAR2(30) NOT NULL,
 PRIMER_APELLIDO VARCHAR2(30) NOT NULL,
 SEGUNDO_APELLIDO VARCHAR2(30) NOT NULL,
-EMAIL VARCHAR2(50),
+EMAIL VARCHAR2(50) UNIQUE NOT NULL,
 CONTRASENA VARCHAR2(40),
 TELEFONO VARCHAR2(15) NOT NULL,
 ROLE_ID NUMBER,
@@ -599,7 +599,7 @@ VALUES (IN_NOMBRE);
 EXCEPTION
 WHEN dup_val_on_index THEN
 RESULTADO:= 1;
-MENSAJE := 'No se pudo agregar el tipo de venta ya que existe otro con el mismo nombre en el sitema';
+MENSAJE := 'No se pudo agregar el tipo de venta ya que existe otro con el mismo nombre en el sistema';
 END;
 /
 
@@ -630,7 +630,7 @@ WHERE ID_TIPO_VENTA = IN_ID_TIPO_VENTA;
 RESULTADO :=0;
 EXCEPTION
 WHEN OTHERS THEN
-    MENSAJE := 'No se pudo modificar el tipo de venta ya que el nuevo nombre esta siendo utilizado por otro en el sitema';
+    MENSAJE := 'No se pudo modificar el tipo de venta ya que el nuevo nombre esta siendo utilizado por otro en el sistema';
     RESULTADO := 1;
 END;
 /
@@ -689,7 +689,7 @@ WHERE ID_MEDIO_PAGO = IN_ID_MEDIO_PAGO ;
 RESULTADO :=0;
 EXCEPTION
 WHEN OTHERS THEN
-    MENSAJE := 'No se pudo modificar el medio de pago ya que el nuevo nombre esta siendo utilizado por otro en el sitema';
+    MENSAJE := 'No se pudo modificar el medio de pago ya que el nuevo nombre esta siendo utilizado por otro en el sistema';
     RESULTADO := 1;
 END;
 /
@@ -750,7 +750,7 @@ WHERE ID_PERSONA = IN_ID_PERSONA;
 RESULTADO :=0;
 EXCEPTION
 WHEN OTHERS THEN
-    MENSAJE := 'No se pudo modificar al persona ya que la nueva cedula esta siendo utilizado por otra en el sitema';
+    MENSAJE := 'No se pudo modificar al persona ya que la nueva cedula esta siendo utilizado por otra en el sistema';
     RESULTADO := 1;
 END;
 / 
@@ -795,7 +795,7 @@ VALUES (IN_NOMBRE);
 EXCEPTION
 WHEN dup_val_on_index THEN
 RESULTADO:= 1;
-MENSAJE := 'No se pudo agregar la categoria ya que existe otra con el mismo nombre en el sitema';
+MENSAJE := 'No se pudo agregar la categoria ya que existe otra con el mismo nombre en el sistema';
 END;
 /
 
@@ -826,7 +826,7 @@ WHERE ID_TIPO_PERSONA = IN_ID_TIPO_PERSONA;
 RESULTADO :=0;
 EXCEPTION
 WHEN OTHERS THEN
-    MENSAJE := 'No se pudo modificar el tipo de persona ya que el nuevo nombre esta siendo utilizado por otro en el sitema';
+    MENSAJE := 'No se pudo modificar el tipo de persona ya que el nuevo nombre esta siendo utilizado por otro en el sistema';
     RESULTADO := 1;
 END;
 / 
@@ -868,7 +868,7 @@ DELETE FROM TAB_USUARIOS WHERE IN_ID_USUARIO = ID_USUARIO;
 RESULTADO := 0;
 EXCEPTION
 WHEN OTHERS THEN
-    MENSAJE := 'La persona no fue eliminada ya que cuenta con facturas asignadas a ella';
+    MENSAJE := 'El usuario no fue eliminado ya que se encuentra logueado';
     RESULTADO := 1;
 END;
 /
@@ -891,7 +891,7 @@ WHERE ID_USUARIO = IN_ID_USUARIO;
 RESULTADO :=0;
 EXCEPTION
 WHEN OTHERS THEN
-    MENSAJE := 'No se pudo modificar al usuario ya que el nuevo nombre de usuario o correo esta siendo utilizado por otro en el sitema';
+    MENSAJE := 'No se pudo modificar al usuario ya que el nuevo nombre de usuario o correo esta siendo utilizado por otro en el sistema';
     RESULTADO := 1;
 END;
 / 
@@ -919,7 +919,7 @@ VALUES (IN_NOMBRE);
 EXCEPTION
 WHEN dup_val_on_index THEN
 RESULTADO:= 1;
-MENSAJE := 'No se puede agregar un numbre ya en uso por otro estado';
+MENSAJE := 'No se puede agregar un nombre ya en uso por otro estado';
 END;
 /
 
@@ -952,7 +952,7 @@ WHERE ID_ESTADO_USUARIO = IN_ID_ESTADO_USUARIO;
 RESULTADO :=0;
 EXCEPTION
 WHEN OTHERS THEN
-    MENSAJE := 'No se pudo modificar el estado de usuario ya que el nuevo nombre esta siendo utilizado por otro en el sitema';
+    MENSAJE := 'No se pudo modificar el estado de usuario ya que el nuevo nombre esta siendo utilizado por otro en el sistema';
     RESULTADO := 1;
 END;
 / 
@@ -977,7 +977,7 @@ VALUES (IN_NOMBRE);
 EXCEPTION
 WHEN dup_val_on_index THEN
 RESULTADO:= 1;
-MENSAJE := 'No se pudo agregar el tipo de role ya que existe otro con el mismo nombre en el sitema';
+MENSAJE := 'No se pudo agregar el tipo de role ya que existe otro con el mismo nombre en el sistema';
 END;
 /
 
