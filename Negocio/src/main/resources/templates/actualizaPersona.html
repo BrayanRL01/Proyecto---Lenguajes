@@ -14,32 +14,28 @@
             <div class="formulario">
                 <!-- Pasamos el objeto de tipo persona 
                 -->
-                <form th:object="${usuarios}"
-                      th:action="@{/actualizaPersona}"
-                      method="POST">
-
+                <form th:object="${usuarios}" th:action="@{/actualizaPersona}"  method="POST">
                     <input type = "hidden" th:field="*{id_persona}">
-                    <input type="number" class="form-control rounded-3" id="floatingInput" th:field="*{cedula}" placeholder="Cedula">
+                    <input type="number" class="form-control rounded-3" id="floatingInput" th:field="*{cedula}" placeholder="Número de cédula" required>
                     
                     <input type="text" class="form-control rounded-3" id="floatingPassword" th:field="*{nombre}" placeholder="Nombre" required/>
                     
-                    <input type="text" class="form-control rounded-3" id="floatingPassword" th:field="*{primerAp}" placeholder="Primer Apellido">
+                    <input type="text" class="form-control rounded-3" id="floatingPassword" th:field="*{primerAp}" placeholder="Primer Apellido" required>
                     
                     <input type="text" class="form-control rounded-3" id="floatingPassword" th:field="*{segundoAp}" placeholder="Segundo Apellido">
                     
                     <input type="text" class="form-control rounded-3" id="floatingPassword" th:field="*{direccion}" placeholder="Direccion">
                     
-                    <input type="text" class="form-control rounded-3" id="floatingPassword" th:field="*{email}" placeholder="Email">
+                    <input type="email" class="form-control rounded-3" id="floatingPassword" th:field="*{email}" placeholder="Correo Electronico">
                     
-                    <input type="text" class="form-control rounded-3" id="floatingPassword" th:field="*{telefono}" placeholder="Telefono">
+                    <input type="text" class="form-control rounded-3" id="floatingPassword" th:field="*{telefono}" placeholder="Telefono" required>
                     
                     <select th:field="*{tipoPersonaId}" class="desplegable">
                         <option th:each="x:${tipoPersonas}"
                                 th:value="${x.getId_tipo_persona}"
                                 th:text="${x.getNombre}"
                                 th:selected="${usuarios.getId_persona}"/>
-                    </select>
-                    
+                    </select>                    
                     <div class="botones">    
                         <!--button class="w-100 mb-2 btn btn-lg rounded-3 btn-success"type="submit" class="btn btn-success" value="Guardar">Submit</button-->
                         <button class="w-100 mb-2 btn btn-lg rounded-3 btn-success" type="submit" th:text="${boton}"></button>

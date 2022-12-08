@@ -17,7 +17,7 @@
                       th:action="@{/actualizaTPersona}"
                       method="POST">
                     <input type = "hidden" th:field="*{id_tipo_persona}">
-                    <input type="text" class="form-control rounded-3" id="floatingInput" th:field="*{nombre}" placeholder="nombre">
+                    <input type="text" class="form-control rounded-3" id="floatingInput" th:field="*{nombre}" placeholder="Nombre del tipo de persona" required>
 
                     <div class="botones">
                         <!--button class="w-100 mb-2 btn btn-lg rounded-3 btn-success"type="submit" class="btn btn-success" value="Guardar">Submit</button-->

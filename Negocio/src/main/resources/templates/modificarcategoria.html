@@ -35,7 +35,7 @@
 
                     <input type="hidden" th:field="*{Id_Categoria}">
                     <input type="text" class="form-control rounded-3" id="floatingInput"
-                           th:field="*{Nombre}" placeholder="Nombre de categoría">
+                           th:field="*{Nombre}" placeholder="Nombre de categoría" required>
 
                     <div class="botones">
                         <button type="submit" class="btn-agregar" name="btn-agregar" th:text="${boton}"></button>

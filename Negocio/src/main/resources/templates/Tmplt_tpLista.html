@@ -27,8 +27,10 @@
         <div class="container-tabla">
             <h1 th:replace="plantilla/plantilla :: titulo-tabla"></h1>
 
-            <div th:replace="plantilla/plantilla :: container-mensaje-exito"></div>
-            <div th:replace="plantilla/plantilla :: container-mensaje-error"></div>
+            <div class="centro" id="alert">
+                <div th:replace="plantilla/plantilla :: container-mensaje-exito"></div>
+                <div th:replace="plantilla/plantilla :: container-mensaje-error"></div>
+            </div> 
 
             <table id="tabla">
                 <!--class="table table-dark table-striped" -->
@@ -36,7 +38,7 @@
                     <!-- class="thead-dark" -->
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Descripcion</th>
+                        <th scope="col">Tipo de Persona</th>
                         <th scope="col">Editar</th>
                         <th scope="col">Eliminar</th>
                     </tr>
@@ -66,10 +68,9 @@
         </div>
         <script type="text/javascript">
             setTimeout(function () {
-
                 // Closing the alert
                 $('#alert').alert('close');
-            }, 5000);
+            }, 3000);
         </script>
     </body>
 

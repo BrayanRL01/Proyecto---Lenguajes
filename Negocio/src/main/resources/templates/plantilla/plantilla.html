@@ -5,61 +5,62 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="/css/home.css"/>
-        
+
     </head>
     <body>
         <header th:fragment="barra-navegacion">
-            
+
             <div class="container">
-            <div class="navbar">
-                <nav>
-                    <div class="menu">
-                        <ul class="opciones">
-                            <li>
-                                Gestión de inventario
-                                <div>
-                                    <ul class="opciones-inventario">
-                                        <li><a href="/listacategorias">Categorias</a></li>
-                                        <li><a href="/listasubcategorias">Subcategorias</a></li>
-                                        <li><a href="/listamarcas">Marcas</a></li>
-                                        <li><a href="/listaproductos">Productos</a></li>
-                                        <li><a href="/listaFacturas">Facturas</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                        <div class="logo-container">
-                            <a href="/home"><img src="imagenes/logo.png" alt="LOGO" ></a>
+                <div class="navbar">
+                    <nav>
+                        <div class="menu">
+                            <ul class="opciones">
+                                <li>
+                                    Gestión de inventario
+                                    <div>
+                                        <ul class="opciones-inventario">
+                                            <li><a href="/listaFacturas">Facturas</a></li>
+                                            <li><a href="/listacategorias">Categorias</a></li>
+                                            <li><a href="/listasubcategorias">Subcategorias</a></li>
+                                            <li><a href="/listamarcas">Marcas</a></li>
+                                            <li><a href="/listaproductos">Productos</a></li>                                            
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="logo-container">
+                                <a href="/home"><img src="imagenes/logo.png" alt="LOGO" ></a>
+                            </div>
+                            <ul class="opciones">
+                                <li>
+                                    Gestión de sistema
+                                    <div>
+                                        <ul class="opciones-sistema">
+                                            <li><a href="/nuevaFact">Facturacion</a></li>
+                                            <li><a href="/listatventas">Tipos de venta</a></li>
+                                            <li><a href="/listampagos">Medios de pago</a></li>
+                                            <li><a href="/personaLista">Personas</a></li>
+                                            <li><a href="/tpPersonaLista">Tipos de persona</a></li>
+                                            <li><a href="/listaestados">Estados de persona</a></li>
+                                            <li><a href="/listausuarios">Usuarios</a></li>
+                                            <li><a href="/listaroles">Roles de Usuario</a></li>
+                                            <li><a href="/listaestados">Estados de Usuario</a></li>
+                                            
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
-                        <ul class="opciones">
-                            <li>
-                                Gestión de sistema
-                                <div>
-                                    <ul class="opciones-sistema">
-                                        <li><a href="/nuevaFact">Facturacion</a></li>
-                                        <li><a href="/listatventas">Tipos de venta</a></li>
-                                        <li><a href="/listampagos">Medios de pago</a></li>
-                                        <li><a href="/personaLista">Personas</a></li>
-                                        <li><a href="/tpPersonaLista">Tipos de persona</a></li>
-                                        <li><a href="/listaestados">Estados de persona</a></li>
-                                        <li><a href="/listausuarios">Usuarios</a></li>
-                                        <li><a href="/listaestados">Estados de Usuario</a></li>
-                                        <li><a href="/listaroles">Roles de Usuario</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-            </div> <!-- div navbar -->
-        </div> <!-- div container 1 -->
-            
+                    </nav>
+                </div> <!-- div navbar -->
+            </div> <!-- div container 1 -->
+
         </header>
-        
+
         <h1 th:fragment="titulo-tabla" th:text=" 'Estás viendo la tabla: ' + ${titulo}"></h1> <!-- título tablas -->
-        
+
         <h1 th:fragment="titulo-formulario" th:text=" 'Estás ' + ${accion} + ' un elemento ' + ${prefijo} + ' la tabla: ' + ${titulo}"></h1> <!-- título formularios -->
-        
+
         <div th:fragment="container-mensaje-exito" class="centro" th:if="${success} != null">
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <i class="oi oi-check"></i>
@@ -74,20 +75,6 @@
             </div>
         </div> <!-- div container de mensaje de éxito -->
 
-        <div th:fragment="container-mensaje-error" class="centro" th:if="${error} != null">
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="oi oi-check"></i>
-                <span>
-                    <strong th:text="${error}"></strong>
-                </span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
-                         stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
-                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                </button>
-            </div>
-        </div> <!-- div container de mensaje de error -->
-        
         <div th:fragment="container-mensaje-exito-2" class="centro" th:if="${mensaje} != null">
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <i class="oi oi-check"></i>
@@ -101,6 +88,27 @@
                 </button>
             </div>
         </div> <!-- div container de mensaje de éxito 2 -->
-        
+
+
+        <div th:fragment="container-mensaje-error" class="centro" th:if="${error} != null">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="oi oi-check"></i>
+                <span>
+                    <strong th:text="${error}"></strong>
+                </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
+                         stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+        </div> <!-- div container de mensaje de error -->
+
+        <script type="text/javascript">
+            setTimeout(function () {
+                // Closing the alert
+                $('#alert').alert('close');
+            }, 1000);
+        </script>
     </body>
 </html>

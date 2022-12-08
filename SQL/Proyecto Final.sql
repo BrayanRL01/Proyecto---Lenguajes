@@ -175,7 +175,7 @@ NOMBRE VARCHAR2(30),
 DETALLE VARCHAR2(50),
 PRECIO NUMBER(8, 2) NOT NULL,
 TAMANO VARCHAR2(20),
-CANTIDAD NUMBER(5),
+CANTIDAD NUMBER(5) NOT NULL,
 PRIMARY KEY(ID_PRODUCTO),
 CONSTRAINT PK_TAB_PRODUCTOS_TAB_CATEGORIAS FOREIGN KEY(CATEGORIA_ID) REFERENCES TAB_CATEGORIAS,
 CONSTRAINT PK_TAB_PRODUCTOS_TAB_MARCAS FOREIGN KEY(MARCA_ID) REFERENCES TAB_MARCAS);
@@ -891,7 +891,7 @@ WHERE ID_USUARIO = IN_ID_USUARIO;
 RESULTADO :=0;
 EXCEPTION
 WHEN OTHERS THEN
-    MENSAJE := 'No se pudo modificar al persona ya que la nueva cedula esta siendo utilizado por otra en el sitema';
+    MENSAJE := 'No se pudo modificar al usuario ya que el nuevo nombre de usuario o correo esta siendo utilizado por otro en el sitema';
     RESULTADO := 1;
 END;
 / 

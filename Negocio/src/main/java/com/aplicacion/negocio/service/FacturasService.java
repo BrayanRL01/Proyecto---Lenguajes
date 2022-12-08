@@ -218,7 +218,6 @@ public class FacturasService {
     } 
 
     public Mensaje borrarFactura(Long idFactua) throws SQLException{
-        Mensaje msj = new Mensaje();
         jdbc.init();
 
         // Prepare a PL/SQL call
@@ -233,15 +232,15 @@ public class FacturasService {
    
         // se ejecuta el query
         jdbc.call.execute();
-        msj.setNumero(jdbc.call.getInt(2));
-        msj.setMensaje(jdbc.call.getString(3));
+        M.setNumero(jdbc.call.getInt(2));
+        M.setMensaje(jdbc.call.getString(3));
         
 
         // Close all the resources
 
         jdbc.call.close();
         jdbc.close();
-        return msj;
+        return M;
     }
 }
 /*

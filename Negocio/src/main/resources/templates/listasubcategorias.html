@@ -16,10 +16,11 @@
 
         <div class="container-tabla">
             <h1 th:replace="plantilla/plantilla :: titulo-tabla"></h1>
-            
-            <div th:replace="plantilla/plantilla :: container-mensaje-exito"></div>
-            <div th:replace="plantilla/plantilla :: container-mensaje-error"></div>
-            
+
+            <div class="centro" id="alert">
+                <div th:replace="plantilla/plantilla :: container-mensaje-exito"></div>
+                <div th:replace="plantilla/plantilla :: container-mensaje-error"></div>
+            </div> 
             <table id="tabla">
                 <!--class="table table-dark table-striped" -->
                 <thead>
@@ -54,6 +55,11 @@
                 <button class="btn-agregar" type="submit">Agregar una subcategoría a la tabla</button>
             </form>
         </div>
+        <script type="text/javascript">
+            setTimeout(function () {
+                // Closing the alert
+                $('#alert').alert('close');
+            }, 3000);
+        </script>
     </body>
-
 </html>

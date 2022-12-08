@@ -61,7 +61,7 @@
                     <select th:field="*{Id_Marca}" class="desplegable"
                             id="Id_Marca">
                         <option th:each="x:${Marca}" th:value="${x.getId_Marca}"
-                                th:text="${x.getNombre_Marca}">
+                                th:text="${x.getNombre_Marca}" required>
                     </select>
                     <!--                                        </div>
                                                             <div class="form-row mb-3">-->
@@ -73,7 +73,7 @@
                     <!--                                        </div>
                                                             <div class="form-floating mb-3">-->
                     <input type="text" class="form-control rounded-3" id="floatingPassword"
-                           th:field="*{Nombre}" placeholder="Nombre">
+                           th:field="*{Nombre}" placeholder="Nombre" required>
                     <!--                                            <label for="floatingPassword">Nombre</label>
                                                             </div>
                                                             <div class="form-floating mb-3">-->
@@ -83,17 +83,17 @@
                                                             </div>
                                                             <div class="form-floating mb-3">-->
                     <input type="number" class="form-control rounded-3" id="floatingPassword"
-                           th:field="*{Precio}" placeholder="Precio">
+                           th:field="*{Precio}" placeholder="Precio" required>
                     <!--                                            <label for="floatingPassword">Precio</label>
                                                             </div>
                                                             <div class="form-floating mb-3">-->
                     <input type="text" class="form-control rounded-3" id="floatingPassword"
-                           th:field="*{Tamano}" placeholder="Tamaño">
+                           th:field="*{Tamano}" placeholder="Tamaño" required>
                     <!--                                            <label for="floatingPassword">Tamaño del producto</label>
                                                             </div>
                                                             <div class="form-floating mb-3">-->
                     <input type="number" class="form-control rounded-3" id="floatingPassword"
-                           th:field="*{Cantidad}" placeholder="Cantidad">
+                           th:field="*{Cantidad}" placeholder="Cantidad" required>
                     <!--                                            <label for="floatingPassword">Cantidad de productos</label>
                                                             </div>
                                                             <button class="w-100 mb-2 btn btn-lg rounded-3 btn-success" type="submit"

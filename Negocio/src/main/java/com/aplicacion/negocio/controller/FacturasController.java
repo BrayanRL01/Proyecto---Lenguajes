@@ -142,7 +142,7 @@ public class FacturasController {
     public String listaFacturas(Model M) throws SQLException {
         List<FacturaVista> variable = factService.obtenerFacturasSinDetalle();
         if (variable.isEmpty()) {
-            return "redirect:/personaLista";
+            return "redirect:/home";
         } else {
             M.addAttribute("titulo", "Facturas");
             M.addAttribute("lista", variable);
@@ -413,14 +413,21 @@ public class FacturasController {
     }
     
     @GetMapping("/borrarFactura/{id}")
-    public String borrarFactura(@PathVariable("id") Long id, Model model) throws SQLException {
-        //List<Productos> listaProductos = PS.ObtenerProductos();
-        
-        factService.borrarFactura(id);
-        
+    public String borrarFactura(@PathVariable("id") Long id, Model model, RedirectAttributes redirAttrs) throws SQLException {
+        //List<Productos> listaProductos = PS.ObtenerProductos();                
+        msj=factService.borrarFactura(id);
+        if(msj.getNumero() == 1){//falla
+            redirAttrs.addFlashAttribute("error", "Error: "+msj.getMensaje());
+            return "redirect:/listaFacturas";
+        }
+        else {
+            redirAttrs.addFlashAttribute("success", msj.getMensaje());
+            return "redirect:/listaFacturas"; //1
+        } 
         //model.addAttribute("orden", factura);
-        return "redirect:/listaFacturas";
+        
     }
+
     
 
 }

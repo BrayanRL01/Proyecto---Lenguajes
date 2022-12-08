@@ -17,8 +17,10 @@
         <div class="container-tabla">
             <h1 th:replace="plantilla/plantilla :: titulo-tabla"></h1>
 
-            <div th:replace="plantilla/plantilla :: container-mensaje-exito-2"></div>
-            <div th:replace="plantilla/plantilla :: container-mensaje-error"></div>
+            <div class="centro" id="alert">
+                <div th:replace="plantilla/plantilla :: container-mensaje-exito-2"></div>
+                <div th:replace="plantilla/plantilla :: container-mensaje-error"></div>
+            </div> 
 
             <table id="tabla">
                 <!--class="table table-dark table-striped" -->
@@ -32,7 +34,7 @@
                         <th scope="col">Nombre</th>
                         <th scope="col">Detalle</th>
                         <th scope="col">Precio</th>
-                        <th scope="col">Tamano</th>
+                        <th scope="col">Tamaño</th>
                         <th scope="col">Cantidad</th>
                         <th scope="col">Editar</th>
                         <th scope="col">Eliminar</th>
@@ -66,6 +68,11 @@
                 <button class="btn-agregar" type="submit">Agregar un producto a la tabla</button>
             </form>
         </div>
+        <script type="text/javascript">
+            setTimeout(function () {
+                $('#alert').alert('Close');
+            }, 3000);
+        </script>
     </body>
 
 </html>

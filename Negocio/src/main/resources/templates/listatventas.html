@@ -15,6 +15,13 @@
 
         <div class="container-tabla">
             <h1 th:replace="plantilla/plantilla :: titulo-tabla"></h1>
+
+
+            <div class="centro" id="alert">
+                <div th:replace="plantilla/plantilla :: container-mensaje-exito-2"></div>
+                <div th:replace="plantilla/plantilla :: container-mensaje-error"></div>
+            </div> 
+
             <table id="tabla">
                 <thead>
                     <tr>
@@ -40,38 +47,16 @@
                 </tbody>
             </table>
 
-            <div class="centro" th:if="${mensaje} != null">
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="oi oi-check"></i>
-                    <span>
-                        <strong th:text="${mensaje}"></strong>
-                    </span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
-                             stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
-                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                    </button>
-                </div>
-            </div>
-
-            <div class="centro" th:if="${error} != null">
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="oi oi-check"></i>
-                    <span>
-                        <strong th:text="${error}"></strong>
-                    </span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
-                             stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
-                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                    </button>
-                </div>
-            </div>
-
             <form class="form-inline my-2 my-lg-0" form-method="post" th:action="@{/nuevotventa}">
                 <button class="btn-agregar btn-dark btn-lg " type="submit">Agregar Tipo de Venta</button>
             </form>
         </div>
+        <script type="text/javascript">
+            setTimeout(function () {
+                // Closing the alert
+                $('#alert').alert('close');
+            }, 3000);
+        </script>
     </body>
 
 </html>

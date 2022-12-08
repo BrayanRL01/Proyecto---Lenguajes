@@ -13,12 +13,10 @@
             <h1 th:replace="plantilla/plantilla::titulo-formulario"></h1>
             <div class="formulario">
 
-                <form th:object="${usuarios}"
-                      th:action="@{/saveTPersona}"
-                      method="POST">
+                <form th:object="${usuarios}" th:action="@{/saveTPersona}" method="POST">
                     <input type = "hidden" th:field="*{id_tipo_persona}">
                     <form class="">
-                        <input type="text" class="form-control rounded-3" id="floatingInput" th:field="*{nombre}" placeholder="Descripción">
+                        <input type="text" class="form-control rounded-3" id="floatingInput" th:field="*{nombre}" placeholder="Nombre del tipo de persona">
                         <div class="botones">
                             <!--button class="w-100 mb-2 btn btn-lg rounded-3 btn-success"type="submit" class="btn btn-success" value="Guardar">Submit</button-->
                             <button class="btn-agregar" type="submit" th:text="${boton}"></button>
